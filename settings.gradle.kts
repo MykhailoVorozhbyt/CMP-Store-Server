@@ -2,6 +2,7 @@ rootProject.name = "CMP-Store-Server"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             mavenContent {
