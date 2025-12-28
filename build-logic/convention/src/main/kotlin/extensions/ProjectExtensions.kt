@@ -1,24 +1,32 @@
 package extensions
 
 import com.android.build.api.dsl.ApplicationExtension
-import com.android.build.api.dsl.CommonExtension
+import com.android.build.gradle.AppExtension
 import com.android.build.gradle.LibraryExtension
+import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
+import org.jetbrains.compose.ComposeExtension
+import org.jetbrains.compose.desktop.DesktopExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
+inline fun Project.appExtension(
+    crossinline configure: AppExtension.() -> Unit
+) = extensions.configure<AppExtension> { configure() }
 
-inline fun Project.androidExtension(
-    crossinline configure: CommonExtension<*, *, *, *, *, *>.() -> Unit
-) {
-    when {
-        pluginManager.hasPlugin("com.android.application") -> applicationExtension(configure)
-        pluginManager.hasPlugin("com.android.library") -> libraryExtension(configure)
-        else -> error("No Android plugin found in project '$name'")
-    }
-}
+inline fun Project.baseAppModuleExtension(
+    crossinline configure: BaseAppModuleExtension.() -> Unit
+) = extensions.configure<BaseAppModuleExtension> { configure() }
+
+inline fun Project.desktopExtension(
+    crossinline configure: DesktopExtension.() -> Unit
+) = extensions.configure<DesktopExtension> { configure() }
+
+inline fun Project.composeExtension(
+    crossinline configure: ComposeExtension.() -> Unit
+) = extensions.configure<ComposeExtension> { configure() }
 
 inline fun Project.kotlinMultiplatformExtension(
     crossinline configure: KotlinMultiplatformExtension.() -> Unit
