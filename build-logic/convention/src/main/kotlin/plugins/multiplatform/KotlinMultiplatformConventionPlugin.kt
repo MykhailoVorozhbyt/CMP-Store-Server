@@ -9,6 +9,7 @@ import utils.enums.PluginName
 
 class KotlinMultiplatformConventionPlugin : Plugin<Project> {
     override fun apply(target: Project): Unit = with(target) {
+        println("*** ${this@KotlinMultiplatformConventionPlugin} invoked ***")
         applyPlugins {
             listOf(
                 libs.plugin(PluginName.KOTLIN_MULTIPLATFORM.pName).pluginId,

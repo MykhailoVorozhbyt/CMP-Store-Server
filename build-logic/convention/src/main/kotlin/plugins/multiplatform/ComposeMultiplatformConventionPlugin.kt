@@ -9,6 +9,7 @@ import utils.enums.PluginName
 
 class ComposeMultiplatformConventionPlugin : Plugin<Project> {
     override fun apply(target: Project): Unit = with(target) {
+        println("*** ${this@ComposeMultiplatformConventionPlugin} invoked ***")
         applyPlugins {
             listOf(
                 libs.plugin(PluginName.COMPOSE_MULTIPLATFORM.pName).pluginId,
