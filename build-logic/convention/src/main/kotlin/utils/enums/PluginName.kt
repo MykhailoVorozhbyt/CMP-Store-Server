@@ -12,5 +12,11 @@ enum class PluginName(val pName: String) {
     KOTLIN_MULTIPLATFORM("kotlinMultiplatform"),
     KOTLIN_MULTIPLATFORM_LIBRARY("kotlinMultiplatformLibrary"),
 
-    KTOR("ktor")
+    KTOR("ktor"),
+
+    //For
+    STORE_KOTLIN_MULTIPLATFORM("store-kotlinMultiplatform"),
+    STORE_COMPOSE_MULTIPLATFORM("store-composeMultiplatform"),
+    STORE_SHARED("store-shared"),
+    STORE_COMPOSE_APP("store-composeApp"),
 }

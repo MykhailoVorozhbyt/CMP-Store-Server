@@ -1,17 +1,9 @@
 package extensions
 
 import org.gradle.api.InvalidUserDataException
-import org.gradle.api.Project
 import org.gradle.api.artifacts.UnknownConfigurationException
 import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.DependencyHandlerScope
-import org.gradle.kotlin.dsl.dependencies
-import utils.enums.LibraryName
-import kotlin.collections.forEach
-
-/**
- * These functions will be used in the future
- * */
 
 fun DependencyHandlerScope.api(dep: Any) {
     safeAdd("api", dep)
@@ -73,14 +65,6 @@ private fun DependencyHandlerScope.safeAdd(
             } catch (e: Exception) {
                 throw IllegalArgumentException("Unsupported dependency type: ${dependency.javaClass.name}", e)
             }
-        }
-    }
-}
-
-fun Project.applyDependencies(list: List<LibraryName>) {
-    dependencies {
-        list.forEach { library ->
-            implementation(this@applyDependencies.libs.findLibrary(library.lName).get())
         }
     }
 }

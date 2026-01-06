@@ -31,5 +31,9 @@ gradlePlugin {
             id = libs.plugins.store.shared.get().pluginId
             implementationClass = "plugins.SharedModulePlugin"
         }
+        register("composeApp") {
+            id = libs.plugins.store.composeApp.get().pluginId
+            implementationClass = "plugins.ComposeAppModulePlugin"
+        }
     }
 }

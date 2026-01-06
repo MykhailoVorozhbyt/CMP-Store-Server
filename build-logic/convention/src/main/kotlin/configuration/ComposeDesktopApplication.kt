@@ -22,7 +22,6 @@ fun Project.composeDesktopApplication(
                     this.packageName = packageName
                     this.packageVersion = version
                 }
-
             }
         }
     }

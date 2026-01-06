@@ -65,4 +65,4 @@ ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 store-kotlinMultiplatform = { id = "store.kotlin.multiplatform" }
 store-composeMultiplatform = { id = "store.kotlin.composeMultiplatform" }
 store-shared = { id = "store.shared" }
-store-composeAppModulePlugin = { id = "store.composeAppModulePlugin" }
+store-composeApp = { id = "store.composeApp" }

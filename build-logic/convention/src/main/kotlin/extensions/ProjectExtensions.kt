@@ -20,9 +20,9 @@ inline fun Project.baseAppModuleExtension(
     crossinline configure: BaseAppModuleExtension.() -> Unit
 ) = extensions.configure<BaseAppModuleExtension> { configure() }
 
-inline fun Project.desktopExtension(
-    crossinline configure: DesktopExtension.() -> Unit
-) = extensions.configure<DesktopExtension> { configure() }
+inline fun ComposeExtension.desktopExtension(
+    crossinline action: DesktopExtension.() -> Unit
+) = extensions.configure<DesktopExtension> { action() }
 
 inline fun Project.composeExtension(
     crossinline configure: ComposeExtension.() -> Unit

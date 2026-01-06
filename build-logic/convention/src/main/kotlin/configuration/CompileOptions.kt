@@ -9,6 +9,5 @@ fun Project.configureCompileOptions() = this.appExtension {
     compileOptions {
         this.sourceCompatibility = sourceCompatibilityVersion
         this.targetCompatibility = targetCompatibilityVersion
-        this.isCoreLibraryDesugaringEnabled = isCoreLibraryDesugaringEnabled
     }
 }

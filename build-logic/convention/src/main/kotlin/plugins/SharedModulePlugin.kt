@@ -9,6 +9,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
 import utils.currentJvmTarget
 import utils.enums.LibraryName
+import utils.enums.LibraryName.Companion.library
 import utils.enums.ModuleName
 
 class SharedModulePlugin : Plugin<Project> {
@@ -34,7 +35,7 @@ class SharedModulePlugin : Plugin<Project> {
                     // shared deps
                 }
                 commonTest.dependencies {
-                    implementation(libs.findLibrary(LibraryName.KOTLIN_TEST.lName).get())
+                    implementation(library(LibraryName.KOTLIN_TEST))
                 }
             }
         }
