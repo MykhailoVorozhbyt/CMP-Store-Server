@@ -8,6 +8,8 @@ dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.compose.gradlePlugin)
+    //TODO: for the future
+    //lintChecks(libs.androidx.lint.gradle)
 }
 
 tasks {
@@ -34,6 +36,16 @@ gradlePlugin {
         register("composeApp") {
             id = libs.plugins.store.composeApp.get().pluginId
             implementationClass = "plugins.ComposeAppModulePlugin"
+        }
+
+        //STORES
+        register("AthleticaPlus") {
+            id = libs.plugins.store.athleticaPlus.get().pluginId
+            implementationClass = "plugins.stores.AthleticaPlusModulePlugin"
+        }
+        register("NutriSport") {
+            id = libs.plugins.store.nutriSport.get().pluginId
+            implementationClass = "plugins.stores.NutriSportModulePlugin"
         }
     }
 }

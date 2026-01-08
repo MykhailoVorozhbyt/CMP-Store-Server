@@ -1,23 +1,22 @@
 package plugins
 
 import configuration.composeDesktopApplication
-import configuration.configureCompileOptions
+import configuration.configureAndroidLibraryBase
 import extensions.applyPlugins
-import extensions.baseAppModuleExtension
 import extensions.composeDep
-import extensions.debugImplementation
-import extensions.getAndroidSdkVersions
 import extensions.kotlinMultiplatformExtension
+import extensions.libs
+import extensions.moduleName
+import extensions.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.invoke
 import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import utils.enums.LibraryName
 import utils.enums.LibraryName.Companion.library
 import utils.enums.ModuleName
+import utils.enums.PluginName
 
 
 class ComposeAppModulePlugin : Plugin<Project> {
@@ -25,19 +24,12 @@ class ComposeAppModulePlugin : Plugin<Project> {
         println("*** ${this@ComposeAppModulePlugin} invoked ***")
         applyPlugins {
             listOf(
-                "org.jetbrains.kotlin.multiplatform",
-                "com.android.application",
-                "store.kotlin.composeMultiplatform"
+                libs.plugin(PluginName.STORE_KOTLIN_MULTIPLATFORM.pName).pluginId,
+                libs.plugin(PluginName.STORE_COMPOSE_MULTIPLATFORM.pName).pluginId,
             )
         }
-        // Kotlin Multiplatform
         kotlinMultiplatformExtension {
-
-            androidTarget {
-                compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_11)
-                }
-            }
+            configureAndroidLibraryBase(ModuleName.APP.mName)
 
             iosArm64()
             iosSimulatorArm64()
@@ -45,7 +37,7 @@ class ComposeAppModulePlugin : Plugin<Project> {
 
             targets.withType<KotlinNativeTarget>().configureEach {
                 binaries.framework {
-                    baseName = "ComposeApp"
+                    baseName = moduleName
                     isStatic = true
                 }
             }
@@ -76,44 +68,10 @@ class ComposeAppModulePlugin : Plugin<Project> {
                 }
             }
         }
-
-        // Android
-        baseAppModuleExtension {
-            namespace = ModuleName.APP.mName
-
-            val sdk = getAndroidSdkVersions()
-            compileSdkVersion(sdk.compileSdk)
-            defaultConfig {
-                applicationId = ModuleName.APP.mName
-                minSdk = sdk.minSdk
-                targetSdk = sdk.targetSdk
-                versionCode = sdk.versionCode
-                versionName = sdk.versionName
-            }
-
-            packaging {
-                resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
-            }
-
-            buildTypes {
-                getByName("release") {
-                    isMinifyEnabled = false
-                }
-                getByName("debug") {
-                    isMinifyEnabled = false
-                }
-            }
-
-            configureCompileOptions()
-        }
-        // Dependencies
-        dependencies {
-            debugImplementation(composeDep.uiTooling)
-        }
         // Desktop Compose
         composeDesktopApplication(
             mainClass = "org.cmp.store.MainKt",
-            packageName = "org.cmp.store",
+            packageName = ModuleName.APP.mName,
             version = "1.0.0",
         )
     }

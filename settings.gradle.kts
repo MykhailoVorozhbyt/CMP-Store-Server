@@ -36,3 +36,6 @@ plugins {
 include(":composeApp")
 include(":server")
 include(":shared")
+include(":stores")
+include(":stores:nutri-sport")
+include(":stores:athletica-plus")

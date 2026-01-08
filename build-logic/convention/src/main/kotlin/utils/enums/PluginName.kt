@@ -1,7 +1,12 @@
 package utils.enums
 
+import extensions.libs
+import extensions.plugin
+import org.gradle.api.Project
+
 enum class PluginName(val pName: String) {
     ANDROID_APPLICATION("androidApplication"),
+    ANDROID_LIBRARY("androidLibrary"),
 
     COMPOSE_MULTIPLATFORM("composeMultiplatform"),
     COMPOSE_COMPILER("composeCompiler"),
@@ -14,9 +19,14 @@ enum class PluginName(val pName: String) {
 
     KTOR("ktor"),
 
-    //For
+    //Gradle Convention Plugins
     STORE_KOTLIN_MULTIPLATFORM("store-kotlinMultiplatform"),
     STORE_COMPOSE_MULTIPLATFORM("store-composeMultiplatform"),
     STORE_SHARED("store-shared"),
-    STORE_COMPOSE_APP("store-composeApp"),
+    STORE_COMPOSE_APP("store-composeApp");
+
+    companion object {
+        fun Project.plugin(lib: PluginName) = libs.plugin(lib.pName).pluginId
+    }
+
 }

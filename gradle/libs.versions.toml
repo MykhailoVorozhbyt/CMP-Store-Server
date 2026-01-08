@@ -17,6 +17,8 @@ kotlinx-coroutines = "1.10.2"
 ktor = "3.3.3"
 logback = "1.5.22"
 material3 = "1.4.0"
+lifecycleRuntimeKtx = "2.10.0"
+composeBom = "2024.09.00"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -46,9 +48,18 @@ material3 = { group = "androidx.compose.material3", name = "material3", version.
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 compose-gradlePlugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "composeMultiplatform" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
 
 composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "composeHotReload" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
@@ -66,3 +77,5 @@ store-kotlinMultiplatform = { id = "store.kotlin.multiplatform" }
 store-composeMultiplatform = { id = "store.kotlin.composeMultiplatform" }
 store-shared = { id = "store.shared" }
 store-composeApp = { id = "store.composeApp" }
+store-athleticaPlus = { id = "store.AthleticaPlus" }
+store-nutriSport = { id = "store.NutriSport" }

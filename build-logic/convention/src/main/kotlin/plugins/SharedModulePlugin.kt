@@ -1,30 +1,25 @@
 package plugins
 
-import com.android.build.api.dsl.androidLibrary
-import extensions.getAndroidSdkVersions
+import configuration.configureAndroidLibraryBase
+import extensions.applyPlugins
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
+import extensions.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.internal.declarativedsl.intrinsics.listOf
 import org.gradle.kotlin.dsl.invoke
-import utils.currentJvmTarget
 import utils.enums.LibraryName
 import utils.enums.LibraryName.Companion.library
 import utils.enums.ModuleName
+import utils.enums.PluginName
 
 class SharedModulePlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
+        println("*** ${this@SharedModulePlugin} invoked ***")
+        applyPlugins { listOf(libs.plugin(PluginName.STORE_KOTLIN_MULTIPLATFORM.pName).pluginId) }
         kotlinMultiplatformExtension {
-            val sdk = getAndroidSdkVersions()
-            androidLibrary {
-                namespace = ModuleName.SHARED.mName
-                compileSdk = sdk.compileSdk
-                minSdk = sdk.minSdk
-
-                compilerOptions {
-                    jvmTarget.set(currentJvmTarget)
-                }
-            }
+            configureAndroidLibraryBase(ModuleName.SHARED.mName)
 
             iosArm64()
             iosSimulatorArm64()
