@@ -1,6 +1,5 @@
 package plugins
 
-import configuration.composeDesktopApplication
 import configuration.configureAndroidLibraryBase
 import extensions.applyPlugins
 import extensions.composeDep
@@ -68,11 +67,5 @@ class ComposeAppModulePlugin : Plugin<Project> {
                 }
             }
         }
-        // Desktop Compose
-        composeDesktopApplication(
-            mainClass = "org.cmp.store.MainKt",
-            packageName = ModuleName.APP.mName,
-            version = "1.0.0",
-        )
     }
 }

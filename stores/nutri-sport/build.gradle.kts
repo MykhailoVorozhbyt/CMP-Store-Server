@@ -1,3 +1,3 @@
 plugins {
-    alias(libs.plugins.store.nutriSport)
+    alias(libs.plugins.store.android.nutriSport)
 }

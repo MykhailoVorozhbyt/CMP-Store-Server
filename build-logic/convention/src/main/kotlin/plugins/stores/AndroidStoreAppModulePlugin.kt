@@ -24,18 +24,17 @@ import utils.enums.ModuleName
 import utils.enums.PluginName
 
 
-class AthleticaPlusModulePlugin : StoresModulePlugin() {
+class AndroidAthleticaPlusModulePlugin : AndroidStoresModulePlugin() {
     override val applicationIdName: String = "com.store.athletica_plus"
     override val applicationName: String = "Athletica Plus"
-
 }
 
-class NutriSportModulePlugin : StoresModulePlugin() {
+class AndroidNutriSportModulePlugin : AndroidStoresModulePlugin() {
     override val applicationIdName: String = "com.store.nutri_sport"
     override val applicationName: String = "Nutri Sport"
 }
 
-abstract class StoresModulePlugin : Plugin<Project> {
+abstract class AndroidStoresModulePlugin : Plugin<Project> {
     abstract val applicationIdName: String
     abstract val applicationName: String
 

@@ -19,6 +19,7 @@ logback = "1.5.22"
 material3 = "1.4.0"
 lifecycleRuntimeKtx = "2.10.0"
 composeBom = "2024.09.00"
+material = "1.13.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -56,6 +57,7 @@ androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -77,5 +79,7 @@ store-kotlinMultiplatform = { id = "store.kotlin.multiplatform" }
 store-composeMultiplatform = { id = "store.kotlin.composeMultiplatform" }
 store-shared = { id = "store.shared" }
 store-composeApp = { id = "store.composeApp" }
-store-athleticaPlus = { id = "store.AthleticaPlus" }
-store-nutriSport = { id = "store.NutriSport" }
+store-android-athleticaPlus = { id = "store.android.AthleticaPlus" }
+store-android-nutriSport = { id = "store.android.NutriSport" }
+store-desktop-athleticaPlus = { id = "store.desktop.AthleticaPlus" }
+store-desktop-nutriSport = { id = "store.desktop.NutriSport" }

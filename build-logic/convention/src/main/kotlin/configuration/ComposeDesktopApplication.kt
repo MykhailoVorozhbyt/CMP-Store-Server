@@ -21,8 +21,45 @@ fun Project.composeDesktopApplication(
                     targetFormats(*targetFormats.toTypedArray())
                     this.packageName = packageName
                     this.packageVersion = version
+
+                    macOS {
+                        iconFile.set(project.file("appicon/MacOsIc.icns"))
+                        infoPlist {
+                            extraKeysRawXml = """
+            <key>NSOutgoingConnectionsUsageDescription</key>
+            <string>This app requires internet access to load content.</string>
+            <key>NSAppTransportSecurity</key>
+            <dict>
+                <key>NSAllowsArbitraryLoads</key>
+                <true/>
+                <key>NSAllowsArbitraryLoadsInWebContent</key>
+                <true/>
+                <key>NSExceptionDomains</key>
+                <dict>
+                    <key>raw.githubusercontent.com</key>
+                    <dict>
+                        <key>NSIncludesSubdomains</key>
+                        <true/>
+                        <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+                        <true/>
+                        <key>NSTemporaryExceptionMinimumTLSVersion</key>
+                        <string>TLSv1.2</string>
+                    </dict>
+                </dict>
+            </dict>
+        """.trimIndent()
+                        }
+                    }
+                    //TODO: for te future
+                    /*windows {
+                        iconFile.set(project.file("icon.ico"))
+                    }
+                    linux {
+                        iconFile.set(file("src/main/resources/splash_logo.png"))
+                    }*/
                 }
             }
+
         }
     }
 }
