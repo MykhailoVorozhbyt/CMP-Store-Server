@@ -91,6 +91,7 @@ abstract class AndroidStoresModulePlugin : Plugin<Project> {
     protected fun Project.moduleDependencies() {
         dependencies {
             implementation(project(":composeApp"))
+            implementation(project(":core:presentation"))
             testImplementation(library(LibraryName.JUNIT))
             androidTestImplementation(library(LibraryName.ANDROIDX_TEST_EXT_JUNIT))
             androidTestImplementation(library(LibraryName.ANDROIDX_ESPRESSO_CORE))

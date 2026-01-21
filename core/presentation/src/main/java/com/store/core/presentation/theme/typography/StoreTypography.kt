@@ -1,4 +1,4 @@
-package com.store.core.presentation.typography
+package com.store.core.presentation.theme.typography
 
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
