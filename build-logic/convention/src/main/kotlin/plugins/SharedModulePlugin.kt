@@ -20,7 +20,6 @@ class SharedModulePlugin : Plugin<Project> {
         applyPlugins { listOf(libs.plugin(PluginName.STORE_KOTLIN_MULTIPLATFORM.pName).pluginId) }
         kotlinMultiplatformExtension {
             configureAndroidLibraryBase(ModuleName.SHARED.mName)
-
             iosArm64()
             iosSimulatorArm64()
             jvm()

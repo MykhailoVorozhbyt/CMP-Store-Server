@@ -13,6 +13,7 @@ fun Project.configureAndroidBase(namespace: String) = this.androidExtension {
     this.compileSdk = sdk.compileSdk
 }
 
+
 fun Project.configureAndroidLibraryBase(namespace: String) = this.kotlinMultiplatformExtension {
     androidLibrary {
         val sdk = getAndroidSdkVersions()

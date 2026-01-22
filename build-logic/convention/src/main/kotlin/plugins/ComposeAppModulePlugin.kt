@@ -29,7 +29,6 @@ class ComposeAppModulePlugin : Plugin<Project> {
         }
         kotlinMultiplatformExtension {
             configureAndroidLibraryBase(ModuleName.APP.mName)
-
             iosArm64()
             iosSimulatorArm64()
             jvm()
@@ -43,30 +42,24 @@ class ComposeAppModulePlugin : Plugin<Project> {
 
             sourceSets {
                 androidMain.dependencies {
-                    implementation(composeDep.preview)
+                    implementation(library(LibraryName.COMPOSE_UI_TOOLING))
                     implementation(library(LibraryName.ANDROIDX_ACTIVITY_COMPOSE))
-//                    implementation(libs.koin.android)
-//                    implementation(libs.koin.compose)
                 }
                 commonMain.dependencies {
                     implementation(project(":shared"))
                     implementation(project(":core:presentation"))
-                    implementation(composeDep.runtime)
-                    implementation(composeDep.foundation)
-                    implementation(composeDep.material3)
-                    implementation(composeDep.ui)
-                    implementation(composeDep.components.resources)
-                    implementation(composeDep.components.uiToolingPreview)
+                    implementation(library(LibraryName.COMPOSE_UI))
+                    implementation(library(LibraryName.COMPOSE_RUNTIME))
+                    implementation(library(LibraryName.COMPOSE_FOUNDATION))
+                    implementation(library(LibraryName.COMPOSE_COMPONENTS_RESOURCES))
+                    implementation(library(LibraryName.COMPOSE_UI_TOOLING_PREVIEW))
+                    implementation(library(LibraryName.COMPOSE_MATERIAL_3))
                     implementation(library(LibraryName.ANDROIDX_LIFECYCLE_VIEWMODEL_COMPOSE))
                     implementation(library(LibraryName.ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE))
-
-//                    implementation(libs.koin.core)
-
                 }
 
                 commonTest.dependencies {
                     implementation(library(LibraryName.KOTLIN_TEST))
-//                    implementation(libs.koin.test)
                 }
                 jvmMain.dependencies {
                     implementation(composeDep.desktop.currentOs)

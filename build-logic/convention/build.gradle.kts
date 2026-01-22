@@ -21,19 +21,19 @@ tasks {
 
 gradlePlugin {
     plugins {
-        register("kotlinMultiplatform") {
+        register("KotlinMultiplatform") {
             id = libs.plugins.store.kotlinMultiplatform.get().pluginId
             implementationClass = "plugins.multiplatform.KotlinMultiplatformConventionPlugin"
         }
-        register("composeMultiplatform") {
+        register("ComposeMultiplatform") {
             id = libs.plugins.store.composeMultiplatform.get().pluginId
             implementationClass = "plugins.multiplatform.ComposeMultiplatformConventionPlugin"
         }
-        register("shared") {
+        register("Shared") {
             id = libs.plugins.store.shared.get().pluginId
             implementationClass = "plugins.SharedModulePlugin"
         }
-        register("composeApp") {
+        register("ComposeApp") {
             id = libs.plugins.store.composeApp.get().pluginId
             implementationClass = "plugins.ComposeAppModulePlugin"
         }
@@ -58,5 +58,10 @@ gradlePlugin {
             implementationClass = "plugins.stores.DesktopNutriSportModulePlugin"
         }
 
+        //Core
+        register("CorePresentation") {
+            id = libs.plugins.store.core.presentation.get().pluginId
+            implementationClass = "plugins.core.CorePresentationModulePlugin"
+        }
     }
 }

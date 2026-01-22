@@ -67,10 +67,11 @@ val Project.moduleName
         .filter { it.isNotBlank() }
         .joinToString("") { it.capitalized() }
 
-val Project.modulePackageName get() = path
-    .split(":")
-    .filter { it.isNotBlank() }
-    .joinToString(".") { it.lowercase() }
+val Project.modulePackageName
+    get() = path
+        .split(":")
+        .filter { it.isNotBlank() }
+        .joinToString(".") { it.lowercase() }
 
 /**
  * For the future*/
@@ -82,14 +83,6 @@ inline fun Project.detektExtension(
 inline fun Project.crashlyticsExtension(
     crossinline configure: CrashlyticsExtension.() -> Unit
 ) = extensions.configure<CrashlyticsExtension> { configure() }
-
-inline fun Project.hiltExtension(
-    crossinline configure: HiltExtension.() -> Unit
-) = extensions.configure<HiltExtension> { configure() }
-
-inline fun Project.appDistributionExtension(
-    crossinline configure: AppDistributionExtension.() -> Unit
-) = extensions.configure<AppDistributionExtension> { configure() }
 
 inline fun Project.composeCompilerExtension(
     crossinline configure: ComposeCompilerGradlePluginExtension.() -> Unit

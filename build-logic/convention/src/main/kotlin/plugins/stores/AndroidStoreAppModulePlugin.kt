@@ -7,7 +7,6 @@ import configuration.configureKotlin
 import extensions.androidTestImplementation
 import extensions.applyPlugins
 import extensions.baseAppModuleExtension
-import extensions.composeDep
 import extensions.debugImplementation
 import extensions.getAndroidSdkVersions
 import extensions.implementation
@@ -95,7 +94,7 @@ abstract class AndroidStoresModulePlugin : Plugin<Project> {
             testImplementation(library(LibraryName.JUNIT))
             androidTestImplementation(library(LibraryName.ANDROIDX_TEST_EXT_JUNIT))
             androidTestImplementation(library(LibraryName.ANDROIDX_ESPRESSO_CORE))
-            debugImplementation(composeDep.uiTooling)
+            debugImplementation(library(LibraryName.COMPOSE_UI_TOOLING))
         }
     }
 }

@@ -23,7 +23,21 @@ enum class LibraryName(val lName: String) {
 
     KTOR_SERVER_CORE("ktor-serverCore"),
     KTOR_SERVER_NETTY("ktor-serverNetty"),
-    KTOR_SERVER_TEST_HOST("ktor-serverTestHost");
+    KTOR_SERVER_TEST_HOST("ktor-serverTestHost"),
+
+    KOIN_CORE("koin-core"),
+    KOIN_ANDROID("koin-android"),
+    KOIN_COMPOSE("koin-compose"),
+    KOIN_TEST("koin-test"),
+
+
+    COMPOSE_UI("compose-ui"),
+    COMPOSE_RUNTIME("compose-runtime"),
+    COMPOSE_FOUNDATION("compose-foundation"),
+    COMPOSE_COMPONENTS_RESOURCES("compose-components-resources"),
+    COMPOSE_UI_TOOLING("compose-ui-tooling"),
+    COMPOSE_UI_TOOLING_PREVIEW("compose-ui-tooling-preview"),
+    COMPOSE_MATERIAL_3("compose-material3");
 
     companion object {
         fun Project.library(lib: LibraryName) = libs.library(lib.lName).get()

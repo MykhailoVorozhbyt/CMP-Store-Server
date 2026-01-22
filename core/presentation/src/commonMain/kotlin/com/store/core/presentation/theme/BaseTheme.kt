@@ -31,7 +31,7 @@ fun BaseTheme(
 
     CompositionLocalProvider(
         LocalStoreColors provides colors,
-        LocalStoreTypography provides StoreTypography(),
+        LocalStoreTypography provides StoreTypography.init(),
         LocalTextSelectionColors provides selectionColors,
         content = content
     )
@@ -41,7 +41,7 @@ fun BaseTheme(
 typealias StoreTheme = BaseTheme
 
 object BaseTheme {
-    val colors: StoreColorsPalette
+    val color: StoreColorsPalette
         @Composable
         @ReadOnlyComposable
         get() = LocalStoreColors.current
