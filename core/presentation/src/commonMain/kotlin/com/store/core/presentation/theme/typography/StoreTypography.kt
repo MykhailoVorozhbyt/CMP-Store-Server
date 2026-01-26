@@ -6,11 +6,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.store.core.presentation.resources.Res
-import com.store.core.presentation.resources.roboto_condensed_bold
-import com.store.core.presentation.resources.roboto_condensed_light
-import com.store.core.presentation.resources.roboto_condensed_medium
-import com.store.core.presentation.resources.roboto_condensed_regular
+import com.store.core.resources.Res
+import com.store.core.resources.roboto_condensed_bold
+import com.store.core.resources.roboto_condensed_light
+import com.store.core.resources.roboto_condensed_medium
+import com.store.core.resources.roboto_condensed_regular
 import org.jetbrains.compose.resources.Font
 
 class StoreTypography(

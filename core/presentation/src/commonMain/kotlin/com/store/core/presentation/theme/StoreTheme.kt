@@ -37,10 +37,7 @@ fun BaseTheme(
     )
 }
 
-
-typealias StoreTheme = BaseTheme
-
-object BaseTheme {
+object StoreTheme {
     val color: StoreColorsPalette
         @Composable
         @ReadOnlyComposable

@@ -51,9 +51,9 @@ class ComposeAppModulePlugin : Plugin<Project> {
                     implementation(library(LibraryName.COMPOSE_UI))
                     implementation(library(LibraryName.COMPOSE_RUNTIME))
                     implementation(library(LibraryName.COMPOSE_FOUNDATION))
-                    implementation(library(LibraryName.COMPOSE_COMPONENTS_RESOURCES))
-                    implementation(library(LibraryName.COMPOSE_UI_TOOLING_PREVIEW))
                     implementation(library(LibraryName.COMPOSE_MATERIAL_3))
+                    implementation(library(LibraryName.COMPOSE_UI_TOOLING_PREVIEW))
+                    implementation(library(LibraryName.COMPOSE_COMPONENTS_RESOURCES))
                     implementation(library(LibraryName.ANDROIDX_LIFECYCLE_VIEWMODEL_COMPOSE))
                     implementation(library(LibraryName.ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE))
                 }

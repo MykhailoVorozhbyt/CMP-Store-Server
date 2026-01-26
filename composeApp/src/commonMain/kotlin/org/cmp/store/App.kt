@@ -17,9 +17,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import cmp_store_server.composeapp.generated.resources.Res
-import cmp_store_server.composeapp.generated.resources.compose_multiplatform
 import com.store.core.presentation.theme.BaseTheme
+import com.store.core.presentation.theme.StoreTheme
+import com.store.core.resources.Res
+import com.store.core.resources.compose_multiplatform
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -29,7 +30,7 @@ fun App() {
         var showContent by remember { mutableStateOf(false) }
         Column(
             modifier = Modifier
-                .background(BaseTheme.color.window)
+                .background(StoreTheme.color.window)
                 .safeContentPadding()
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,

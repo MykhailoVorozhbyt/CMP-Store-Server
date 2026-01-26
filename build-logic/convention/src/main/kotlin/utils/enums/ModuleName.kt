@@ -5,4 +5,5 @@ enum class ModuleName(val mName: String) {
     SHARED("org.cmp.store.shared"),
     STORES("com.stores.store"),
     CORE_PRESENTATION("com.store.core.presentation"),
+    CORE_RES("com.store.core.res"),
 }
