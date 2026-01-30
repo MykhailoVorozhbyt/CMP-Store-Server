@@ -1,4 +1,4 @@
-package plugins.core
+package plugins
 
 import configuration.configureAndroidLibraryBase
 import extensions.applyPlugins
@@ -7,19 +7,21 @@ import extensions.libs
 import extensions.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.internal.declarativedsl.intrinsics.listOf
 import org.gradle.kotlin.dsl.invoke
 import utils.enums.LibraryName
 import utils.enums.LibraryName.Companion.library
 import utils.enums.ModuleName
 import utils.enums.PluginName
 
-class CorePresentationModulePlugin : Plugin<Project> {
-    override fun apply(target: Project): Unit = with(target) project@{
-        println("*** ${this@CorePresentationModulePlugin} invoked ***")
+class DiModulePlugin : Plugin<Project> {
+    override fun apply(target: Project) = with(target) {
+        println("*** ${this@DiModulePlugin} invoked ***")
         applyPlugins {
             listOf(
                 libs.plugin(PluginName.STORE_KOTLIN_MULTIPLATFORM.pName).pluginId,
-                libs.plugin(PluginName.STORE_COMPOSE_MULTIPLATFORM.pName).pluginId,
+                libs.plugin(PluginName.COMPOSE_MULTIPLATFORM.pName).pluginId,
+                libs.plugin(PluginName.COMPOSE_COMPILER.pName).pluginId,
             )
         }
         kotlinMultiplatformExtension {
@@ -29,20 +31,21 @@ class CorePresentationModulePlugin : Plugin<Project> {
 
             sourceSets {
                 androidMain.dependencies {
-                    implementation(library(LibraryName.COMPOSE_UI_TOOLING))
+                    implementation(library(LibraryName.KOIN_ANDROID))
                 }
                 commonMain.dependencies {
                     implementation(project(":shared"))
-                    implementation(library(LibraryName.COMPOSE_RUNTIME))
-                    implementation(library(LibraryName.COMPOSE_FOUNDATION))
-                    implementation(library(LibraryName.COMPOSE_MATERIAL_3))
-                    implementation(library(LibraryName.COMPOSE_COMPONENTS_RESOURCES))
-                    implementation(library(LibraryName.COMPOSE_UI_TOOLING_PREVIEW))
+
+                    implementation(library(LibraryName.KOIN_CORE))
                     implementation(library(LibraryName.KOIN_COMPOSE))
+                    implementation(library(LibraryName.KOIN_COMPOSE_VIEWMODEL))
+                }
+                commonTest.dependencies {
+                    implementation(library(LibraryName.KOIN_TEST))
                 }
             }
         }
 
-        configureAndroidLibraryBase(ModuleName.CORE_PRESENTATION.mName)
+        configureAndroidLibraryBase(ModuleName.DI.mName)
     }
 }

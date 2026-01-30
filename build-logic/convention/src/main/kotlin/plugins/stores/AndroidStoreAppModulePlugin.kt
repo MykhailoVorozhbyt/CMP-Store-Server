@@ -69,10 +69,13 @@ abstract class AndroidStoresModulePlugin : Plugin<Project> {
                 androidMain.dependencies {
                     implementation(library(LibraryName.COMPOSE_UI_TOOLING))
                     implementation(library(LibraryName.ANDROIDX_ACTIVITY_COMPOSE))
+                    implementation(library(LibraryName.KOIN_ANDROID))
                 }
                 commonMain.dependencies {
                     implementation(project(":composeApp"))
                     implementation(project(":core:presentation"))
+                    implementation(library(LibraryName.COMPOSE_UI_TOOLING_PREVIEW))
+                    implementation(library(LibraryName.KOIN_CORE))
                 }
                 jvmMain.dependencies {
                     implementation(composeDep.desktop.currentOs)

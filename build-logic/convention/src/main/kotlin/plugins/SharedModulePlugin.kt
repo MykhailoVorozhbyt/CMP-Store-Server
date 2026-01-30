@@ -25,7 +25,8 @@ class SharedModulePlugin : Plugin<Project> {
             listOf(
                 libs.plugin(PluginName.STORE_KOTLIN_MULTIPLATFORM.pName).pluginId,
                 libs.plugin(PluginName.COMPOSE_MULTIPLATFORM.pName).pluginId,
-                libs.plugin(PluginName.COMPOSE_COMPILER.pName).pluginId
+                libs.plugin(PluginName.COMPOSE_COMPILER.pName).pluginId,
+//                libs.plugin(PluginName.KOIN.pName).pluginId,
             )
         }
         kotlinMultiplatformExtension {
@@ -40,6 +41,7 @@ class SharedModulePlugin : Plugin<Project> {
             sourceSets {
                 androidMain.dependencies {
                     implementation(library(LibraryName.ANDROIDX_ACTIVITY_COMPOSE))
+                    implementation(library(LibraryName.KOIN_ANDROID))
                 }
                 commonMain {
                     resources.srcDir("src/commonMain/composeResources")
@@ -49,9 +51,12 @@ class SharedModulePlugin : Plugin<Project> {
                     implementation(library(LibraryName.COMPOSE_FOUNDATION))
                     implementation(library(LibraryName.COMPOSE_MATERIAL_3))
                     implementation(library(LibraryName.COMPOSE_COMPONENTS_RESOURCES))
+                    implementation(library(LibraryName.KOIN_CORE))
+                    implementation(library(LibraryName.KOIN_COMPOSE))
                 }
                 commonTest.dependencies {
                     implementation(library(LibraryName.KOTLIN_TEST))
+                    implementation(library(LibraryName.KOIN_TEST))
                 }
             }
         }

@@ -8,12 +8,12 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
-import com.store.core.presentation.theme.color.BaseDarkPalette
-import com.store.core.presentation.theme.color.BaseLightPalette
 import com.store.core.presentation.theme.color.LocalStoreColors
 import com.store.core.presentation.theme.color.StoreColorsPalette
+import com.store.core.presentation.theme.color.StoreThemeProvider
 import com.store.core.presentation.theme.typography.LocalStoreTypography
 import com.store.core.presentation.theme.typography.StoreTypography
+import org.koin.compose.koinInject
 
 
 @Composable
@@ -21,7 +21,8 @@ fun BaseTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colors = if (darkTheme) BaseLightPalette() else BaseDarkPalette()
+    val themeProvider = koinInject<StoreThemeProvider>()
+    val colors = if (darkTheme) themeProvider.darkPalette else themeProvider.lightPalette
     val selectionColors = remember(colors.inputLabelTxt) {
         TextSelectionColors(
             handleColor = colors.inputLabelTxt,

@@ -19,6 +19,8 @@ enum class PluginName(val pName: String) {
 
     KTOR("ktor"),
 
+    KOIN("koin"),
+
     //Gradle Convention Plugins
     STORE_KOTLIN_MULTIPLATFORM("store-kotlinMultiplatform"),
     STORE_COMPOSE_MULTIPLATFORM("store-composeMultiplatform"),

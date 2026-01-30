@@ -44,8 +44,10 @@ class ComposeAppModulePlugin : Plugin<Project> {
                 androidMain.dependencies {
                     implementation(library(LibraryName.COMPOSE_UI_TOOLING))
                     implementation(library(LibraryName.ANDROIDX_ACTIVITY_COMPOSE))
+                    implementation(library(LibraryName.KOIN_ANDROID))
                 }
                 commonMain.dependencies {
+                    implementation(project(":di"))
                     implementation(project(":shared"))
                     implementation(project(":core:presentation"))
                     implementation(library(LibraryName.COMPOSE_UI))
@@ -56,6 +58,7 @@ class ComposeAppModulePlugin : Plugin<Project> {
                     implementation(library(LibraryName.COMPOSE_COMPONENTS_RESOURCES))
                     implementation(library(LibraryName.ANDROIDX_LIFECYCLE_VIEWMODEL_COMPOSE))
                     implementation(library(LibraryName.ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE))
+                    implementation(library(LibraryName.KOIN_COMPOSE))
                 }
 
                 commonTest.dependencies {

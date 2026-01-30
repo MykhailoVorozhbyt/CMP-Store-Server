@@ -53,5 +53,11 @@ gradlePlugin {
             id = libs.plugins.store.core.presentation.get().pluginId
             implementationClass = "plugins.core.CorePresentationModulePlugin"
         }
+
+        //DI
+        register("Di") {
+            id = libs.plugins.store.di.get().pluginId
+            implementationClass = "plugins.DiModulePlugin"
+        }
     }
 }

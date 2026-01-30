@@ -26,8 +26,10 @@ enum class LibraryName(val lName: String) {
     KTOR_SERVER_TEST_HOST("ktor-serverTestHost"),
 
     KOIN_CORE("koin-core"),
+    KOIN_BOM("io.insert-koin:koin-bom:4.2.0"),
     KOIN_ANDROID("koin-android"),
     KOIN_COMPOSE("koin-compose"),
+    KOIN_COMPOSE_VIEWMODEL("koin-compose-viewmodel"),
     KOIN_TEST("koin-test"),
 
 
