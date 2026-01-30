@@ -1,12 +1,20 @@
 package org.cmp.store
 
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
+import com.store.di.initializeKoin
+import org.koin.core.module.Module
 
-fun main() = application {
+@Composable
+fun DesktopApp(
+    onCloseRequest: () -> Unit,
+    title: String = "Untitled",
+    vararg appModules: Module
+) {
+    initializeKoin(appModules = appModules)
     Window(
-        onCloseRequest = ::exitApplication,
-        title = "CMP-Store-Server",
+        onCloseRequest = onCloseRequest,
+        title = title
     ) {
         App()
     }
