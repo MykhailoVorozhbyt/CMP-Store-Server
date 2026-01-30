@@ -38,7 +38,7 @@ gradlePlugin {
             implementationClass = "plugins.ComposeAppModulePlugin"
         }
 
-        //Android stores
+        //Stores
         register("AndroidAthleticaPlus") {
             id = libs.plugins.store.android.athleticaPlus.get().pluginId
             implementationClass = "plugins.stores.AndroidAthleticaPlusModulePlugin"
@@ -46,16 +46,6 @@ gradlePlugin {
         register("AndroidNutriSport") {
             id = libs.plugins.store.android.nutriSport.get().pluginId
             implementationClass = "plugins.stores.AndroidNutriSportModulePlugin"
-        }
-
-        //Desktop stores
-        register("DesktopAthleticaPlus") {
-            id = libs.plugins.store.desktop.athleticaPlus.get().pluginId
-            implementationClass = "plugins.stores.DesktopAthleticaPlusModulePlugin"
-        }
-        register("DesktopNutriSport") {
-            id = libs.plugins.store.desktop.nutriSport.get().pluginId
-            implementationClass = "plugins.stores.DesktopNutriSportModulePlugin"
         }
 
         //Core
