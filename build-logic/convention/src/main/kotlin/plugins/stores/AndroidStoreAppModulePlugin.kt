@@ -10,6 +10,7 @@ import extensions.composeDep
 import extensions.getAndroidSdkVersions
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
+import extensions.moduleName
 import extensions.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -62,8 +63,15 @@ abstract class AndroidStoresModulePlugin : Plugin<Project> {
                 }
             }
             jvm()
-            iosArm64()
-            iosSimulatorArm64()
+            listOf(
+                iosArm64(),
+                iosSimulatorArm64()
+            ).forEach { iosTarget ->
+                iosTarget.binaries.framework {
+                    baseName = moduleName
+                    isStatic = true
+                }
+            }
 
             sourceSets {
                 androidMain.dependencies {

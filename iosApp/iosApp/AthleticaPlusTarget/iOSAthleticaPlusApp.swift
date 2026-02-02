@@ -1,21 +1,28 @@
 import UIKit
 import SwiftUI
-import ComposeApp
+import StoresAthletica_plus
+
+@main
+struct iOSAthleticaPlusApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
+
 
 struct ComposeView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
-        MainViewControllerKt.MainViewController()
+        AthleticaPlusMainViewControllerKt.AthleticaPlusMainViewController()
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 }
 
-struct ContentView: View {
+private struct ContentView: View {
     var body: some View {
         ComposeView()
             .ignoresSafeArea()
     }
 }
-
-
-
