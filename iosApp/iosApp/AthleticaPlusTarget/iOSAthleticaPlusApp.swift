@@ -12,7 +12,7 @@ struct iOSAthleticaPlusApp: App {
 }
 
 
-struct ComposeView: UIViewControllerRepresentable {
+private struct ComposeView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
         AthleticaPlusMainViewControllerKt.AthleticaPlusMainViewController()
     }
