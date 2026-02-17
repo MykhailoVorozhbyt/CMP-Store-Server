@@ -16,6 +16,7 @@ enum class LibraryName(val lName: String) {
     ANDROIDX_ACTIVITY_COMPOSE("androidx-activity-compose"),
     ANDROIDX_LIFECYCLE_VIEWMODEL_COMPOSE("androidx-lifecycle-viewmodelCompose"),
     ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE("androidx-lifecycle-runtimeCompose"),
+    ANDROIDX_CORE_SPLASHSCREEN("androidx-core-splashscreen"),
 
     KOTLINX_COROUTINES_SWING("kotlinx-coroutinesSwing"),
 

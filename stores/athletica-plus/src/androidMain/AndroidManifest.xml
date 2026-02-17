@@ -9,7 +9,7 @@
         android:label="${label}"
         android:roundIcon="@drawable/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@android:style/Theme.Material.Light.NoActionBar"
+        android:theme="@style/Theme.AthleticaPlus.Splash"
         tools:ignore="Instantiatable">
         <activity
             android:name="org.cmp.store.MainActivity"

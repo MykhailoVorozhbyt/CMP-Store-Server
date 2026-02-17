@@ -24,29 +24,7 @@ fun Project.composeDesktopApplication(
 //                    iconFile.set(project.file("src/commonMain/composeResources/drawable/app_icon.ico"))
                     iconFile.set(project.file("appicon/MacOsIc.icns"))
                     infoPlist {
-                        extraKeysRawXml = """
-            <key>NSOutgoingConnectionsUsageDescription</key>
-            <string>This app requires internet access to load content.</string>
-            <key>NSAppTransportSecurity</key>
-            <dict>
-                <key>NSAllowsArbitraryLoads</key>
-                <true/>
-                <key>NSAllowsArbitraryLoadsInWebContent</key>
-                <true/>
-                <key>NSExceptionDomains</key>
-                <dict>
-                    <key>raw.githubusercontent.com</key>
-                    <dict>
-                        <key>NSIncludesSubdomains</key>
-                        <true/>
-                        <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-                        <true/>
-                        <key>NSTemporaryExceptionMinimumTLSVersion</key>
-                        <string>TLSv1.2</string>
-                    </dict>
-                </dict>
-            </dict>
-        """.trimIndent()
+                        extraKeysRawXml = macOsExtraKeysRawXml()
                     }
                 }
                 windows {
@@ -71,3 +49,27 @@ fun Project.composeDesktopApplication(
 
     }
 }
+
+private fun macOsExtraKeysRawXml(): String = """
+            <key>NSOutgoingConnectionsUsageDescription</key>
+            <string>This app requires internet access to load content.</string>
+            <key>NSAppTransportSecurity</key>
+            <dict>
+                <key>NSAllowsArbitraryLoads</key>
+                <true/>
+                <key>NSAllowsArbitraryLoadsInWebContent</key>
+                <true/>
+                <key>NSExceptionDomains</key>
+                <dict>
+                    <key>raw.githubusercontent.com</key>
+                    <dict>
+                        <key>NSIncludesSubdomains</key>
+                        <true/>
+                        <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+                        <true/>
+                        <key>NSTemporaryExceptionMinimumTLSVersion</key>
+                        <string>TLSv1.2</string>
+                    </dict>
+                </dict>
+            </dict>
+        """.trimIndent()

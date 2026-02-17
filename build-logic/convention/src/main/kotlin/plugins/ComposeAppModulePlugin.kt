@@ -45,6 +45,7 @@ class ComposeAppModulePlugin : Plugin<Project> {
                     implementation(library(LibraryName.COMPOSE_UI_TOOLING))
                     implementation(library(LibraryName.ANDROIDX_ACTIVITY_COMPOSE))
                     implementation(library(LibraryName.KOIN_ANDROID))
+                    implementation(library(LibraryName.ANDROIDX_CORE_SPLASHSCREEN))
                 }
                 commonMain.dependencies {
                     implementation(project(":di"))
