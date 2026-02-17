@@ -10,6 +10,7 @@ import extensions.composeDep
 import extensions.getAndroidSdkVersions
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
+import extensions.moduleName
 import extensions.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -21,7 +22,7 @@ import utils.enums.ModuleName
 import utils.enums.PluginName
 
 
-class AndroidAthleticaPlusModulePlugin : AndroidStoresModulePlugin() {
+class AppAthleticaPlusModulePlugin : StoreModulePlugin() {
     override val applicationIdName: String = "com.store.athletica_plus"
     override val applicationName: String = "Athletica Plus"
     override val mainClass = "com.store.athletica_plus.MainKt"
@@ -30,7 +31,7 @@ class AndroidAthleticaPlusModulePlugin : AndroidStoresModulePlugin() {
     override val appVersion = "1.0.0"
 }
 
-class AndroidNutriSportModulePlugin : AndroidStoresModulePlugin() {
+class AppNutriSportModulePlugin : StoreModulePlugin() {
     override val applicationIdName: String = "com.store.nutri_sport"
     override val applicationName: String = "Nutri Sport"
     override val mainClass = "com.store.nutri_sport.MainKt"
@@ -39,7 +40,7 @@ class AndroidNutriSportModulePlugin : AndroidStoresModulePlugin() {
     override val appVersion = "1.0.0"
 }
 
-abstract class AndroidStoresModulePlugin : Plugin<Project> {
+abstract class StoreModulePlugin : Plugin<Project> {
     abstract val applicationIdName: String
     abstract val applicationName: String
     abstract val mainClass: String
@@ -62,8 +63,15 @@ abstract class AndroidStoresModulePlugin : Plugin<Project> {
                 }
             }
             jvm()
-            iosArm64()
-            iosSimulatorArm64()
+            listOf(
+                iosArm64(),
+                iosSimulatorArm64()
+            ).forEach { iosTarget ->
+                iosTarget.binaries.framework {
+                    baseName = moduleName
+                    isStatic = true
+                }
+            }
 
             sourceSets {
                 androidMain.dependencies {
@@ -104,11 +112,7 @@ abstract class AndroidStoresModulePlugin : Plugin<Project> {
                 versionCode = sdk.versionCode
                 versionName = sdk.versionName
                 testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-                manifestPlaceholders.putAll(
-                    mapOf("label" to applicationName),
-//                    mapOf("icon" to icon),
-//                    mapOf("roundIcon" to roundIcon)
-                )
+                manifestPlaceholders.putAll(mapOf("label" to applicationName))
             }
             buildTypes {
                 release {

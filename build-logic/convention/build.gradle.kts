@@ -41,11 +41,11 @@ gradlePlugin {
         //Stores
         register("AndroidAthleticaPlus") {
             id = libs.plugins.store.android.athleticaPlus.get().pluginId
-            implementationClass = "plugins.stores.AndroidAthleticaPlusModulePlugin"
+            implementationClass = "plugins.stores.AppAthleticaPlusModulePlugin"
         }
         register("AndroidNutriSport") {
             id = libs.plugins.store.android.nutriSport.get().pluginId
-            implementationClass = "plugins.stores.AndroidNutriSportModulePlugin"
+            implementationClass = "plugins.stores.AppNutriSportModulePlugin"
         }
 
         //Core
