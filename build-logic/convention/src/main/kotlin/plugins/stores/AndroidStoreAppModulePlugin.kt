@@ -1,9 +1,10 @@
 package plugins.stores
 
-import configuration.composeDesktopApplication
+import configuration.configureDesktopApplication
 import configuration.configureAndroidBase
 import configuration.configureCompileOptions
 import configuration.configureFlavors
+import configuration.configureIOS
 import extensions.applyPlugins
 import extensions.baseAppModuleExtension
 import extensions.composeDep
@@ -19,6 +20,7 @@ import utils.currentJvmTarget
 import utils.enums.LibraryName
 import utils.enums.LibraryName.Companion.library
 import utils.enums.ModuleName
+import utils.enums.ModulePath
 import utils.enums.PluginName
 
 
@@ -62,16 +64,8 @@ abstract class StoreModulePlugin : Plugin<Project> {
                     jvmTarget.set(currentJvmTarget)
                 }
             }
+            configureIOS()
             jvm()
-            listOf(
-                iosArm64(),
-                iosSimulatorArm64()
-            ).forEach { iosTarget ->
-                iosTarget.binaries.framework {
-                    baseName = moduleName
-                    isStatic = true
-                }
-            }
 
             sourceSets {
                 androidMain.dependencies {
@@ -80,8 +74,8 @@ abstract class StoreModulePlugin : Plugin<Project> {
                     implementation(library(LibraryName.KOIN_ANDROID))
                 }
                 commonMain.dependencies {
-                    implementation(project(":composeApp"))
-                    implementation(project(":core:presentation"))
+                    implementation(project(ModulePath.COMPOSE_APP.path))
+                    implementation(project(ModulePath.CORE_PRESENTATION.path))
                     implementation(library(LibraryName.COMPOSE_UI_TOOLING_PREVIEW))
                     implementation(library(LibraryName.KOIN_CORE))
                 }
@@ -93,7 +87,7 @@ abstract class StoreModulePlugin : Plugin<Project> {
 
         configureAndroid()
 
-        composeDesktopApplication(
+        configureDesktopApplication(
             mainClass = mainClass,
             packageName = packageName,
             version = appVersion,

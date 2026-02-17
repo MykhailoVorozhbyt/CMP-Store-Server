@@ -8,14 +8,34 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
-import com.store.core.presentation.theme.color.LocalStoreColors
-import com.store.core.presentation.theme.color.StoreColorsPalette
-import com.store.core.presentation.theme.color.StoreThemeProvider
-import com.store.core.presentation.theme.typography.LocalStoreTypography
-import com.store.core.presentation.theme.typography.StoreTypography
+import com.store.core.presentation.utils.StoreThemeProviderPreviewApi
 import org.koin.compose.koinInject
 
+object StoreTheme {
+    val color: StoreColorsPalette
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalStoreColors.current
 
+    val typography: StoreTypography
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalStoreTypography.current
+
+    val dimens: StoreDimens
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalStoreDimens.current
+
+    val windowTypography: WindowType
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalStoreWindowType.current
+}
+
+/**
+ * Do not use for preview!
+ * */
 @Composable
 fun BaseTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -29,23 +49,30 @@ fun BaseTheme(
             backgroundColor = Color.Transparent
         )
     }
-
     CompositionLocalProvider(
         LocalStoreColors provides colors,
         LocalStoreTypography provides StoreTypography.init(),
+        LocalStoreWindowType provides rememberWindowType(),
+        LocalStoreDimens provides rememberDimens(),
         LocalTextSelectionColors provides selectionColors,
         content = content
     )
 }
 
-object StoreTheme {
-    val color: StoreColorsPalette
-        @Composable
-        @ReadOnlyComposable
-        get() = LocalStoreColors.current
-
-    val typography: StoreTypography
-        @Composable
-        @ReadOnlyComposable
-        get() = LocalStoreTypography.current
+/**
+ * Use only for preview!
+ * */
+@Composable
+fun BasePreviewTheme(
+    content: @Composable () -> Unit
+) {
+    val theme = StoreThemeProviderPreviewApi()
+    val colors = if (isSystemInDarkTheme()) theme.darkPalette else theme.lightPalette
+    CompositionLocalProvider(
+        LocalStoreColors provides colors,
+        LocalStoreTypography provides StoreTypography.init(),
+        LocalStoreWindowType provides rememberWindowType(),
+        LocalStoreDimens provides rememberDimens(),
+        content = content
+    )
 }

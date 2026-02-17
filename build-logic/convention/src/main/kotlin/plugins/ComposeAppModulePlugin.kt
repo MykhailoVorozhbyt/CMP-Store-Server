@@ -1,20 +1,19 @@
 package plugins
 
 import configuration.configureAndroidLibraryBase
+import configuration.configureIOS
 import extensions.applyPlugins
 import extensions.composeDep
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
-import extensions.moduleName
 import extensions.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
-import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import utils.enums.LibraryName
 import utils.enums.LibraryName.Companion.library
 import utils.enums.ModuleName
+import utils.enums.ModulePath
 import utils.enums.PluginName
 
 
@@ -29,16 +28,8 @@ class ComposeAppModulePlugin : Plugin<Project> {
         }
         kotlinMultiplatformExtension {
             configureAndroidLibraryBase(ModuleName.APP.mName)
-            iosArm64()
-            iosSimulatorArm64()
+            configureIOS()
             jvm()
-
-            targets.withType<KotlinNativeTarget>().configureEach {
-                binaries.framework {
-                    baseName = moduleName
-                    isStatic = true
-                }
-            }
 
             sourceSets {
                 androidMain.dependencies {
@@ -46,11 +37,16 @@ class ComposeAppModulePlugin : Plugin<Project> {
                     implementation(library(LibraryName.ANDROIDX_ACTIVITY_COMPOSE))
                     implementation(library(LibraryName.KOIN_ANDROID))
                     implementation(library(LibraryName.ANDROIDX_CORE_SPLASHSCREEN))
+                    implementation(library(LibraryName.ANDROIDX_CUSTOMVIEW_CUSTOMVIEW))
+                    implementation(library(LibraryName.ANDROIDX_CUSTOMVIEW_CUSTOMVIEW_POOLINGCONTAINER))
+                    implementation(library(LibraryName.ANDROIDX_EMOJI_2))
                 }
                 commonMain.dependencies {
-                    implementation(project(":di"))
-                    implementation(project(":shared"))
-                    implementation(project(":core:presentation"))
+                    implementation(project(ModulePath.DI.path))
+                    implementation(project(ModulePath.SHARED.path))
+                    implementation(project(ModulePath.CORE_PRESENTATION.path))
+                    implementation(project(ModulePath.CORE_UTILS.path))
+                    implementation(project(ModulePath.CORE_RESOURCES.path))
                     implementation(library(LibraryName.COMPOSE_UI))
                     implementation(library(LibraryName.COMPOSE_RUNTIME))
                     implementation(library(LibraryName.COMPOSE_FOUNDATION))
@@ -71,5 +67,6 @@ class ComposeAppModulePlugin : Plugin<Project> {
                 }
             }
         }
+
     }
 }
