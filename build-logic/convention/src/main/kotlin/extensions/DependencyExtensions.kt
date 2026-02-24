@@ -20,10 +20,10 @@ fun DependencyHandlerScope.testImplementation(dep: Any) {
 fun DependencyHandlerScope.androidTestImplementation(dep: Any) {
     safeAdd("androidTestImplementation", dep)
 }
-
-fun DependencyHandlerScope.debugImplementation(dep: Any) {
-    safeAdd("debugImplementation", dep)
-}
+//
+//fun DependencyHandlerScope.debugImplementation(dep: Any) {
+//    safeAdd("debugImplementation", dep)
+//}
 
 fun DependencyHandlerScope.custom(configuration: String, dep: Any) {
     safeAdd(configuration, dep)

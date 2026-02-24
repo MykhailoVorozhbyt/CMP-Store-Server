@@ -1,18 +1,14 @@
 package plugins
 
-import com.android.build.api.dsl.androidLibrary
 import configuration.configureAndroidLibraryBase
+import configuration.configureIOS
 import extensions.applyPlugins
-import extensions.composeExtension
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
 import extensions.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.internal.declarativedsl.intrinsics.listOf
-import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.invoke
-import org.jetbrains.compose.resources.ResourcesExtension
 import utils.enums.LibraryName
 import utils.enums.LibraryName.Companion.library
 import utils.enums.ModuleName
@@ -26,16 +22,11 @@ class SharedModulePlugin : Plugin<Project> {
                 libs.plugin(PluginName.STORE_KOTLIN_MULTIPLATFORM.pName).pluginId,
                 libs.plugin(PluginName.COMPOSE_MULTIPLATFORM.pName).pluginId,
                 libs.plugin(PluginName.COMPOSE_COMPILER.pName).pluginId,
-//                libs.plugin(PluginName.KOIN.pName).pluginId,
             )
         }
         kotlinMultiplatformExtension {
             configureAndroidLibraryBase(ModuleName.SHARED.mName)
-            androidLibrary {
-                androidResources.enable = true
-            }
-            iosArm64()
-            iosSimulatorArm64()
+            configureIOS()
             jvm()
 
             sourceSets {
@@ -43,14 +34,10 @@ class SharedModulePlugin : Plugin<Project> {
                     implementation(library(LibraryName.ANDROIDX_ACTIVITY_COMPOSE))
                     implementation(library(LibraryName.KOIN_ANDROID))
                 }
-                commonMain {
-                    resources.srcDir("src/commonMain/composeResources")
-                }
                 commonMain.dependencies {
                     implementation(library(LibraryName.COMPOSE_RUNTIME))
                     implementation(library(LibraryName.COMPOSE_FOUNDATION))
                     implementation(library(LibraryName.COMPOSE_MATERIAL_3))
-                    implementation(library(LibraryName.COMPOSE_COMPONENTS_RESOURCES))
                     implementation(library(LibraryName.KOIN_CORE))
                     implementation(library(LibraryName.KOIN_COMPOSE))
                 }
@@ -58,13 +45,6 @@ class SharedModulePlugin : Plugin<Project> {
                     implementation(library(LibraryName.KOTLIN_TEST))
                     implementation(library(LibraryName.KOIN_TEST))
                 }
-            }
-        }
-        composeExtension {
-            extensions.configure<ResourcesExtension> {
-                publicResClass = true
-                packageOfResClass = "com.store.core.resources"
-                generateResClass = always
             }
         }
     }
