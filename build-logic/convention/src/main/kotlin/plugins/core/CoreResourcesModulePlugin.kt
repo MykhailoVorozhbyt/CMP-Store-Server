@@ -29,7 +29,7 @@ class CoreResourcesModulePlugin : Plugin<Project> {
             )
         }
         kotlinMultiplatformExtension {
-            configureAndroidLibraryBase(ModuleName.RESOURCES.mName)
+            configureAndroidLibraryBase(ModuleName.CORE_RESOURCES.mName)
             androidLibrary {
                 androidResources.enable = true
             }

@@ -62,6 +62,20 @@ gradlePlugin {
             implementationClass = "plugins.core.CoreResourcesModulePlugin"
         }
 
+        //Futures
+        register("FeatureAuthenticationData") {
+            id = libs.plugins.store.feature.authentication.data.get().pluginId
+            implementationClass = "plugins.feature.FeatureAuthenticationDataModulePlugin"
+        }
+        register("FeatureAuthenticationDomain") {
+            id = libs.plugins.store.feature.authentication.domain.get().pluginId
+            implementationClass = "plugins.feature.FeatureAuthenticationDomainModulePlugin"
+        }
+        register("AuthenticationPresentation") {
+            id = libs.plugins.store.feature.authentication.presentation.get().pluginId
+            implementationClass = "plugins.feature.FeatureAuthenticationPresentationModulePlugin"
+        }
+
         //DI
         register("Di") {
             id = libs.plugins.store.di.get().pluginId

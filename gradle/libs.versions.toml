@@ -98,4 +98,7 @@ store-android-nutriSport = { id = "store.android.NutriSport" }
 store-core-presentation = { id = "store.core.presentation" }
 store-core-utils = { id = "store.core.utils" }
 store-core-resources = { id = "store.core.resources" }
+store-feature-authentication-data = { id = "store.feature.authentication.data" }
+store-feature-authentication-domain = { id = "store.feature.authentication.domain" }
+store-feature-authentication-presentation = { id = "store.feature.authentication.presentation" }
 store-di = { id = "store.di" }

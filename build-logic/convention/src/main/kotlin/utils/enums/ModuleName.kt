@@ -4,8 +4,11 @@ enum class ModuleName(val mName: String) {
     APP("org.cmp.store"),
     SHARED("org.cmp.store.shared"),
     STORES("com.stores.store"),
+    DI("com.store.di"),
     CORE_PRESENTATION("com.store.core.presentation"),
     CORE_UTILS("com.store.core.utils"),
-    DI("com.store.di"),
-    RESOURCES("com.store.core.resources"),
+    CORE_RESOURCES("com.store.core.resources"),
+    AUTHENTICATION_DATA("com.store.feature.authentication.data"),
+    AUTHENTICATION_DOMAIN("com.store.feature.authentication.domain"),
+    AUTHENTICATION_PRESENTATION("com.store.feature.authentication.presentation"),
 }
