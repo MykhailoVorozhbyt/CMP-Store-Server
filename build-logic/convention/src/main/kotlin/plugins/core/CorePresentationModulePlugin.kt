@@ -1,6 +1,7 @@
 package plugins.core
 
 import configuration.configureAndroidLibraryBase
+import configuration.configureIOS
 import extensions.applyPlugins
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
@@ -11,6 +12,7 @@ import org.gradle.kotlin.dsl.invoke
 import utils.enums.LibraryName
 import utils.enums.LibraryName.Companion.library
 import utils.enums.ModuleName
+import utils.enums.ModulePath
 import utils.enums.PluginName
 
 class CorePresentationModulePlugin : Plugin<Project> {
@@ -23,8 +25,7 @@ class CorePresentationModulePlugin : Plugin<Project> {
             )
         }
         kotlinMultiplatformExtension {
-            iosArm64()
-            iosSimulatorArm64()
+            configureIOS()
             jvm()
 
             sourceSets {
@@ -32,7 +33,9 @@ class CorePresentationModulePlugin : Plugin<Project> {
                     implementation(library(LibraryName.COMPOSE_UI_TOOLING))
                 }
                 commonMain.dependencies {
-                    implementation(project(":shared"))
+                    implementation(project(ModulePath.SHARED.path))
+                    implementation(project(ModulePath.CORE_RESOURCES.path))
+                    implementation(library(LibraryName.COMPOSE_UI))
                     implementation(library(LibraryName.COMPOSE_RUNTIME))
                     implementation(library(LibraryName.COMPOSE_FOUNDATION))
                     implementation(library(LibraryName.COMPOSE_MATERIAL_3))

@@ -1,8 +1,8 @@
 package com.store.nutri_sport.color
 
 import androidx.compose.ui.graphics.Color
-import com.store.core.presentation.theme.color.StoreColorsPalette
-import com.store.core.presentation.theme.color.StoreThemeProvider
+import com.store.core.presentation.theme.StoreColorsPalette
+import com.store.core.presentation.theme.StoreThemeProvider
 
 class NutriSportStoreThemeProvider() : StoreThemeProvider {
     override val lightPalette: StoreColorsPalette = nutriSportLightColorsPalette

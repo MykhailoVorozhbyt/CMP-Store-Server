@@ -5,7 +5,7 @@ import extensions.desktopExtension
 import org.gradle.api.Project
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
-fun Project.composeDesktopApplication(
+fun Project.configureDesktopApplication(
     mainClass: String,
     packageName: String,
     version: String,

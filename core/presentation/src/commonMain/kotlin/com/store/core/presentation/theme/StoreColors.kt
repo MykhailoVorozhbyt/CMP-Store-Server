@@ -1,11 +1,10 @@
-package com.store.core.presentation.theme.color
+package com.store.core.presentation.theme
 
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
-
 val LocalStoreColors = staticCompositionLocalOf<StoreColorsPalette> {
-    error("No colors provided")
+    error("LocalStoreColors no provided")
 }
 
 interface StoreThemeProvider {

@@ -1,6 +1,7 @@
 package plugins
 
 import configuration.configureAndroidLibraryBase
+import configuration.configureIOS
 import extensions.applyPlugins
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
@@ -12,6 +13,7 @@ import org.gradle.kotlin.dsl.invoke
 import utils.enums.LibraryName
 import utils.enums.LibraryName.Companion.library
 import utils.enums.ModuleName
+import utils.enums.ModulePath
 import utils.enums.PluginName
 
 class DiModulePlugin : Plugin<Project> {
@@ -25,8 +27,7 @@ class DiModulePlugin : Plugin<Project> {
             )
         }
         kotlinMultiplatformExtension {
-            iosArm64()
-            iosSimulatorArm64()
+            configureIOS()
             jvm()
 
             sourceSets {
@@ -34,7 +35,7 @@ class DiModulePlugin : Plugin<Project> {
                     implementation(library(LibraryName.KOIN_ANDROID))
                 }
                 commonMain.dependencies {
-                    implementation(project(":shared"))
+                    implementation(project(ModulePath.SHARED.path))
 
                     implementation(library(LibraryName.KOIN_CORE))
                     implementation(library(LibraryName.KOIN_COMPOSE))
