@@ -81,5 +81,11 @@ gradlePlugin {
             id = libs.plugins.store.di.get().pluginId
             implementationClass = "plugins.DiModulePlugin"
         }
+
+        //Navigation
+        register("Navigation") {
+            id = libs.plugins.store.navigation.get().pluginId
+            implementationClass = "plugins.NavigationModulePlugin"
+        }
     }
 }

@@ -1,12 +1,17 @@
 package com.store.di
 
+import com.feature.authentication.presentation.AuthenticationViewModel
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.dsl.module
+import org.koin.plugin.module.dsl.viewModel
 
-val sharedModule = module {
+val repositoryModule = module {
+}
 
+val viewModelModule = module {
+    viewModel<AuthenticationViewModel>()
 }
 
 expect val targetModule: Module
@@ -17,6 +22,8 @@ fun initializeKoin(
 ) {
     startKoin {
         config?.invoke(this)
-        modules(sharedModule, targetModule, *appModules)
+        modules(
+            repositoryModule, viewModelModule, targetModule, *appModules
+        )
     }
 }

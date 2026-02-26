@@ -63,7 +63,7 @@ fun BaseTheme(
  * Use only for preview!
  * */
 @Composable
-fun BasePreviewTheme(
+fun PreviewTheme(
     content: @Composable () -> Unit
 ) {
     val theme = StoreThemeProviderPreviewApi()

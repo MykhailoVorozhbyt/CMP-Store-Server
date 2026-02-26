@@ -32,7 +32,6 @@ class SharedModulePlugin : Plugin<Project> {
             sourceSets {
                 androidMain.dependencies {
                     implementation(library(LibraryName.ANDROIDX_ACTIVITY_COMPOSE))
-                    implementation(library(LibraryName.KOIN_ANDROID))
                 }
                 commonMain.dependencies {
                     implementation(library(LibraryName.COMPOSE_RUNTIME))

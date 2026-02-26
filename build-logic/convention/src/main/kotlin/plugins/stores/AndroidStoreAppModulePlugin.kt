@@ -1,8 +1,8 @@
 package plugins.stores
 
-import configuration.configureDesktopApplication
 import configuration.configureAndroidBase
 import configuration.configureCompileOptions
+import configuration.configureDesktopApplication
 import configuration.configureFlavors
 import configuration.configureIOS
 import extensions.applyPlugins
@@ -11,7 +11,6 @@ import extensions.composeDep
 import extensions.getAndroidSdkVersions
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
-import extensions.moduleName
 import extensions.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -71,13 +70,13 @@ abstract class StoreModulePlugin : Plugin<Project> {
                 androidMain.dependencies {
                     implementation(library(LibraryName.COMPOSE_UI_TOOLING))
                     implementation(library(LibraryName.ANDROIDX_ACTIVITY_COMPOSE))
-                    implementation(library(LibraryName.KOIN_ANDROID))
                 }
                 commonMain.dependencies {
                     implementation(project(ModulePath.COMPOSE_APP.path))
                     implementation(project(ModulePath.CORE_PRESENTATION.path))
                     implementation(library(LibraryName.COMPOSE_UI_TOOLING_PREVIEW))
                     implementation(library(LibraryName.KOIN_CORE))
+                    implementation(library(LibraryName.KOIN_COMPOSE))
                 }
                 jvmMain.dependencies {
                     implementation(composeDep.desktop.currentOs)

@@ -11,4 +11,5 @@ enum class ModuleName(val mName: String) {
     AUTHENTICATION_DATA("com.store.feature.authentication.data"),
     AUTHENTICATION_DOMAIN("com.store.feature.authentication.domain"),
     AUTHENTICATION_PRESENTATION("com.store.feature.authentication.presentation"),
+    NAVIGATION("com.store.navigation"),
 }

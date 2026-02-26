@@ -17,8 +17,8 @@ enum class LibraryName(val lName: String) {
     ANDROIDX_LIFECYCLE_VIEWMODEL_COMPOSE("androidx-lifecycle-viewmodelCompose"),
     ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE("androidx-lifecycle-runtimeCompose"),
     ANDROIDX_CORE_SPLASHSCREEN("androidx-core-splashscreen"),
-    ANDROIDX_CUSTOMVIEW_CUSTOMVIEW("androidx-customview-customview"),
-    ANDROIDX_CUSTOMVIEW_CUSTOMVIEW_POOLINGCONTAINER("androidx-customview-customview-poolingcontainer"),
+    ANDROIDX_CUSTOMVIEW("androidx-customview-customview"),
+    ANDROIDX_CUSTOMVIEW_POOLINGCONTAINER("androidx-customview-customview-poolingcontainer"),
     ANDROIDX_EMOJI_2("androidx-emoji2"),
 
     KOTLINX_COROUTINES_SWING("kotlinx-coroutinesSwing"),
@@ -36,6 +36,9 @@ enum class LibraryName(val lName: String) {
     KOIN_COMPOSE_VIEWMODEL("koin-compose-viewmodel"),
     KOIN_TEST("koin-test"),
 
+    JETBRAINS_NAVIGATION_3_UI("jetbrains-navigation3-ui"),
+    JETBRAINS_MATERIAL_3_ADAPTIVE_NAVIGATION_3("jetbrains-material3-adaptiveNavigation3"),
+    JETBRAINS_LIFECYCLE_VIEWMODEL_NAVIGATION_3("jetbrains-lifecycle-viewmodelNavigation3"),
 
     COMPOSE_UI("compose-ui"),
     COMPOSE_RUNTIME("compose-runtime"),
@@ -43,7 +46,9 @@ enum class LibraryName(val lName: String) {
     COMPOSE_COMPONENTS_RESOURCES("compose-components-resources"),
     COMPOSE_UI_TOOLING("compose-ui-tooling"),
     COMPOSE_UI_TOOLING_PREVIEW("compose-ui-tooling-preview"),
-    COMPOSE_MATERIAL_3("compose-material3");
+    COMPOSE_MATERIAL_3("compose-material3"),
+
+    KOTLINX_SERIALIZATION("kotlinx-serialization");
 
     companion object {
         fun Project.library(lib: LibraryName) = libs.library(lib.lName).get()

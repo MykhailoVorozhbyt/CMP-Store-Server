@@ -25,6 +25,7 @@ class StoreTypography(
     val bs: TextStyle = TextStyle(fontWeight = FontWeight.Bold, fontSize = dimens.textS),   // B/S  Bold   12px
     val bm: TextStyle = TextStyle(fontWeight = FontWeight.Bold, fontSize = dimens.textM),   // B/M  Bold   14px
     val bl: TextStyle = TextStyle(fontWeight = FontWeight.Bold, fontSize = dimens.textL),   // B/L  Bold   16px
+    val bxl: TextStyle = TextStyle(fontWeight = FontWeight.Bold, fontSize = dimens.textXL), // B/XL  Bold  40px
 ) {
     companion object {
         @Composable

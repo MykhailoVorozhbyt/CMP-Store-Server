@@ -21,14 +21,14 @@ annotation class PhonePreview
     name = "Small Phone preview Light",
     widthDp = 300,
     heightDp = 500,
-    apiLevel = 35
+    apiLevel = 34
 )
 @Preview(
     device = Devices.PIXEL_3A_XL,
     name = "Small Phone preview Dark",
     widthDp = 300,
     heightDp = 500,
-    apiLevel = 35,
+    apiLevel = 34,
     uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL
 )
 annotation class SmallPhonePreview
@@ -36,12 +36,12 @@ annotation class SmallPhonePreview
 @Preview(
     device = Devices.PIXEL_FOLD,
     name = "Foldable preview Light",
-    apiLevel = 35
+    apiLevel = 34
 )
 @Preview(
     device = Devices.PIXEL_FOLD,
     name = "Foldable preview Dark",
-    apiLevel = 35,
+    apiLevel = 34,
     uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL
 )
 annotation class FoldablePreview
@@ -49,12 +49,12 @@ annotation class FoldablePreview
 @Preview(
     device = Devices.PIXEL_TABLET,
     name = "Tablet preview Light",
-    apiLevel = 35
+    apiLevel = 34
 )
 @Preview(
     device = Devices.PIXEL_TABLET,
     name = "Tablet preview Dark",
-    apiLevel = 35,
+    apiLevel = 34,
     uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL
 )
 annotation class TabletPreview
@@ -62,12 +62,12 @@ annotation class TabletPreview
 @Preview(
     device = Devices.DESKTOP,
     name = "Desktop preview Light",
-    apiLevel = 35
+    apiLevel = 34
 )
 @Preview(
     device = Devices.DESKTOP,
     name = "Desktop preview Dark",
-    apiLevel = 35,
+    apiLevel = 34,
     uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL
 )
 annotation class DesktopPreview

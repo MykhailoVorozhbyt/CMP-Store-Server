@@ -1,5 +1,8 @@
 package com.store.core.resources
 
+import cmp_store_server.core.resources.generated.resources.Res
+import cmp_store_server.core.resources.generated.resources.*
+
 object Resources {
     object Icon {
         val Plus = Res.drawable.plus
