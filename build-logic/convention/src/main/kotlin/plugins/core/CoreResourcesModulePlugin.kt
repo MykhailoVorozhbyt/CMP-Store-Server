@@ -1,5 +1,6 @@
 package plugins.core
 
+import com.android.build.api.dsl.androidLibrary
 import configuration.configureAndroidLibraryBase
 import configuration.configureIOS
 import extensions.applyPlugins
@@ -29,10 +30,9 @@ class CoreResourcesModulePlugin : Plugin<Project> {
         }
         kotlinMultiplatformExtension {
             configureAndroidLibraryBase(ModuleName.CORE_RESOURCES.mName)
-//            androidLibrary {
-//                androidResources.enable = true
-//                experimentalProperties["android.experimental.kmp.enableAndroidResources"] = true
-//            }
+            androidLibrary {
+                androidResources.enable = true
+            }
             configureIOS()
             jvm()
 

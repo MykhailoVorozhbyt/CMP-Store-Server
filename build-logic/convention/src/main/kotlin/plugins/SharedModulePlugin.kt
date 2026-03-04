@@ -22,6 +22,7 @@ class SharedModulePlugin : Plugin<Project> {
                 libs.plugin(PluginName.STORE_KOTLIN_MULTIPLATFORM.pName).pluginId,
                 libs.plugin(PluginName.COMPOSE_MULTIPLATFORM.pName).pluginId,
                 libs.plugin(PluginName.COMPOSE_COMPILER.pName).pluginId,
+                libs.plugin(PluginName.SERIALIZATION.pName).pluginId,
             )
         }
         kotlinMultiplatformExtension {
@@ -39,6 +40,8 @@ class SharedModulePlugin : Plugin<Project> {
                     implementation(library(LibraryName.COMPOSE_MATERIAL_3))
                     implementation(library(LibraryName.KOIN_CORE))
                     implementation(library(LibraryName.KOIN_COMPOSE))
+                    implementation(library(LibraryName.JETBRAINS_NAVIGATION_3_UI))
+                    implementation(library(LibraryName.KOTLINX_SERIALIZATION_JSON))
                 }
                 commonTest.dependencies {
                     implementation(library(LibraryName.KOTLIN_TEST))

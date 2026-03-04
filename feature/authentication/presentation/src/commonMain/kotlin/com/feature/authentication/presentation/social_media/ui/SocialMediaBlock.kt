@@ -36,6 +36,7 @@ import com.feature.authentication.presentation.social_media.view_data.SocialMedi
 import com.store.core.presentation.theme.PreviewTheme
 import com.store.core.presentation.theme.StoreTheme
 import com.store.core.presentation.utils.ViewAction
+import com.store.core.resources.Resources
 import com.store.core.utils.AdaptivePreview
 import org.jetbrains.compose.resources.painterResource
 
@@ -94,7 +95,7 @@ fun GoogleButton(
             ) { loadingState ->
                 if (!loadingState) {
                     Icon(
-                        painter = painterResource(Res.drawable.google_logo),
+                        painter = painterResource(Resources.Image.GoogleLogo),
                         contentDescription = "Google Logo",
                         tint = Color.Unspecified,
                         modifier = Modifier.size(StoreTheme.dimens.buttonIconSize)

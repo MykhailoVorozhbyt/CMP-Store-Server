@@ -46,6 +46,7 @@ class ComposeAppModulePlugin : Plugin<Project> {
                     implementation(project(ModulePath.CORE_PRESENTATION.path))
                     implementation(project(ModulePath.CORE_UTILS.path))
                     implementation(project(ModulePath.CORE_RESOURCES.path))
+                    implementation(project(ModulePath.CORE_NAVIGATION.path))
                     implementation(library(LibraryName.COMPOSE_UI))
                     implementation(library(LibraryName.COMPOSE_RUNTIME))
                     implementation(library(LibraryName.COMPOSE_FOUNDATION))

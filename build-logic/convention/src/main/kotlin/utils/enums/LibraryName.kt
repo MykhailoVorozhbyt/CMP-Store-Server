@@ -48,7 +48,7 @@ enum class LibraryName(val lName: String) {
     COMPOSE_UI_TOOLING_PREVIEW("compose-ui-tooling-preview"),
     COMPOSE_MATERIAL_3("compose-material3"),
 
-    KOTLINX_SERIALIZATION("kotlinx-serialization");
+    KOTLINX_SERIALIZATION_JSON("kotlinx-serialization-json");
 
     companion object {
         fun Project.library(lib: LibraryName) = libs.library(lib.lName).get()

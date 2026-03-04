@@ -61,6 +61,10 @@ gradlePlugin {
             id = libs.plugins.store.core.resources.get().pluginId
             implementationClass = "plugins.core.CoreResourcesModulePlugin"
         }
+        register("CoreNavigation") {
+            id = libs.plugins.store.core.navigation.get().pluginId
+            implementationClass = "plugins.core.CoreNavigationModulePlugin"
+        }
 
         //Futures
         register("FeatureAuthenticationData") {
@@ -80,12 +84,6 @@ gradlePlugin {
         register("Di") {
             id = libs.plugins.store.di.get().pluginId
             implementationClass = "plugins.DiModulePlugin"
-        }
-
-        //Navigation
-        register("Navigation") {
-            id = libs.plugins.store.navigation.get().pluginId
-            implementationClass = "plugins.NavigationModulePlugin"
         }
     }
 }

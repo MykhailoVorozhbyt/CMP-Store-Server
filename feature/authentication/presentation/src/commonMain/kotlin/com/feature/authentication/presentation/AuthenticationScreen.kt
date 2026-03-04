@@ -26,7 +26,8 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun AuthenticationScreen(
-    viewModel: AuthenticationViewModel = koinViewModel()
+    viewModel: AuthenticationViewModel = koinViewModel(),
+    navigateToHome: () -> Unit
 ) {
     val viewData by viewModel.viewData.collectAsState()
     AuthenticationContent(viewData) {}
