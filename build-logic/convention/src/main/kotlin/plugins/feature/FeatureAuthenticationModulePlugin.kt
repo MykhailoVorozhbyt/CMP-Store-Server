@@ -1,5 +1,6 @@
 package plugins.feature
 
+import com.android.build.api.dsl.androidLibrary
 import configuration.configureAndroidLibraryBase
 import configuration.configureIOS
 import extensions.applyPlugins

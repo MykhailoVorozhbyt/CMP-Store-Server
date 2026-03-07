@@ -74,6 +74,7 @@ abstract class StoreModulePlugin : Plugin<Project> {
                 commonMain.dependencies {
                     implementation(project(ModulePath.COMPOSE_APP.path))
                     implementation(project(ModulePath.CORE_PRESENTATION.path))
+                    implementation(library(LibraryName.COMPOSE_COMPONENTS_RESOURCES))
                     implementation(library(LibraryName.COMPOSE_UI_TOOLING_PREVIEW))
                     implementation(library(LibraryName.KOIN_CORE))
                     implementation(library(LibraryName.KOIN_COMPOSE))
@@ -130,5 +131,4 @@ abstract class StoreModulePlugin : Plugin<Project> {
             configureCompileOptions()
         }
     }
-
 }

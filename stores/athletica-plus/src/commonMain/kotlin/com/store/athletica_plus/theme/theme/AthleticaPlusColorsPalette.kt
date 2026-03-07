@@ -1,4 +1,4 @@
-package com.store.athletica_plus.theme.color
+package com.store.athletica_plus.theme.theme
 
 import androidx.compose.ui.graphics.Color
 import com.store.core.presentation.theme.StoreColorsPalette

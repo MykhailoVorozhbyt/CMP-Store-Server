@@ -22,6 +22,7 @@ import com.store.core.presentation.theme.StoreTheme
 import com.store.core.presentation.utils.ViewAction
 import com.store.core.utils.AdaptivePreview
 import com.store.core.utils.Alpha
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -49,14 +50,14 @@ fun AuthenticationContent(
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "NUTRISPORT",
+                    text = stringResource(StoreTheme.strings.appName),
                     textAlign = TextAlign.Center,
                     style = StoreTheme.typography.bxl,
                     color = StoreTheme.color.textSecondary
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth().alpha(Alpha.HALF),
-                    text = "Sign in to continue",
+                    text = stringResource(StoreTheme.strings.signInText),
                     textAlign = TextAlign.Center,
                     style = StoreTheme.typography.rl,
                     color = StoreTheme.color.textPrimary

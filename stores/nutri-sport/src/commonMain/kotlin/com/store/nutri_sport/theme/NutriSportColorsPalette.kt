@@ -1,4 +1,4 @@
-package com.store.nutri_sport.color
+package com.store.nutri_sport.theme
 
 import androidx.compose.ui.graphics.Color
 import com.store.core.presentation.theme.StoreColorsPalette

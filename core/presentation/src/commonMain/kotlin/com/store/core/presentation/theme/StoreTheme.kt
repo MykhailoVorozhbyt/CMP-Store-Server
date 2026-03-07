@@ -31,6 +31,11 @@ object StoreTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalStoreWindowType.current
+
+    val strings: AppStrings
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalStoreStrings.current
 }
 
 /**
@@ -42,6 +47,7 @@ fun BaseTheme(
     content: @Composable () -> Unit
 ) {
     val themeProvider = koinInject<StoreThemeProvider>()
+    val stringsProvider = koinInject<AppStrings>()
     val colors = if (darkTheme) themeProvider.darkPalette else themeProvider.lightPalette
     val selectionColors = remember(colors.inputLabelTxt) {
         TextSelectionColors(
@@ -55,6 +61,7 @@ fun BaseTheme(
         LocalStoreWindowType provides rememberWindowType(),
         LocalStoreDimens provides rememberDimens(),
         LocalTextSelectionColors provides selectionColors,
+        LocalStoreStrings provides stringsProvider,
         content = content
     )
 }

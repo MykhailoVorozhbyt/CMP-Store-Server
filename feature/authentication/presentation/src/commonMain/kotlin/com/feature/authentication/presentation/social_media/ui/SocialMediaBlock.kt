@@ -28,8 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import cmp_store_server.core.resources.generated.resources.Res
-import cmp_store_server.core.resources.generated.resources.google_logo
 import com.feature.authentication.presentation.social_media.SocialMediaBlockMockPreview
 import com.feature.authentication.presentation.social_media.SocialMediaViewAction
 import com.feature.authentication.presentation.social_media.view_data.SocialMediaBlockViewData
@@ -39,6 +37,7 @@ import com.store.core.presentation.utils.ViewAction
 import com.store.core.resources.Resources
 import com.store.core.utils.AdaptivePreview
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 
 @Composable
@@ -63,12 +62,12 @@ fun GoogleButton(
     onClick: () -> Unit,
 ) {
     val shape = RoundedCornerShape(size = StoreTheme.dimens.buttonRoundedFull)
-    val primaryText = "Sign in with Google"
-    val secondaryText = "Please wait..."
-    var buttonText by remember { mutableStateOf(primaryText) }
+    val signInWithGoogleText = StoreTheme.strings.signInWithGoogle
+    val pleaseWaitText = StoreTheme.strings.pleaseWait
+    var buttonTextId by remember { mutableStateOf(signInWithGoogleText) }
 
     LaunchedEffect(loading) {
-        buttonText = if (loading) secondaryText else primaryText
+        buttonTextId = if (loading) pleaseWaitText else signInWithGoogleText
     }
 
     Surface(
@@ -110,7 +109,7 @@ fun GoogleButton(
             }
             Spacer(modifier = Modifier.width(12.dp))
             Text(
-                text = buttonText,
+                text = stringResource(buttonTextId),
                 color = StoreTheme.color.textPrimary,
                 fontSize = StoreTheme.dimens.buttonTextSize
             )

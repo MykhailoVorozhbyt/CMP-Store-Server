@@ -1,15 +1,19 @@
 package plugins
 
+import com.android.build.api.dsl.androidLibrary
 import configuration.configureAndroidLibraryBase
 import configuration.configureIOS
 import extensions.applyPlugins
 import extensions.composeDep
+import extensions.composeExtension
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
 import extensions.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.invoke
+import org.jetbrains.compose.resources.ResourcesExtension
 import utils.enums.LibraryName
 import utils.enums.LibraryName.Companion.library
 import utils.enums.ModuleName
@@ -58,7 +62,6 @@ class ComposeAppModulePlugin : Plugin<Project> {
                     implementation(library(LibraryName.KOIN_CORE))
                     implementation(library(LibraryName.KOIN_COMPOSE))
                 }
-
                 commonTest.dependencies {
                     implementation(library(LibraryName.KOTLIN_TEST))
                 }
@@ -68,6 +71,5 @@ class ComposeAppModulePlugin : Plugin<Project> {
                 }
             }
         }
-
     }
 }

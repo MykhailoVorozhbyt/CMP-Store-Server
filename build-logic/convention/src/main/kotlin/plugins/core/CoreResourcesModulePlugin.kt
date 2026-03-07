@@ -51,7 +51,7 @@ class CoreResourcesModulePlugin : Plugin<Project> {
         composeExtension {
             extensions.configure<ResourcesExtension> {
                 publicResClass = true
-//                packageOfResClass = "com.store.core.resources"
+                packageOfResClass = "com.store.core.resources"
                 generateResClass = always
             }
         }
