@@ -4,11 +4,18 @@ import StoresAthletica_plus
 
 @main
 struct iOSAthleticaPlusApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
     var body: some Scene {
-        WindowGroup {
-            ContentView()
+            WindowGroup {
+                ContentView()
+                    .ignoresSafeArea()
+                    .onOpenURL { url in
+                        print("Received URL in onOpenURL: \(url)")
+                        if GIDSignIn.sharedInstance.handle(url) { return }
+                    }
+            }
         }
-    }
 }
 
 

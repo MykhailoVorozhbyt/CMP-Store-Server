@@ -13,4 +13,5 @@ plugins {
     alias(libs.plugins.kotlinAndroid) apply false
     alias(libs.plugins.koin.compiler) apply false
     alias(libs.plugins.serialization) apply false
+    alias(libs.plugins.google.services) apply false
 }

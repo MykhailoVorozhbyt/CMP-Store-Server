@@ -48,7 +48,17 @@ enum class LibraryName(val lName: String) {
     COMPOSE_UI_TOOLING_PREVIEW("compose-ui-tooling-preview"),
     COMPOSE_MATERIAL_3("compose-material3"),
 
-    KOTLINX_SERIALIZATION_JSON("kotlinx-serialization-json");
+    KOTLINX_SERIALIZATION_JSON("kotlinx-serialization-json"),
+
+    KMPAUTH_GOOGLE("kmpauth-google"),
+    KMPAUTH_FIREBASE("kmpauth-firebase"),
+    KMPAUTH_FIREBASE_FACEBOOK("kmpauth-firebase-facebook"),
+    KMP_NOTIFIER("kmp-notifier"),
+
+    FIREBASE_APP("firebase-app"),
+    FIREBASE_FIRESTORE("firebase-firestore"),
+    FIREBASE_STORAGE("firebase-storage"),
+    FIREBASE_COMMON("firebase-common");
 
     companion object {
         fun Project.library(lib: LibraryName) = libs.library(lib.lName).get()

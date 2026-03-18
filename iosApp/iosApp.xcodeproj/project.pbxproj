@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		06CBFA962F6B456300CC1384 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 06CBFA952F6B456300CC1384 /* GoogleSignIn */; };
+		06CBFA982F6B456300CC1384 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 06CBFA972F6B456300CC1384 /* GoogleSignInSwift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		06A6FCB32F33EA790034C758 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -91,6 +96,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06CBFA962F6B456300CC1384 /* GoogleSignIn in Frameworks */,
+				06CBFA982F6B456300CC1384 /* GoogleSignInSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,6 +171,8 @@
 			);
 			name = NutriSportApp;
 			packageProductDependencies = (
+				06CBFA952F6B456300CC1384 /* GoogleSignIn */,
+				06CBFA972F6B456300CC1384 /* GoogleSignInSwift */,
 			);
 			productName = iosApp;
 			productReference = 062FDF062F311EEE0063E9CD /* NutriSportApp.app */;
@@ -188,6 +197,9 @@
 			);
 			mainGroup = 1C7D7D14A467A6A5996AD8BA;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				06CBFA942F6B456300CC1384 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F8695CCB3C644C4A9437DF40 /* Products */;
 			projectDirPath = "";
@@ -601,6 +613,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		06CBFA942F6B456300CC1384 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		06CBFA952F6B456300CC1384 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 06CBFA942F6B456300CC1384 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		06CBFA972F6B456300CC1384 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 06CBFA942F6B456300CC1384 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 71A4820FA3933A816534A07D /* Project object */;
 }

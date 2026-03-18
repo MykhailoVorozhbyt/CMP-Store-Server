@@ -4,7 +4,9 @@ import extensions.kotlinMultiplatformExtension
 import extensions.moduleName
 import org.gradle.api.Project
 
-fun Project.configureIOS() = kotlinMultiplatformExtension {
+fun Project.configureIOS(
+    dependency: Any? = null
+) = kotlinMultiplatformExtension {
     listOf(
         iosArm64(),
         iosSimulatorArm64()
@@ -12,6 +14,9 @@ fun Project.configureIOS() = kotlinMultiplatformExtension {
         iosTarget.binaries.framework {
             baseName = moduleName
             isStatic = true
+            if (dependency != null) {
+                export(dependency)
+            }
         }
         iosTarget.compilerOptions {
             freeCompilerArgs.add("-Xexport-kdoc")

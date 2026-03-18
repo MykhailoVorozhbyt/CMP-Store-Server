@@ -3,9 +3,16 @@ import StoresNutri_sport
 
 @main
 struct iOSNutriSportApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .ignoresSafeArea()
+                .onOpenURL { url in
+                    print("Received URL in onOpenURL: \(url)")
+                    if GIDSignIn.sharedInstance.handle(url) { return }
+                }
         }
     }
 }

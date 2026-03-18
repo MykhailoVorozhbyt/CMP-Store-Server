@@ -23,6 +23,8 @@ enum class PluginName(val pName: String) {
 
     SERIALIZATION("serialization"),
 
+    GOOGLE_SERVICES("google-services"),
+
     //Gradle Convention Plugins
     STORE_KOTLIN_MULTIPLATFORM("store-kotlinMultiplatform"),
     STORE_COMPOSE_MULTIPLATFORM("store-composeMultiplatform"),

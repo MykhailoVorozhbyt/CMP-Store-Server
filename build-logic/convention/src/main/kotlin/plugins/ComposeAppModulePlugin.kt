@@ -1,19 +1,15 @@
 package plugins
 
-import com.android.build.api.dsl.androidLibrary
 import configuration.configureAndroidLibraryBase
 import configuration.configureIOS
 import extensions.applyPlugins
 import extensions.composeDep
-import extensions.composeExtension
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
 import extensions.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.invoke
-import org.jetbrains.compose.resources.ResourcesExtension
 import utils.enums.LibraryName
 import utils.enums.LibraryName.Companion.library
 import utils.enums.ModuleName
@@ -28,11 +24,12 @@ class ComposeAppModulePlugin : Plugin<Project> {
             listOf(
                 libs.plugin(PluginName.STORE_KOTLIN_MULTIPLATFORM.pName).pluginId,
                 libs.plugin(PluginName.STORE_COMPOSE_MULTIPLATFORM.pName).pluginId,
+                libs.plugin(PluginName.GOOGLE_SERVICES.pName).pluginId,
             )
         }
         kotlinMultiplatformExtension {
             configureAndroidLibraryBase(ModuleName.APP.mName)
-            configureIOS()
+            configureIOS(library(LibraryName.KMP_NOTIFIER))
             jvm()
 
             sourceSets {
@@ -51,16 +48,25 @@ class ComposeAppModulePlugin : Plugin<Project> {
                     implementation(project(ModulePath.CORE_UTILS.path))
                     implementation(project(ModulePath.CORE_RESOURCES.path))
                     implementation(project(ModulePath.CORE_NAVIGATION.path))
+
                     implementation(library(LibraryName.COMPOSE_UI))
                     implementation(library(LibraryName.COMPOSE_RUNTIME))
                     implementation(library(LibraryName.COMPOSE_FOUNDATION))
                     implementation(library(LibraryName.COMPOSE_MATERIAL_3))
                     implementation(library(LibraryName.COMPOSE_UI_TOOLING_PREVIEW))
                     implementation(library(LibraryName.COMPOSE_COMPONENTS_RESOURCES))
+
                     implementation(library(LibraryName.ANDROIDX_LIFECYCLE_VIEWMODEL_COMPOSE))
                     implementation(library(LibraryName.ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE))
+
                     implementation(library(LibraryName.KOIN_CORE))
                     implementation(library(LibraryName.KOIN_COMPOSE))
+
+                    implementation(library(LibraryName.FIREBASE_APP))
+                    implementation(library(LibraryName.KMPAUTH_GOOGLE))
+
+                    api(library(LibraryName.KMP_NOTIFIER))
+
                 }
                 commonTest.dependencies {
                     implementation(library(LibraryName.KOTLIN_TEST))
