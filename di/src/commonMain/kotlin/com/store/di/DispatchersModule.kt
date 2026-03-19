@@ -1,7 +1,7 @@
 package com.store.di
 
-import com.store.core.presentation.core.di.coroutines.Dispatcher
-import com.store.core.presentation.core.di.coroutines.NiaDispatchers
+import com.store.core.presentation.core.di.coroutines.DefaultDispatcher
+import com.store.core.presentation.core.di.coroutines.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,15 +16,14 @@ import org.koin.core.annotation.Singleton
 class DispatchersModule {
 
     @Singleton
-    @Dispatcher(NiaDispatchers.IO)
+    @IoDispatcher
     fun providesIODispatcher(): CoroutineDispatcher = Dispatchers.IO
 
     @Singleton
-    @Dispatcher(NiaDispatchers.Default)
+    @DefaultDispatcher
     fun providesDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
 
     @Singleton
-    fun providesApplicationScope(
-        @Dispatcher(NiaDispatchers.Default) dispatcher: CoroutineDispatcher,
-    ): CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
+    fun providesApplicationScope(@DefaultDispatcher dispatcher: CoroutineDispatcher): CoroutineScope =
+        CoroutineScope(SupervisorJob() + dispatcher)
 }

@@ -1,6 +1,7 @@
 import UIKit
 import SwiftUI
 import StoresAthletica_plus
+import GoogleSignIn
 
 @main
 struct iOSAthleticaPlusApp: App {

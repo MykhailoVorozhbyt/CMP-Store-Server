@@ -1,5 +1,6 @@
 import SwiftUI
 import StoresNutri_sport
+import GoogleSignIn
 
 @main
 struct iOSNutriSportApp: App {

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.store.core.presentation.core.coroutines.distinctUntilChangedDebounced
 import com.store.core.presentation.core.coroutines.distinctUntilChangedDebouncedByType
+import com.store.core.presentation.core.di.coroutines.IoDispatcher
 import com.store.core.presentation.core.viewmodel.BaseActionHandleViewModel.Companion.SAME_VIEW_ACTION_THROTTLE
 import com.store.core.presentation.ui.ViewAction
 import com.store.core.presentation.ui.base.ActionHandlerContext
@@ -85,7 +86,7 @@ import kotlin.time.Clock
  */
 abstract class BaseActionHandleViewModel<VD>(
     givenMainCtx: CoroutineContext,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
     private val timeProvided: () -> Long = { Clock.System.now().epochSeconds }
 ) : ViewModel(), ActionHandlerContext, UiEventSource, ActionHandlerScope<VD> {
 
@@ -136,7 +137,7 @@ abstract class BaseActionHandleViewModel<VD>(
                 .collect { action ->
                     runCatching { handleViewAction(action) }.onFailure { exception ->
                         Logger.e("Exception caught while handling ViewAction: $action", exception)
-//                        showError(Const.UNEXPECTED_ERROR)
+                        showError("UNEXPECTED_ERROR")
                     }
                 }
         }

@@ -27,7 +27,6 @@ fun initializeKoin(
             repositoryModule,
             viewModelModule,
             targetModule,
-            dispatcherModule,
             *appModules
         )
     }
