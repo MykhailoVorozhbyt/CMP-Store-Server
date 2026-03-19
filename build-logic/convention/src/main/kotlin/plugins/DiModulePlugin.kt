@@ -33,11 +33,13 @@ class DiModulePlugin : Plugin<Project> {
             sourceSets {
                 commonMain.dependencies {
                     implementation(project(ModulePath.SHARED.path))
+                    implementation(project(ModulePath.CORE_PRESENTATION.path))
                     implementation(project(ModulePath.FEATURE_AUTHENTICATION_PRESENTATION.path))
 
                     implementation(library(LibraryName.KOIN_CORE))
                     implementation(library(LibraryName.KOIN_COMPOSE))
                     implementation(library(LibraryName.KOIN_COMPOSE_VIEWMODEL))
+                    implementation(library(LibraryName.KOIN_ANNOTATIONS))
                 }
                 commonTest.dependencies {
                     implementation(library(LibraryName.KOIN_TEST))

@@ -15,7 +15,7 @@ enum class StoreFlavor(
     val dimension: FlavorDimension,
     val applicationIdSuffix: String
 ) {
-//    ua(FlavorDimension.store, ".ua"),
+    ua(FlavorDimension.store, ".ua"),
     com(FlavorDimension.store, ".com"),
 }
 

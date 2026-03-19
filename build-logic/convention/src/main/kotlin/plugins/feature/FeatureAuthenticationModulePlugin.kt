@@ -49,15 +49,22 @@ class FeatureAuthenticationPresentationModulePlugin : FeatureAuthenticationModul
                     implementation(project(ModulePath.CORE_RESOURCES.path))
                     implementation(project(ModulePath.CORE_PRESENTATION.path))
                     implementation(project(ModulePath.CORE_UTILS.path))
+                    
                     implementation(library(LibraryName.COMPOSE_UI))
                     implementation(library(LibraryName.COMPOSE_RUNTIME))
                     implementation(library(LibraryName.COMPOSE_FOUNDATION))
                     implementation(library(LibraryName.COMPOSE_MATERIAL_3))
                     implementation(library(LibraryName.COMPOSE_COMPONENTS_RESOURCES))
                     implementation(library(LibraryName.COMPOSE_UI_TOOLING_PREVIEW))
+
+                    implementation(library(LibraryName.ANDROIDX_LIFECYCLE_VIEWMODEL_COMPOSE))
+                    implementation(library(LibraryName.ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE))
+
                     implementation(library(LibraryName.KOIN_CORE))
                     implementation(library(LibraryName.KOIN_COMPOSE))
                     implementation(library(LibraryName.KOIN_COMPOSE_VIEWMODEL))
+
+                    implementation(project.dependencies.platform(library(LibraryName.FIREBASE_BOM)))
                     implementation(library(LibraryName.KMPAUTH_GOOGLE))
                     implementation(library(LibraryName.KMPAUTH_FIREBASE))
                 }

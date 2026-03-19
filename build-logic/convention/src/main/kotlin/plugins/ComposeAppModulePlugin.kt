@@ -23,8 +23,7 @@ class ComposeAppModulePlugin : Plugin<Project> {
         applyPlugins {
             listOf(
                 libs.plugin(PluginName.STORE_KOTLIN_MULTIPLATFORM.pName).pluginId,
-                libs.plugin(PluginName.STORE_COMPOSE_MULTIPLATFORM.pName).pluginId,
-                libs.plugin(PluginName.GOOGLE_SERVICES.pName).pluginId,
+                libs.plugin(PluginName.STORE_COMPOSE_MULTIPLATFORM.pName).pluginId
             )
         }
         kotlinMultiplatformExtension {
@@ -56,17 +55,14 @@ class ComposeAppModulePlugin : Plugin<Project> {
                     implementation(library(LibraryName.COMPOSE_UI_TOOLING_PREVIEW))
                     implementation(library(LibraryName.COMPOSE_COMPONENTS_RESOURCES))
 
-                    implementation(library(LibraryName.ANDROIDX_LIFECYCLE_VIEWMODEL_COMPOSE))
-                    implementation(library(LibraryName.ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE))
-
                     implementation(library(LibraryName.KOIN_CORE))
                     implementation(library(LibraryName.KOIN_COMPOSE))
 
+                    implementation(project.dependencies.platform(library(LibraryName.FIREBASE_BOM)))
                     implementation(library(LibraryName.FIREBASE_APP))
                     implementation(library(LibraryName.KMPAUTH_GOOGLE))
 
                     api(library(LibraryName.KMP_NOTIFIER))
-
                 }
                 commonTest.dependencies {
                     implementation(library(LibraryName.KOTLIN_TEST))

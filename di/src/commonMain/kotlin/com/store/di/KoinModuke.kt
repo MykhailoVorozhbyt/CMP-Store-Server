@@ -16,6 +16,7 @@ val viewModelModule = module {
 
 expect val targetModule: Module
 
+
 fun initializeKoin(
     config: (KoinApplication.() -> Unit)? = null,
     vararg appModules: Module
@@ -23,7 +24,11 @@ fun initializeKoin(
     startKoin {
         config?.invoke(this)
         modules(
-            repositoryModule, viewModelModule, targetModule, *appModules
+            repositoryModule,
+            viewModelModule,
+            targetModule,
+            dispatcherModule,
+            *appModules
         )
     }
 }

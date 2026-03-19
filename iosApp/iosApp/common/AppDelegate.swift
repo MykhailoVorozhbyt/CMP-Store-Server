@@ -1,10 +1,8 @@
 import SwiftUI
 import GoogleSignIn
 import Firebase
-import shared
 import FirebaseCore
 import FirebaseMessaging
-import ComposeApp
 
 
 class AppDelegate: NSObject, UIApplicationDelegate {
@@ -13,12 +11,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
         FirebaseApp.configure()
-        NotifierManager.shared.initialize(configuration: NotificationPlatformConfigurationIos(
-                    showPushNotification: true,
-                    askNotificationPermissionOnStart: true,
-                    notificationSoundName: nil
-                  )
-              )
+//        NotifierManager.shared.initialize(configuration: NotificationPlatformConfigurationIos(
+//                    showPushNotification: true,
+//                    askNotificationPermissionOnStart: true,
+//                    notificationSoundName: nil
+//                  )
+//              )
         return true
     }
     

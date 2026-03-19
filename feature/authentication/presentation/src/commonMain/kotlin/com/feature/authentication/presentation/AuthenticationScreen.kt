@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -19,7 +20,9 @@ import com.feature.authentication.presentation.social_media.ui.SocialMediaBlockC
 import com.feature.authentication.presentation.view_data.AuthenticationViewData
 import com.store.core.presentation.theme.PreviewTheme
 import com.store.core.presentation.theme.StoreTheme
-import com.store.core.presentation.utils.ViewAction
+import com.store.core.presentation.ui.ViewAction
+import com.store.core.presentation.ui.components.StoreSnackbar
+import com.store.core.presentation.ui.components.StoreSnackbarHostState
 import com.store.core.utils.AdaptivePreview
 import com.store.core.utils.Alpha
 import org.jetbrains.compose.resources.stringResource
@@ -31,7 +34,10 @@ fun AuthenticationScreen(
     navigateToHome: () -> Unit
 ) {
     val viewData by viewModel.viewData.collectAsState()
-    AuthenticationContent(viewData) {}
+    val snackBarState = remember { StoreSnackbarHostState() }
+//    viewModel.collectEventsWithDefaultProcessing()
+    AuthenticationContent(viewData, viewModel::onViewAction)
+    StoreSnackbar(snackBarState)
 }
 
 @Composable

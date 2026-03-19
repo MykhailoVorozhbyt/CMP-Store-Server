@@ -28,21 +28,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.feature.authentication.presentation.social_media.SocialMediaBlockMockPreview
 import com.feature.authentication.presentation.social_media.SocialMediaViewAction
 import com.feature.authentication.presentation.social_media.view_data.SocialMediaBlockViewData
-import com.mmk.kmpauth.core.logger.KMPAuthLogger
 import com.mmk.kmpauth.firebase.google.GoogleButtonUiContainerFirebase
 import com.store.core.presentation.theme.PreviewTheme
 import com.store.core.presentation.theme.StoreTheme
-import com.store.core.presentation.utils.ViewAction
+import com.store.core.presentation.ui.ViewAction
 import com.store.core.resources.Resources
 import com.store.core.utils.AdaptivePreview
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.koin.core.logger.Logger
-
 
 @Composable
 fun SocialMediaBlockContent(
@@ -57,35 +53,15 @@ fun SocialMediaBlockContent(
             linkAccount = false,
             onResult = { result ->
                 result.onSuccess { user ->
-                    println("GoogleButtonUiContainerFirebase onSuccess: $user")
-
-//                    viewModel.createCustomer(
-//                        user = user,
-//                        onSuccess = {
-//                            scope.launch {
-//                                messageBarState.addSuccess("Authentication successful!")
-//                                delay(2000)
-//                                navigateToHome()
-//                            }
-//                        },
-//                        onError = { message -> messageBarState.addError(message) }
-//                    )
-//                    loadingState = false
+                    onViewAction.invoke(SocialMediaViewAction.OnGoogleSignInSuccess(user))
                 }.onFailure { error ->
-                    println("GoogleButtonUiContainerFirebase onFailure: $error")
-//                    if (error.message?.contains("A network error") == true) {
-//                        messageBarState.addError("Internet connection unavailable.")
-//                    } else if (error.message?.contains("Idtoken is null") == true) {
-//                        messageBarState.addError("Sign in canceled.")
-//                    } else {
-//                        messageBarState.addError(error.message ?: "Unknown")
-//                    }
-//                    loadingState = false
+                    onViewAction.invoke(SocialMediaViewAction.OnGoogleSignInFailure(error))
                 }
             }
         ) {
             GoogleButton(loading = viewData.google.isLoading) {
                 onViewAction.invoke(SocialMediaViewAction.OnGoogleClick)
+                this@GoogleButtonUiContainerFirebase.onClick()
             }
         }
     }
@@ -128,7 +104,7 @@ fun GoogleButton(
             AnimatedContent(
                 targetState = loading
             ) { loadingState ->
-                if (!loadingState) {
+                if (loadingState.not()) {
                     Icon(
                         painter = painterResource(Resources.Image.GoogleLogo),
                         contentDescription = "Google Logo",

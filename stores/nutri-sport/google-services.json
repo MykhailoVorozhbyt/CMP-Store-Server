@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "270317432366",
+    "project_id": "cmp-store-b185e",
+    "storage_bucket": "cmp-store-b185e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270317432366:android:13a332f5544f018b81b9bf",
+        "android_client_info": {
+          "package_name": "com.store.nutri_sport"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "270317432366-b7ov9htghc4kmd2cc63a3ejqmfb6e026.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRGKjUJtb6EVbIjM9MxPvBnEu7A8Se5F8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "270317432366-b7ov9htghc4kmd2cc63a3ejqmfb6e026.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "270317432366-lc1qga1ag149mu3322dmu3rkncbrulrs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.cmp.store.nutri-sport"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
