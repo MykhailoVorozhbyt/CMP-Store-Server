@@ -1,24 +1,30 @@
 package com.feature.authentication.presentation
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.feature.authentication.presentation.social_media.SocialMediaViewAction
 import com.feature.authentication.presentation.view_data.AuthenticationViewData
+import com.store.core.presentation.core.di.coroutines.IoDispatcher
+import com.store.core.presentation.core.di.coroutines.MainDispatcher
+import com.store.core.presentation.core.viewmodel.BaseActionHandleViewModel
 import com.store.core.presentation.ui.ViewAction
 import com.store.core.utils.Logger
 import com.store.core.utils.i
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class AuthenticationViewModel() : ViewModel() {
-    private val _viewData = MutableStateFlow(AuthenticationViewData())
-    val viewData: StateFlow<AuthenticationViewData> = _viewData
+class AuthenticationViewModel(
+    @MainDispatcher mainDispatcher: CoroutineDispatcher,
+    @IoDispatcher ioDispatcher: CoroutineDispatcher,
+) : BaseActionHandleViewModel<AuthenticationViewData>(
+    mainDispatcher, ioDispatcher
+) {
+    override val _viewData = MutableStateFlow(AuthenticationViewData())
 
-    fun onViewAction(viewAction: ViewAction) {
-        when (viewAction) {
+    override suspend fun handleViewAction(action: ViewAction) {
+        when (action) {
             SocialMediaViewAction.OnGoogleClick -> {
                 viewModelScope.launch {
                     setGoogleLoading(true)
@@ -28,8 +34,8 @@ class AuthenticationViewModel() : ViewModel() {
             }
 
             is SocialMediaViewAction.OnGoogleSignInFailure -> {
-                val message = viewAction.exception.message
-                Logger.i("OnGoogleSignInFailure: ${viewAction.exception}")
+                val message = action.exception.message
+                Logger.i("OnGoogleSignInFailure: ${action.exception}")
                 if (message?.contains("A network error") == true) {
 //                    messageBarState.addError("Internet connection unavailable.")
                 } else if (message?.contains("Idtoken is null") == true) {
@@ -41,7 +47,7 @@ class AuthenticationViewModel() : ViewModel() {
             }
 
             is SocialMediaViewAction.OnGoogleSignInSuccess -> {
-                Logger.i("OnGoogleSignInSuccess: ${viewAction.user}")
+                Logger.i("OnGoogleSignInSuccess: ${action.user}")
 //                    viewModel.createCustomer(
 //                        user = user,
 //                        onSuccess = {

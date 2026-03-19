@@ -24,6 +24,7 @@ class DiModulePlugin : Plugin<Project> {
                 libs.plugin(PluginName.COMPOSE_MULTIPLATFORM.pName).pluginId,
                 libs.plugin(PluginName.COMPOSE_COMPILER.pName).pluginId,
                 libs.plugin(PluginName.KOIN_COMPILER.pName).pluginId,
+                libs.plugin(PluginName.KSP.pName).pluginId,
             )
         }
         kotlinMultiplatformExtension {
@@ -37,9 +38,7 @@ class DiModulePlugin : Plugin<Project> {
                     implementation(project(ModulePath.FEATURE_AUTHENTICATION_PRESENTATION.path))
 
                     implementation(library(LibraryName.KOIN_CORE))
-                    implementation(library(LibraryName.KOIN_COMPOSE))
                     implementation(library(LibraryName.KOIN_COMPOSE_VIEWMODEL))
-                    implementation(library(LibraryName.KOIN_ANNOTATIONS))
                 }
                 commonTest.dependencies {
                     implementation(library(LibraryName.KOIN_TEST))

@@ -8,8 +8,7 @@ dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.compose.gradlePlugin)
-    //TODO: for the future
-    //lintChecks(libs.androidx.lint.gradle)
+    compileOnly(libs.ksp.gradlePlugin)
 }
 
 tasks {

@@ -18,12 +18,10 @@ enum class PluginName(val pName: String) {
     KOTLIN_MULTIPLATFORM_LIBRARY("kotlinMultiplatformLibrary"),
 
     KTOR("ktor"),
-
     KOIN_COMPILER("koin-compiler"),
-
     SERIALIZATION("serialization"),
-
     GOOGLE_SERVICES("google-services"),
+    KSP("ksp"),
 
     //Gradle Convention Plugins
     STORE_KOTLIN_MULTIPLATFORM("store-kotlinMultiplatform"),

@@ -54,8 +54,7 @@ import kotlin.time.Clock
  *       so that multiple events of the same type are suppressed within their specific window (see [SAME_UI_SHOW_MESSAGE_THROTTLE]).
  *       For example, repeated [UiEvent.ShowMessage] events are only emitted once per window, regardless of payload.
  * - **Consistent state delivery:** Exposes [viewDataState] as a `StateFlow<VD>` for UI consumption.
- * - **Error handling:** Attaches an [ErrorLoggerI] and [CoroutineExceptionHandler] to all internal launches.
- * - **Launch helpers:** Provides [launch] and [launchSingle] to ensure all coroutines run on the
+ * - **Launch helpers:** Provides [launch] to ensure all coroutines run on the
  *   ViewModel-defined context and error-handling infrastructure.
  *
  *   ⚠️ **IMPORTANT ABOUT YOUR [ViewAction] and [UiEvent]!**
@@ -69,7 +68,7 @@ import kotlin.time.Clock
  * - **Event publishing:**
  *   Use [emitEvent] to send `UiEvent`s; [uiEvents] delivers them to the UI, respecting both identity- and type-based throttling.
  * - **Coroutines:**
- *   Prefer [launch] for standard jobs and [launchSingle] for "latest wins" behavior (see [SingleLauncher]).
+ *   Prefer [launch] for standard jobs.
  *   Both inherit the ViewModel's [mainCoroutineCtx], which includes error logging and dispatcher.
  *
  * ## Implementation Notes
@@ -101,7 +100,6 @@ abstract class BaseActionHandleViewModel<VD>(
     val viewDataState: StateFlow<VD> get() = _viewData
     override val viewData: VD
         get() = _viewData.value
-
 
     /**
      * Centralized method for updating ViewData.

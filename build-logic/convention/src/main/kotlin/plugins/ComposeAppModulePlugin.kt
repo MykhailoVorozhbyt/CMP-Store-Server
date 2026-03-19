@@ -23,12 +23,13 @@ class ComposeAppModulePlugin : Plugin<Project> {
         applyPlugins {
             listOf(
                 libs.plugin(PluginName.STORE_KOTLIN_MULTIPLATFORM.pName).pluginId,
-                libs.plugin(PluginName.STORE_COMPOSE_MULTIPLATFORM.pName).pluginId
+                libs.plugin(PluginName.STORE_COMPOSE_MULTIPLATFORM.pName).pluginId,
+                libs.plugin(PluginName.KSP.pName).pluginId,
             )
         }
         kotlinMultiplatformExtension {
             configureAndroidLibraryBase(ModuleName.APP.mName)
-            configureIOS(library(LibraryName.KMP_NOTIFIER))
+            configureIOS()
             jvm()
 
             sourceSets {
@@ -61,8 +62,6 @@ class ComposeAppModulePlugin : Plugin<Project> {
                     implementation(project.dependencies.platform(library(LibraryName.FIREBASE_BOM)))
                     implementation(library(LibraryName.FIREBASE_APP))
                     implementation(library(LibraryName.KMPAUTH_GOOGLE))
-
-                    api(library(LibraryName.KMP_NOTIFIER))
                 }
                 commonTest.dependencies {
                     implementation(library(LibraryName.KOTLIN_TEST))

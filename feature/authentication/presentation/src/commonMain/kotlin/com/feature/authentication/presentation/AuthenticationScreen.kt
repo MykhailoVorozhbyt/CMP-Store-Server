@@ -33,7 +33,7 @@ fun AuthenticationScreen(
     viewModel: AuthenticationViewModel = koinViewModel(),
     navigateToHome: () -> Unit
 ) {
-    val viewData by viewModel.viewData.collectAsState()
+    val viewData by viewModel.viewDataState.collectAsState()
     val snackBarState = remember { StoreSnackbarHostState() }
 //    viewModel.collectEventsWithDefaultProcessing()
     AuthenticationContent(viewData, viewModel::onViewAction)

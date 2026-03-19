@@ -35,6 +35,7 @@ enum class LibraryName(val lName: String) {
     KOIN_COMPOSE("koin-compose"),
     KOIN_COMPOSE_VIEWMODEL("koin-compose-viewmodel"),
     KOIN_ANNOTATIONS("koin-annotations"),
+    KOIN_KSP_COMPILER("koin-ksp-compiler"),
     KOIN_TEST("koin-test"),
 
     JETBRAINS_NAVIGATION_3_UI("jetbrains-navigation3-ui"),
@@ -54,7 +55,6 @@ enum class LibraryName(val lName: String) {
     KMPAUTH_GOOGLE("kmpauth-google"),
     KMPAUTH_FIREBASE("kmpauth-firebase"),
     KMPAUTH_FIREBASE_FACEBOOK("kmpauth-firebase-facebook"),
-    KMP_NOTIFIER("kmp-notifier"),
 
     FIREBASE_BOM("firebase-bom"),
     FIREBASE_APP("firebase-app"),

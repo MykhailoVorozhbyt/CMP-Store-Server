@@ -47,7 +47,6 @@ class CorePresentationModulePlugin : Plugin<Project> {
                     implementation(library(LibraryName.ANDROIDX_LIFECYCLE_VIEWMODEL_COMPOSE))
 
                     implementation(library(LibraryName.KOIN_COMPOSE))
-                    implementation(library(LibraryName.KOIN_ANNOTATIONS))
                 }
             }
         }
