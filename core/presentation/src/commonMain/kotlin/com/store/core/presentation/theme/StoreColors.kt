@@ -64,11 +64,11 @@ interface StoreColorsPalette {
     val category5: Color
 
     // Notification
-    val notificationSuccessBg: Color get() = Color(0xFFFFC83D)
+    val notificationSuccessBg: Color get() = surfaceBrand
     val notificationSuccessTxt: Color get() = Color(0xFFFFFFFF)
-    val notificationInfoBg: Color get() = Color(0xFFFFC83D)
+    val notificationInfoBg: Color get() = surfaceBrand
     val notificationInfoTxt: Color get() = Color(0xFFFFFFFF)
-    val notificationErrorBg: Color get() = Color(0xFFFFC83D)
+    val notificationErrorBg: Color get() = surfaceError
     val notificationErrorTxt: Color get() = Color(0xFFFFFFFF)
 
     fun getColorByAttr(attr: String): Color =

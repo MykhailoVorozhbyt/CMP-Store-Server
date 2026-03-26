@@ -85,13 +85,13 @@ import kotlin.time.Clock
  */
 abstract class BaseActionHandleViewModel<VD>(
     givenMainCtx: CoroutineContext,
-    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val timeProvided: () -> Long = { Clock.System.now().epochSeconds }
+    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel(), ActionHandlerContext, UiEventSource, ActionHandlerScope<VD> {
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         logError(throwable)
     }
+    private val timeProvided: () -> Long = { Clock.System.now().epochSeconds }
 
     final override val mainCoroutineCtx: CoroutineContext = exceptionHandler + givenMainCtx
     final override val ioContext: CoroutineContext = mainCoroutineCtx + ioDispatcher

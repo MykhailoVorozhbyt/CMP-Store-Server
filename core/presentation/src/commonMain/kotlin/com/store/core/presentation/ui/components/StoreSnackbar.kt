@@ -49,7 +49,7 @@ fun StoreSnackbar(
         SnackbarHost(
             hostState = snackBarHostState,
             modifier = snackbarHostModifier
-        ) { snackbarData ->
+        ) { data ->
             Row(
                 modifier = Modifier
                     .background(color = StoreTheme.color.getColorByAttr(notificationType.bgColorAttr))
@@ -65,7 +65,7 @@ fun StoreSnackbar(
                     tint = StoreTheme.color.getColorByAttr(notificationType.tintColorAttr)
                 )
                 Text(
-                    text = snackbarData.visuals.message,
+                    text = data.visuals.message,
                     style = StoreTheme.typography.bold.copy(
                         fontSize = 12.sp,
                         color = StoreTheme.color.getColorByAttr(notificationType.tintColorAttr)
@@ -84,10 +84,7 @@ class StoreSnackbarHostState {
     private val _notificationType = mutableStateOf(NotificationType.INFO)
     val notificationType: NotificationType get() = _notificationType.value
 
-    suspend fun show(
-        message: MessageEventData,
-        duration: SnackbarDuration = SnackbarDuration.Short
-    ) {
+    suspend fun show(message: MessageEventData, duration: SnackbarDuration = SnackbarDuration.Short) {
         _notificationType.value = message.type
         snackBarHostState.showSnackbar(
             message = message.message,

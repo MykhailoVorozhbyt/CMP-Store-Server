@@ -76,7 +76,7 @@ private val nutriSportDarkColorsPalette = object : StoreColorsPalette {
 
     // Text
     override val textPrimary: Color = Color(0xFF000000)
-    override val textSecondary: Color = Color(0xFF9E9E9E)
+    override val textSecondary: Color = Color(0xFFF24C00)
     override val textWhite: Color = Color(0xFFFFFFFF)
     override val textBrand: Color = Color(0xFFE6FF00)
 

@@ -35,6 +35,8 @@ class DiModulePlugin : Plugin<Project> {
                 commonMain.dependencies {
                     implementation(project(ModulePath.SHARED.path))
                     implementation(project(ModulePath.CORE_PRESENTATION.path))
+                    implementation(project(ModulePath.FEATURE_AUTHENTICATION_DATA.path))
+                    implementation(project(ModulePath.FEATURE_AUTHENTICATION_DOMAIN.path))
                     implementation(project(ModulePath.FEATURE_AUTHENTICATION_PRESENTATION.path))
 
                     implementation(library(LibraryName.KOIN_CORE))

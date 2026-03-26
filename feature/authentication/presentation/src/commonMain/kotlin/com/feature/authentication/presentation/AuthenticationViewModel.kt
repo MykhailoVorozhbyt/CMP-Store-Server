@@ -25,43 +25,45 @@ class AuthenticationViewModel(
 
     override suspend fun handleViewAction(action: ViewAction) {
         when (action) {
-            SocialMediaViewAction.OnGoogleClick -> {
-                viewModelScope.launch {
-                    setGoogleLoading(true)
-                    delay(5000L)
-                    setGoogleLoading(false)
-                }
-            }
-
-            is SocialMediaViewAction.OnGoogleSignInFailure -> {
-                val message = action.exception.message
-                Logger.i("OnGoogleSignInFailure: ${action.exception}")
-                if (message?.contains("A network error") == true) {
-//                    messageBarState.addError("Internet connection unavailable.")
-                } else if (message?.contains("Idtoken is null") == true) {
-//                    messageBarState.addError("Sign in canceled.")
-                } else {
-//                    messageBarState.addError(message?: "Unknown")
-                }
-                setGoogleLoading(false)
-            }
-
-            is SocialMediaViewAction.OnGoogleSignInSuccess -> {
-                Logger.i("OnGoogleSignInSuccess: ${action.user}")
-//                    viewModel.createCustomer(
-//                        user = user,
-//                        onSuccess = {
-//                            scope.launch {
-//                                messageBarState.addSuccess("Authentication successful!")
-//                                delay(2000)
-//                                navigateToHome()
-//                            }
-//                        },
-//                        onError = { message -> messageBarState.addError(message) }
-//                    )
-                setGoogleLoading(false)
-            }
+            SocialMediaViewAction.OnGoogleClick -> handleGoogleClick()
+            is SocialMediaViewAction.OnGoogleSignInFailure -> handleGoogleSignInFailure(action)
+            is SocialMediaViewAction.OnGoogleSignInSuccess -> handleGoogleSignInSuccess(action)
         }
+    }
+
+    private fun handleGoogleClick() {
+        viewModelScope.launch {
+            setGoogleLoading(true)
+            delay(5000L)
+            setGoogleLoading(false)
+        }
+    }
+
+    private fun handleGoogleSignInSuccess(action: SocialMediaViewAction.OnGoogleSignInSuccess) {
+        Logger.i("OnGoogleSignInSuccess: ${action.user}")
+//        createCustomer(
+//            user = user,
+//            onSuccess = {
+//                scope.launch {
+//                    showSuccess("Authentication successful!")
+//                    delay(2000)
+////                    navigateToHome()
+//                }
+//            },
+//            onError = { message -> messageBarState.addError(message) }
+//        )
+        setGoogleLoading(false)
+    }
+
+    private fun handleGoogleSignInFailure(action: SocialMediaViewAction.OnGoogleSignInFailure) {
+        val message = action.exception.message
+        Logger.i("OnGoogleSignInFailure: ${action.exception}")
+        when {
+            message?.contains("A network error") == true -> showError("Internet connection unavailable.")
+            message?.contains("Idtoken is null") == true -> showError("Sign in canceled.")
+            else -> showError(message ?: "Unknown")
+        }
+        setGoogleLoading(false)
     }
 
     private fun setGoogleLoading(isLoading: Boolean) {

@@ -16,7 +16,6 @@ interface UiEventEmitter {
         emitEvent(UiEvent.ShowMessage(MessageEventData.Base(message, type)))
     }
 
-    fun showSnackBar(message: String, type: NotificationType) = showMessage(message, type)
     fun showSuccess(message: String) = showMessage(message, NotificationType.SUCCESS)
     fun showError(message: String) = showMessage(message, NotificationType.ERROR)
     fun showInfo(message: String) = showMessage(message, NotificationType.INFO)
