@@ -60,7 +60,6 @@ class FeatureAuthenticationPresentationModulePlugin : FeatureAuthenticationModul
                     implementation(library(LibraryName.KOIN_COMPOSE))
                     implementation(library(LibraryName.KOIN_COMPOSE_VIEWMODEL))
 
-                    implementation(project.dependencies.platform(library(LibraryName.FIREBASE_BOM)))
                     implementation(library(LibraryName.KMPAUTH_GOOGLE))
                 }
             }
@@ -89,6 +88,7 @@ abstract class FeatureAuthenticationModulePlugin : Plugin<Project> {
                     implementation(library(LibraryName.ANDROIDX_LIFECYCLE_VIEWMODEL_COMPOSE))
                     implementation(library(LibraryName.ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE))
 
+                    implementation(project.dependencies.platform(library(LibraryName.FIREBASE_BOM)))
                     implementation(library(LibraryName.KMPAUTH_FIREBASE))
                 }
             }
