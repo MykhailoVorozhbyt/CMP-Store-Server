@@ -2,10 +2,11 @@ package com.feature.authentication.domain.usecases
 
 import com.feature.authentication.domain.repository.CustomerRepository
 import dev.gitlive.firebase.auth.FirebaseUser
+import org.cmp.store.domain.customer.Customer
 
-class CreateCustomerUseCase(
+class UpdateCustomerUseCase(
     private val repository: CustomerRepository
 ) {
-    suspend operator fun invoke(user: FirebaseUser?): Result<Unit> =
-        repository.createCustomer(user)
+    suspend operator fun invoke(customer: Customer): Result<Unit> =
+        repository.updateCustomer(customer)
 }

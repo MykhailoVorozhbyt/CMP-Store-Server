@@ -12,6 +12,7 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
 import com.feature.authentication.presentation.AuthenticationScreen
+import com.feature.authentication.presentation.HomeScreen
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import org.cmp.store.navigation.Screen
@@ -52,12 +53,11 @@ fun SetupNavGraph(modifier: Modifier = Modifier) {
             entry<Screen.Auth> {
                 AuthenticationScreen(navigateToHome = {
                     backStack.remove(it)
-                    backStack.add(Screen.Auth)
+                    backStack.add(Screen.HomeGraph)
                 })
             }
             entry<Screen.HomeGraph> {
-                Box(Modifier.fillMaxSize()) {
-                }
+                HomeScreen()
             }
         }
     )

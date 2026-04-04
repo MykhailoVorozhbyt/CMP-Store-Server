@@ -20,6 +20,28 @@ class FeatureAuthenticationDataModulePlugin : FeatureAuthenticationModulePlugin(
     override val moduleName: ModuleName
         get() = ModuleName.AUTHENTICATION_DATA
 
+    override fun apply(target: Project): Unit = with(target) project@{
+        super.apply(target)
+        kotlinMultiplatformExtension {
+            sourceSets {
+                commonMain.dependencies {
+                    implementation(project(ModulePath.FEATURE_AUTHENTICATION_DOMAIN.path))
+                    implementation(library(LibraryName.KTOR_CLIENT_CORE))
+                    implementation(library(LibraryName.KTOR_CLIENT_CONTENT_NEGOTIATION))
+                    implementation(library(LibraryName.KTOR_SERIALIZATION_KOTLINX_JSON))
+                }
+                androidMain.dependencies {
+                    implementation(library(LibraryName.KTOR_CLIENT_OKHTTP))
+                }
+                iosMain.dependencies {
+                    implementation(library(LibraryName.KTOR_CLIENT_DARWIN))
+                }
+                jvmMain.dependencies {
+                    implementation(library(LibraryName.KTOR_CLIENT_OKHTTP))
+                }
+            }
+        }
+    }
 }
 
 class FeatureAuthenticationDomainModulePlugin : FeatureAuthenticationModulePlugin() {
@@ -48,6 +70,7 @@ class FeatureAuthenticationPresentationModulePlugin : FeatureAuthenticationModul
                     implementation(project(ModulePath.CORE_RESOURCES.path))
                     implementation(project(ModulePath.CORE_PRESENTATION.path))
                     implementation(project(ModulePath.CORE_UTILS.path))
+                    implementation(project(ModulePath.FEATURE_AUTHENTICATION_DOMAIN.path))
 
                     implementation(library(LibraryName.COMPOSE_UI))
                     implementation(library(LibraryName.COMPOSE_RUNTIME))

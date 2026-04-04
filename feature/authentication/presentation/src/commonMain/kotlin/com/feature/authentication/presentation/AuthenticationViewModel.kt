@@ -1,7 +1,9 @@
 package com.feature.authentication.presentation
 
 import androidx.lifecycle.viewModelScope
+import com.feature.authentication.domain.usecases.CreateCustomerUseCase
 import com.feature.authentication.presentation.social_media.SocialMediaViewAction
+import com.feature.authentication.presentation.view_data.AuthenticationViewAction
 import com.feature.authentication.presentation.view_data.AuthenticationViewData
 import com.store.core.presentation.core.di.coroutines.IoDispatcher
 import com.store.core.presentation.core.di.coroutines.MainDispatcher
@@ -16,6 +18,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class AuthenticationViewModel(
+    private val useCase: CreateCustomerUseCase,
     @MainDispatcher mainDispatcher: CoroutineDispatcher,
     @IoDispatcher ioDispatcher: CoroutineDispatcher,
 ) : BaseActionHandleViewModel<AuthenticationViewData>(
@@ -34,36 +37,37 @@ class AuthenticationViewModel(
     private fun handleGoogleClick() {
         viewModelScope.launch {
             setGoogleLoading(true)
-            delay(5000L)
-            setGoogleLoading(false)
         }
     }
 
     private fun handleGoogleSignInSuccess(action: SocialMediaViewAction.OnGoogleSignInSuccess) {
         Logger.i("OnGoogleSignInSuccess: ${action.user}")
-//        createCustomer(
-//            user = user,
-//            onSuccess = {
-//                scope.launch {
-//                    showSuccess("Authentication successful!")
-//                    delay(2000)
-////                    navigateToHome()
-//                }
-//            },
-//            onError = { message -> messageBarState.addError(message) }
-//        )
-        setGoogleLoading(false)
+        viewModelScope.launch {
+            useCase.invoke(action.user)
+                .onSuccess {
+                    Logger.i("createCustomer: $it")
+                    showSuccess("Authentication successful!")
+                    delay(1000)
+                    emitEvent(AuthenticationViewAction.ToMainScreen)
+                }
+                .onFailure {
+                    Logger.i("createCustomer: ${it.message}")
+                    showError(it.message ?: "Unknown")
+                }.also {
+                    setGoogleLoading(false)
+                }
+        }
     }
 
     private fun handleGoogleSignInFailure(action: SocialMediaViewAction.OnGoogleSignInFailure) {
         val message = action.exception.message
         Logger.i("OnGoogleSignInFailure: ${action.exception}")
+        setGoogleLoading(false)
         when {
             message?.contains("A network error") == true -> showError("Internet connection unavailable.")
             message?.contains("Idtoken is null") == true -> showError("Sign in canceled.")
             else -> showError(message ?: "Unknown")
         }
-        setGoogleLoading(false)
     }
 
     private fun setGoogleLoading(isLoading: Boolean) {

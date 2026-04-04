@@ -28,6 +28,13 @@ enum class LibraryName(val lName: String) {
     KTOR_SERVER_CORE("ktor-serverCore"),
     KTOR_SERVER_NETTY("ktor-serverNetty"),
     KTOR_SERVER_TEST_HOST("ktor-serverTestHost"),
+    KTOR_SERVER_CONTENT_NEGOTIATION("ktor-serverContentNegotiation"),
+    KTOR_SERIALIZATION_KOTLINX_JSON("ktor-serializationKotlinxJson"),
+    KTOR_CLIENT_CORE("ktor-clientCore"),
+    KTOR_CLIENT_CONTENT_NEGOTIATION("ktor-clientContentNegotiation"),
+    KTOR_CLIENT_OKHTTP("ktor-clientOkHttp"),
+    KTOR_CLIENT_DARWIN("ktor-clientDarwin"),
+    KTOR_CLIENT_LOGGING("ktor-clientLogging"),
 
     KOIN_CORE("koin-core"),
     KOIN_BOM("io.insert-koin:koin-bom:4.2.0"),
