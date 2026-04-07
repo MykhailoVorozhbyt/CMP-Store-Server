@@ -8,17 +8,21 @@ import org.cmp.store.domain.customer.Customer
 class CustomerApi(private val client: HttpClient) {
 
     suspend fun createCustomer(customer: Customer) {
-        client.post("customer") {
+        client.post(CUSTOMER) {
             setBody(customer)
         }
     }
 
     suspend fun getCustomer(id: String): Customer =
-        client.get("customer/$id").body()
+        client.get("$CUSTOMER/$id").body()
 
     suspend fun updateCustomer(customer: Customer) {
-        client.put("customer") {
+        client.put(CUSTOMER) {
             setBody(customer)
         }
+    }
+
+    companion object {
+        private const val CUSTOMER = "customer"
     }
 }

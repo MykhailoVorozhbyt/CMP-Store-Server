@@ -29,6 +29,8 @@ firebase = "2.4.0"
 firebase-bom = "34.10.0"
 google = "4.4.4"
 ksp = "2.3.2"
+exposed = "0.54.0"
+sqlite-jdbc = "3.45.3.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -88,6 +90,11 @@ kmpauth-firebase = { module = "io.github.mirzemehdi:kmpauth-firebase", version.r
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-app = { module = "dev.gitlive:firebase-app", version.ref = "firebase" }
 firebase-common = { module = "dev.gitlive:firebase-common", version.ref = "firebase" }
+
+exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
+exposed-dao = { module = "org.jetbrains.exposed:exposed-dao", version.ref = "exposed" }
+exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }
+sqlite-jdbc = { module = "org.xerial:sqlite-jdbc", version.ref = "sqlite-jdbc" }
 
 # Build logic dependencies
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }

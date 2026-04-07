@@ -8,6 +8,7 @@ import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.serialization.json.Json
+import org.cmp.store.database.DatabaseFactory
 import org.cmp.store.routes.customerRoutes
 
 fun main() {
@@ -20,6 +21,7 @@ fun main() {
 }
 
 fun Application.module() {
+    DatabaseFactory.init()
     install(ContentNegotiation) {
         json(Json { ignoreUnknownKeys = true })
     }
