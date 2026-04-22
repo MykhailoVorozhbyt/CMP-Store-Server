@@ -65,6 +65,7 @@ koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
+koin-compose-navigation3 = { module = "io.insert-koin:koin-compose-navigation3", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 #koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "koin" }
 #koin-ksp-compiler = { module = "io.insert-koin:koin-ksp-compiler", version.ref = "koin" }

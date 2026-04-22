@@ -17,7 +17,7 @@ interface UiEventEmitter {
     }
 
     fun showSuccess(message: String) = showMessage(message, NotificationType.SUCCESS)
-    fun showError(message: String) = showMessage(message, NotificationType.ERROR)
+    fun showError(message: String?) = showMessage(message ?: "Unknown error", NotificationType.ERROR)
     fun showInfo(message: String) = showMessage(message, NotificationType.INFO)
 }
 

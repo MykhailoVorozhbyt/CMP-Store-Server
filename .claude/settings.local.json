@@ -1,3 +1,9 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(xargs grep *)",
+      "WebFetch(domain:raw.githubusercontent.com)"
+    ]
+  },
   "outputStyle": "Learning"
 }

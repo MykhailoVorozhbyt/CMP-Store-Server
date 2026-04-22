@@ -44,6 +44,8 @@ class CorePresentationModulePlugin : Plugin<Project> {
                     implementation(library(LibraryName.COMPOSE_COMPONENTS_RESOURCES))
                     implementation(library(LibraryName.COMPOSE_UI_TOOLING_PREVIEW))
 
+                    implementation(library(LibraryName.JETBRAINS_NAVIGATION_3_UI))
+
                     implementation(library(LibraryName.ANDROIDX_LIFECYCLE_VIEWMODEL_COMPOSE))
 
                     implementation(library(LibraryName.KOIN_COMPOSE))

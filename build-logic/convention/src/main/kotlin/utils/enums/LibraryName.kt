@@ -41,6 +41,7 @@ enum class LibraryName(val lName: String) {
     KOIN_ANDROID("koin-android"),
     KOIN_COMPOSE("koin-compose"),
     KOIN_COMPOSE_VIEWMODEL("koin-compose-viewmodel"),
+    KOIN_COMPOSE_NAVIGATION3("koin-compose-navigation3"),
     KOIN_ANNOTATIONS("koin-annotations"),
     KOIN_KSP_COMPILER("koin-ksp-compiler"),
     KOIN_TEST("koin-test"),

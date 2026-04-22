@@ -9,6 +9,10 @@ import com.store.core.presentation.core.di.coroutines.IoDispatcher
 import com.store.core.presentation.core.di.coroutines.MainDispatcher
 import com.store.core.presentation.core.viewmodel.BaseActionHandleViewModel
 import com.store.core.presentation.ui.ViewAction
+import com.store.core.resources.Res
+import com.store.core.resources.authentication_successful
+import com.store.core.resources.internet_connection_unavailable
+import com.store.core.resources.sign_in_canceled
 import com.store.core.utils.Logger
 import com.store.core.utils.i
 import kotlinx.coroutines.CoroutineDispatcher
@@ -16,6 +20,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
 
 class AuthenticationViewModel(
     private val useCase: CreateCustomerUseCase,
@@ -46,27 +51,27 @@ class AuthenticationViewModel(
             useCase.invoke(action.user)
                 .onSuccess {
                     Logger.i("createCustomer: $it")
-                    showSuccess("Authentication successful!")
+                    showSuccess(getString(Res.string.authentication_successful))
                     delay(1000)
                     emitEvent(AuthenticationViewAction.ToMainScreen)
                 }
                 .onFailure {
                     Logger.i("createCustomer: ${it.message}")
-                    showError(it.message ?: "Unknown")
+                    showError(it.message)
                 }.also {
                     setGoogleLoading(false)
                 }
         }
     }
 
-    private fun handleGoogleSignInFailure(action: SocialMediaViewAction.OnGoogleSignInFailure) {
+    private suspend fun handleGoogleSignInFailure(action: SocialMediaViewAction.OnGoogleSignInFailure) {
         val message = action.exception.message
         Logger.i("OnGoogleSignInFailure: ${action.exception}")
         setGoogleLoading(false)
         when {
-            message?.contains("A network error") == true -> showError("Internet connection unavailable.")
-            message?.contains("Idtoken is null") == true -> showError("Sign in canceled.")
-            else -> showError(message ?: "Unknown")
+            message?.contains(A_NETWORK_ERROR) == true -> showError(getString(Res.string.internet_connection_unavailable))
+            message?.contains(ID_TOKEN_IS_NULL) == true -> showError(getString(Res.string.sign_in_canceled))
+            else -> showError(message)
         }
     }
 
@@ -78,6 +83,11 @@ class AuthenticationViewModel(
                 )
             )
         }
+    }
+
+    companion object {
+        private const val A_NETWORK_ERROR = "A network error"
+        private const val ID_TOKEN_IS_NULL = "Idtoken is null"
     }
 
 }

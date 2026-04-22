@@ -3,4 +3,8 @@
     <string name="sign_in_text">Sign in to continue</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="please_wait">Please wait...</string>
+    <string name="authentication_successful">Authentication successful!</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="internet_connection_unavailable">Internet connection unavailable.</string>
+    <string name="sign_in_canceled">Sign in canceled.</string>
 </resources>

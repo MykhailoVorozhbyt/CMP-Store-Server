@@ -41,6 +41,8 @@ class DiModulePlugin : Plugin<Project> {
 
                     implementation(library(LibraryName.KOIN_CORE))
                     implementation(library(LibraryName.KOIN_COMPOSE_VIEWMODEL))
+                    implementation(library(LibraryName.KOIN_COMPOSE_NAVIGATION3))
+                    implementation(library(LibraryName.JETBRAINS_NAVIGATION_3_UI))
                     implementation(library(LibraryName.KTOR_CLIENT_CORE))
                 }
                 commonTest.dependencies {
