@@ -2,6 +2,7 @@ package org.cmp.store
 
 import android.app.Application
 import com.store.di.initializeKoin
+import org.cmp.store.di.appViewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.Module
 
@@ -15,7 +16,7 @@ open class StoreApp(
             config = {
                 androidContext(this@StoreApp)
             },
-            appModules = appModules
+            appModules =  arrayOf(*appModules, appViewModelModule)
         )
     }
 }

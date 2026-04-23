@@ -1,17 +1,16 @@
 package org.cmp.store
 
-import io.ktor.serialization.kotlinx.json.*
-import io.ktor.server.application.*
-import io.ktor.server.engine.*
-import io.ktor.server.netty.*
-import io.ktor.server.plugins.contentnegotiation.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
-import kotlinx.serialization.json.Json
+import io.ktor.server.application.Application
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.netty.Netty
+import io.ktor.server.routing.routing
 import org.cmp.store.database.DatabaseFactory
+import org.cmp.store.plugins.configureRouting
+import org.cmp.store.plugins.configureSerialization
 import org.cmp.store.routes.customerRoutes
 
 fun main() {
+    DatabaseFactory.init()
     embeddedServer(
         factory = Netty,
         port = SERVER_PORT,
@@ -21,14 +20,9 @@ fun main() {
 }
 
 fun Application.module() {
-    DatabaseFactory.init()
-    install(ContentNegotiation) {
-        json(Json { ignoreUnknownKeys = true })
-    }
+    configureSerialization()
     routing {
-        get("/") {
-            call.respondText("Ktor: ${Greeting().greet()}")
-        }
+        configureRouting()
         customerRoutes()
     }
 }

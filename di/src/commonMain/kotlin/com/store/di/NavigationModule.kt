@@ -2,17 +2,17 @@ package com.store.di
 
 import com.feature.authentication.presentation.AuthenticationScreen
 import com.feature.authentication.presentation.HomeScreen
+import com.store.core.navigation.navEntry
 import com.store.core.presentation.navigation.Navigator
 import org.cmp.store.navigation.Screen
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.dsl.module
-import org.koin.dsl.navigation3.navigation
 
 @OptIn(KoinExperimentalAPI::class)
 val navigationModule = module {
-    single { Navigator(startDestination = Screen.Auth) }
+    single { Navigator() }
 
-    navigation<Screen.Auth> {
+    navEntry(Screen.Auth.serializer()) {
         val navigator = get<Navigator>()
         AuthenticationScreen(
             navigateToHome = {
@@ -21,7 +21,7 @@ val navigationModule = module {
             }
         )
     }
-    navigation<Screen.HomeGraph> {
+    navEntry(Screen.HomeGraph.serializer()) {
         HomeScreen()
     }
 }
