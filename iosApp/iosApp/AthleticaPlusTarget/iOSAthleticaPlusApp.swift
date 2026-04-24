@@ -1,14 +1,22 @@
 import UIKit
 import SwiftUI
 import StoresAthletica_plus
+import GoogleSignIn
 
 @main
 struct iOSAthleticaPlusApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
     var body: some Scene {
-        WindowGroup {
-            ContentView()
+            WindowGroup {
+                ContentView()
+                    .ignoresSafeArea()
+                    .onOpenURL { url in
+                        print("Received URL in onOpenURL: \(url)")
+                        if GIDSignIn.sharedInstance.handle(url) { return }
+                    }
+            }
         }
-    }
 }
 
 

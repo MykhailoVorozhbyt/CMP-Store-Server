@@ -29,7 +29,7 @@ class CoreResourcesModulePlugin : Plugin<Project> {
             )
         }
         kotlinMultiplatformExtension {
-            configureAndroidLibraryBase(ModuleName.RESOURCES.mName)
+            configureAndroidLibraryBase(ModuleName.CORE_RESOURCES.mName)
             androidLibrary {
                 androidResources.enable = true
             }
@@ -39,9 +39,6 @@ class CoreResourcesModulePlugin : Plugin<Project> {
             sourceSets {
                 androidMain.dependencies {
                     implementation(library(LibraryName.ANDROIDX_ACTIVITY_COMPOSE))
-                }
-                commonMain {
-                    resources.srcDir("src/commonMain/composeResources")
                 }
                 commonMain.dependencies {
                     implementation(library(LibraryName.COMPOSE_RUNTIME))

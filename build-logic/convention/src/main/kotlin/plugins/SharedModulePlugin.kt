@@ -22,6 +22,7 @@ class SharedModulePlugin : Plugin<Project> {
                 libs.plugin(PluginName.STORE_KOTLIN_MULTIPLATFORM.pName).pluginId,
                 libs.plugin(PluginName.COMPOSE_MULTIPLATFORM.pName).pluginId,
                 libs.plugin(PluginName.COMPOSE_COMPILER.pName).pluginId,
+                libs.plugin(PluginName.SERIALIZATION.pName).pluginId,
             )
         }
         kotlinMultiplatformExtension {
@@ -32,7 +33,7 @@ class SharedModulePlugin : Plugin<Project> {
             sourceSets {
                 androidMain.dependencies {
                     implementation(library(LibraryName.ANDROIDX_ACTIVITY_COMPOSE))
-                    implementation(library(LibraryName.KOIN_ANDROID))
+                    implementation(library(LibraryName.KTOR_CLIENT_OKHTTP))
                 }
                 commonMain.dependencies {
                     implementation(library(LibraryName.COMPOSE_RUNTIME))
@@ -40,6 +41,18 @@ class SharedModulePlugin : Plugin<Project> {
                     implementation(library(LibraryName.COMPOSE_MATERIAL_3))
                     implementation(library(LibraryName.KOIN_CORE))
                     implementation(library(LibraryName.KOIN_COMPOSE))
+                    implementation(library(LibraryName.JETBRAINS_NAVIGATION_3_UI))
+                    implementation(library(LibraryName.KOTLINX_SERIALIZATION_JSON))
+                    implementation(library(LibraryName.KTOR_CLIENT_CORE))
+                    implementation(library(LibraryName.KTOR_CLIENT_CONTENT_NEGOTIATION))
+                    implementation(library(LibraryName.KTOR_CLIENT_LOGGING))
+                    implementation(library(LibraryName.KTOR_SERIALIZATION_KOTLINX_JSON))
+                }
+                iosMain.dependencies {
+                    implementation(library(LibraryName.KTOR_CLIENT_DARWIN))
+                }
+                jvmMain.dependencies {
+                    implementation(library(LibraryName.KTOR_CLIENT_OKHTTP))
                 }
                 commonTest.dependencies {
                     implementation(library(LibraryName.KOTLIN_TEST))

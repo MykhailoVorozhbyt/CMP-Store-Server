@@ -1,9 +1,8 @@
 package plugins.stores
 
-import configuration.configureDesktopApplication
 import configuration.configureAndroidBase
 import configuration.configureCompileOptions
-import configuration.configureFlavors
+import configuration.configureDesktopApplication
 import configuration.configureIOS
 import extensions.applyPlugins
 import extensions.baseAppModuleExtension
@@ -11,7 +10,6 @@ import extensions.composeDep
 import extensions.getAndroidSdkVersions
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
-import extensions.moduleName
 import extensions.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -56,6 +54,7 @@ abstract class StoreModulePlugin : Plugin<Project> {
                 libs.plugin(PluginName.ANDROID_APPLICATION.pName).pluginId,
                 libs.plugin(PluginName.KOTLIN_MULTIPLATFORM.pName).pluginId,
                 libs.plugin(PluginName.STORE_COMPOSE_MULTIPLATFORM.pName).pluginId,
+                libs.plugin(PluginName.GOOGLE_SERVICES.pName).pluginId
             )
         }
         kotlinMultiplatformExtension {
@@ -71,13 +70,17 @@ abstract class StoreModulePlugin : Plugin<Project> {
                 androidMain.dependencies {
                     implementation(library(LibraryName.COMPOSE_UI_TOOLING))
                     implementation(library(LibraryName.ANDROIDX_ACTIVITY_COMPOSE))
-                    implementation(library(LibraryName.KOIN_ANDROID))
                 }
                 commonMain.dependencies {
                     implementation(project(ModulePath.COMPOSE_APP.path))
                     implementation(project(ModulePath.CORE_PRESENTATION.path))
+                    implementation(library(LibraryName.COMPOSE_COMPONENTS_RESOURCES))
                     implementation(library(LibraryName.COMPOSE_UI_TOOLING_PREVIEW))
                     implementation(library(LibraryName.KOIN_CORE))
+                    implementation(library(LibraryName.KOIN_COMPOSE))
+
+                    implementation(library(LibraryName.FIREBASE_APP))
+                    implementation(library(LibraryName.KMPAUTH_GOOGLE))
                 }
                 jvmMain.dependencies {
                     implementation(composeDep.desktop.currentOs)
@@ -113,23 +116,22 @@ abstract class StoreModulePlugin : Plugin<Project> {
                     isMinifyEnabled = providers.gradleProperty("minifyWithR8")
                         .map(String::toBooleanStrict).getOrElse(true)
                     isShrinkResources = true
-                    isDebuggable = false
+                    //todo: for test
+                    isDebuggable = true
                     proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
                 }
                 debug {
                     isMinifyEnabled = false
                     isShrinkResources = false
                     isDebuggable = true
-                    applicationIdSuffix = ".debug"
                     proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
                 }
             }
-            configureFlavors(this)
+//            configureFlavors(this)
             packaging {
                 resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
             }
             configureCompileOptions()
         }
     }
-
 }

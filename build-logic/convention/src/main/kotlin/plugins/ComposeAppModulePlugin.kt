@@ -24,6 +24,7 @@ class ComposeAppModulePlugin : Plugin<Project> {
             listOf(
                 libs.plugin(PluginName.STORE_KOTLIN_MULTIPLATFORM.pName).pluginId,
                 libs.plugin(PluginName.STORE_COMPOSE_MULTIPLATFORM.pName).pluginId,
+                libs.plugin(PluginName.KSP.pName).pluginId,
             )
         }
         kotlinMultiplatformExtension {
@@ -35,10 +36,9 @@ class ComposeAppModulePlugin : Plugin<Project> {
                 androidMain.dependencies {
                     implementation(library(LibraryName.COMPOSE_UI_TOOLING))
                     implementation(library(LibraryName.ANDROIDX_ACTIVITY_COMPOSE))
-                    implementation(library(LibraryName.KOIN_ANDROID))
                     implementation(library(LibraryName.ANDROIDX_CORE_SPLASHSCREEN))
-                    implementation(library(LibraryName.ANDROIDX_CUSTOMVIEW_CUSTOMVIEW))
-                    implementation(library(LibraryName.ANDROIDX_CUSTOMVIEW_CUSTOMVIEW_POOLINGCONTAINER))
+                    implementation(library(LibraryName.ANDROIDX_CUSTOMVIEW))
+                    implementation(library(LibraryName.ANDROIDX_CUSTOMVIEW_POOLINGCONTAINER))
                     implementation(library(LibraryName.ANDROIDX_EMOJI_2))
                 }
                 commonMain.dependencies {
@@ -47,17 +47,26 @@ class ComposeAppModulePlugin : Plugin<Project> {
                     implementation(project(ModulePath.CORE_PRESENTATION.path))
                     implementation(project(ModulePath.CORE_UTILS.path))
                     implementation(project(ModulePath.CORE_RESOURCES.path))
+                    implementation(project(ModulePath.CORE_NAVIGATION.path))
+                    implementation(project(ModulePath.FEATURE_AUTHENTICATION_DOMAIN.path))
+
                     implementation(library(LibraryName.COMPOSE_UI))
                     implementation(library(LibraryName.COMPOSE_RUNTIME))
                     implementation(library(LibraryName.COMPOSE_FOUNDATION))
                     implementation(library(LibraryName.COMPOSE_MATERIAL_3))
                     implementation(library(LibraryName.COMPOSE_UI_TOOLING_PREVIEW))
                     implementation(library(LibraryName.COMPOSE_COMPONENTS_RESOURCES))
-                    implementation(library(LibraryName.ANDROIDX_LIFECYCLE_VIEWMODEL_COMPOSE))
-                    implementation(library(LibraryName.ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE))
-                    implementation(library(LibraryName.KOIN_COMPOSE))
-                }
 
+                    implementation(library(LibraryName.JETBRAINS_NAVIGATION_3_UI))
+
+                    implementation(library(LibraryName.KOIN_CORE))
+                    implementation(library(LibraryName.KOIN_COMPOSE))
+                    implementation(library(LibraryName.KOIN_COMPOSE_VIEWMODEL))
+
+                    implementation(project.dependencies.platform(library(LibraryName.FIREBASE_BOM)))
+                    implementation(library(LibraryName.FIREBASE_APP))
+                    implementation(library(LibraryName.KMPAUTH_GOOGLE))
+                }
                 commonTest.dependencies {
                     implementation(library(LibraryName.KOTLIN_TEST))
                 }
@@ -67,6 +76,5 @@ class ComposeAppModulePlugin : Plugin<Project> {
                 }
             }
         }
-
     }
 }

@@ -8,7 +8,6 @@ import extensions.libs
 import extensions.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.internal.declarativedsl.intrinsics.listOf
 import org.gradle.kotlin.dsl.invoke
 import utils.enums.LibraryName
 import utils.enums.LibraryName.Companion.library
@@ -24,6 +23,8 @@ class DiModulePlugin : Plugin<Project> {
                 libs.plugin(PluginName.STORE_KOTLIN_MULTIPLATFORM.pName).pluginId,
                 libs.plugin(PluginName.COMPOSE_MULTIPLATFORM.pName).pluginId,
                 libs.plugin(PluginName.COMPOSE_COMPILER.pName).pluginId,
+                libs.plugin(PluginName.KOIN_COMPILER.pName).pluginId,
+                libs.plugin(PluginName.KSP.pName).pluginId,
             )
         }
         kotlinMultiplatformExtension {
@@ -31,15 +32,19 @@ class DiModulePlugin : Plugin<Project> {
             jvm()
 
             sourceSets {
-                androidMain.dependencies {
-                    implementation(library(LibraryName.KOIN_ANDROID))
-                }
                 commonMain.dependencies {
                     implementation(project(ModulePath.SHARED.path))
+                    implementation(project(ModulePath.CORE_PRESENTATION.path))
+                    implementation(project(ModulePath.CORE_NAVIGATION.path))
+                    implementation(project(ModulePath.FEATURE_AUTHENTICATION_DATA.path))
+                    implementation(project(ModulePath.FEATURE_AUTHENTICATION_DOMAIN.path))
+                    implementation(project(ModulePath.FEATURE_AUTHENTICATION_PRESENTATION.path))
 
                     implementation(library(LibraryName.KOIN_CORE))
-                    implementation(library(LibraryName.KOIN_COMPOSE))
                     implementation(library(LibraryName.KOIN_COMPOSE_VIEWMODEL))
+                    implementation(library(LibraryName.KOIN_COMPOSE_NAVIGATION3))
+                    implementation(library(LibraryName.JETBRAINS_NAVIGATION_3_UI))
+                    implementation(library(LibraryName.KTOR_CLIENT_CORE))
                 }
                 commonTest.dependencies {
                     implementation(library(LibraryName.KOIN_TEST))

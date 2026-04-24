@@ -25,6 +25,10 @@ object Resources {
         val Delete = Res.drawable.delete
         val Warning = Res.drawable.warning
         val Weight = Res.drawable.weight
+        val NotificationSuccess = Res.drawable.notification_success
+        val NotificationInfo = Res.drawable.notification_info
+        val NotificationError = Res.drawable.notification_error
+        val NotificationWarning = Res.drawable.warning
     }
 
     object Image {

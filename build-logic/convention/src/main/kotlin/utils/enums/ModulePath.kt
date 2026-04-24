@@ -8,4 +8,8 @@ enum class ModulePath(val path: String) {
     CORE_PRESENTATION(":core:presentation"),
     CORE_UTILS(":core:utils"),
     CORE_RESOURCES(":core:resources"),
+    CORE_NAVIGATION(":core:navigation"),
+    FEATURE_AUTHENTICATION_DATA(":feature:authentication:data"),
+    FEATURE_AUTHENTICATION_DOMAIN(":feature:authentication:domain"),
+    FEATURE_AUTHENTICATION_PRESENTATION(":feature:authentication:presentation"),
 }

@@ -35,12 +35,19 @@ class CorePresentationModulePlugin : Plugin<Project> {
                 commonMain.dependencies {
                     implementation(project(ModulePath.SHARED.path))
                     implementation(project(ModulePath.CORE_RESOURCES.path))
+                    implementation(project(ModulePath.CORE_UTILS.path))
+
                     implementation(library(LibraryName.COMPOSE_UI))
                     implementation(library(LibraryName.COMPOSE_RUNTIME))
                     implementation(library(LibraryName.COMPOSE_FOUNDATION))
                     implementation(library(LibraryName.COMPOSE_MATERIAL_3))
                     implementation(library(LibraryName.COMPOSE_COMPONENTS_RESOURCES))
                     implementation(library(LibraryName.COMPOSE_UI_TOOLING_PREVIEW))
+
+                    implementation(library(LibraryName.JETBRAINS_NAVIGATION_3_UI))
+
+                    implementation(library(LibraryName.ANDROIDX_LIFECYCLE_VIEWMODEL_COMPOSE))
+
                     implementation(library(LibraryName.KOIN_COMPOSE))
                 }
             }

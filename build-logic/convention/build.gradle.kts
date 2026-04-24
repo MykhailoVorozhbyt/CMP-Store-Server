@@ -8,8 +8,7 @@ dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.compose.gradlePlugin)
-    //TODO: for the future
-    //lintChecks(libs.androidx.lint.gradle)
+    compileOnly(libs.ksp.gradlePlugin)
 }
 
 tasks {
@@ -60,6 +59,24 @@ gradlePlugin {
         register("CoreResources") {
             id = libs.plugins.store.core.resources.get().pluginId
             implementationClass = "plugins.core.CoreResourcesModulePlugin"
+        }
+        register("CoreNavigation") {
+            id = libs.plugins.store.core.navigation.get().pluginId
+            implementationClass = "plugins.core.CoreNavigationModulePlugin"
+        }
+
+        //Futures
+        register("FeatureAuthenticationData") {
+            id = libs.plugins.store.feature.authentication.data.get().pluginId
+            implementationClass = "plugins.feature.FeatureAuthenticationDataModulePlugin"
+        }
+        register("FeatureAuthenticationDomain") {
+            id = libs.plugins.store.feature.authentication.domain.get().pluginId
+            implementationClass = "plugins.feature.FeatureAuthenticationDomainModulePlugin"
+        }
+        register("AuthenticationPresentation") {
+            id = libs.plugins.store.feature.authentication.presentation.get().pluginId
+            implementationClass = "plugins.feature.FeatureAuthenticationPresentationModulePlugin"
         }
 
         //DI

@@ -6,6 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		06CBFAC72F6BFD1800CC1384 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 06CBFAC62F6BFD1800CC1384 /* GoogleSignIn */; };
+		06CBFAC92F6BFD1E00CC1384 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 06CBFAC82F6BFD1E00CC1384 /* FirebaseAuth */; };
+		06CBFACB2F6BFD2800CC1384 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 06CBFACA2F6BFD2800CC1384 /* FirebaseAuth */; };
+		06CBFACD2F6BFD2B00CC1384 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 06CBFACC2F6BFD2B00CC1384 /* GoogleSignIn */; };
+		06CBFACF2F6BFD5500CC1384 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 06CBFACE2F6BFD5500CC1384 /* FirebaseMessaging */; };
+		06CBFAD12F6BFD5B00CC1384 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 06CBFAD02F6BFD5B00CC1384 /* FirebaseMessaging */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		06A6FCB32F33EA790034C758 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -38,6 +47,7 @@
 		062FDEFC2F311EED0063E9CD /* Exceptions for "iosApp" folder in "AthleticaPlusApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				"NutriSportTarget/GoogleService-Info.plist",
 				NutriSportTarget/iOSNutriSportApp.swift,
 				NutriSportTarget/NutriSportAssets.xcassets,
 				NutriSportTarget/NutriSportLaunchScreen.storyboard,
@@ -50,6 +60,7 @@
 			membershipExceptions = (
 				AthleticaPlusTarget/AthleticaPlusAssets.xcassets,
 				AthleticaPlusTarget/AthleticaPlusLaunchScreen.storyboard,
+				"AthleticaPlusTarget/GoogleService-Info.plist",
 				AthleticaPlusTarget/iOSAthleticaPlusApp.swift,
 				"Preview Content/Preview Assets.xcassets",
 			);
@@ -84,6 +95,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06CBFACF2F6BFD5500CC1384 /* FirebaseMessaging in Frameworks */,
+				06CBFACB2F6BFD2800CC1384 /* FirebaseAuth in Frameworks */,
+				06CBFACD2F6BFD2B00CC1384 /* GoogleSignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,12 +105,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06CBFAD12F6BFD5B00CC1384 /* FirebaseMessaging in Frameworks */,
+				06CBFAC72F6BFD1800CC1384 /* GoogleSignIn in Frameworks */,
+				06CBFAC92F6BFD1E00CC1384 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		06CBFAC52F6BFD1800CC1384 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		1C7D7D14A467A6A5996AD8BA = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +128,7 @@
 				21724612486B31B24F0105C1 /* iosApp */,
 				F8695CCB3C644C4A9437DF40 /* Products */,
 				062FDF3F2F3127710063E9CD /* conf */,
+				06CBFAC52F6BFD1800CC1384 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -139,6 +164,9 @@
 			);
 			name = AthleticaPlusApp;
 			packageProductDependencies = (
+				06CBFACA2F6BFD2800CC1384 /* FirebaseAuth */,
+				06CBFACC2F6BFD2B00CC1384 /* GoogleSignIn */,
+				06CBFACE2F6BFD5500CC1384 /* FirebaseMessaging */,
 			);
 			productName = iosApp;
 			productReference = 062FDEFB2F311EED0063E9CD /* AthleticaPlusApp.app */;
@@ -154,6 +182,7 @@
 				062FDF012F311EEE0063E9CD /* Frameworks */,
 				062FDF022F311EEE0063E9CD /* Resources */,
 				06A6FCB32F33EA790034C758 /* Embed Frameworks */,
+				06D99C8D2F6C94EE00C522AB /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -164,6 +193,9 @@
 			);
 			name = NutriSportApp;
 			packageProductDependencies = (
+				06CBFAC62F6BFD1800CC1384 /* GoogleSignIn */,
+				06CBFAC82F6BFD1E00CC1384 /* FirebaseAuth */,
+				06CBFAD02F6BFD5B00CC1384 /* FirebaseMessaging */,
 			);
 			productName = iosApp;
 			productReference = 062FDF062F311EEE0063E9CD /* NutriSportApp.app */;
@@ -188,6 +220,10 @@
 			);
 			mainGroup = 1C7D7D14A467A6A5996AD8BA;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				06CBFAC12F6BFBF100CC1384 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				06CBFAC42F6BFCEA00CC1384 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F8695CCB3C644C4A9437DF40 /* Products */;
 			projectDirPath = "";
@@ -292,6 +328,23 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n    echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n    exit 0\nfi\ncd \"$SRCROOT/..\"\n./gradlew :stores:nutri-sport:embedAndSignAppleFrameworkForXcode\n";
 		};
+		06D99C8D2F6C94EE00C522AB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -322,6 +375,9 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
 				DEVELOPMENT_TEAM = "${TEAM_ID}";
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../stores/athletica-plus/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -340,6 +396,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cmp.store.athletica-plus";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -374,6 +435,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cmp.store.athletica-plus";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -389,6 +454,9 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
 				DEVELOPMENT_TEAM = "${TEAM_ID}";
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../stores/nutri-sport/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -406,6 +474,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cmp.store.nutri-sport";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -438,6 +511,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cmp.store.nutri-sport";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -601,6 +678,58 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		06CBFAC12F6BFBF100CC1384 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.11.0;
+			};
+		};
+		06CBFAC42F6BFCEA00CC1384 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		06CBFAC62F6BFD1800CC1384 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 06CBFAC42F6BFCEA00CC1384 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		06CBFAC82F6BFD1E00CC1384 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 06CBFAC12F6BFBF100CC1384 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		06CBFACA2F6BFD2800CC1384 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 06CBFAC12F6BFBF100CC1384 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		06CBFACC2F6BFD2B00CC1384 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 06CBFAC42F6BFCEA00CC1384 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		06CBFACE2F6BFD5500CC1384 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 06CBFAC12F6BFBF100CC1384 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		06CBFAD02F6BFD5B00CC1384 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 06CBFAC12F6BFBF100CC1384 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 71A4820FA3933A816534A07D /* Project object */;
 }
