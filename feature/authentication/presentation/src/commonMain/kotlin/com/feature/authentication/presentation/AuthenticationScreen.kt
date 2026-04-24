@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -20,6 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import com.feature.authentication.presentation.social_media.ui.SocialMediaBlockContent
 import com.feature.authentication.presentation.view_data.AuthenticationViewAction
 import com.feature.authentication.presentation.view_data.AuthenticationViewData
+import com.store.core.presentation.ui.base.MessageEventData
 import com.store.core.presentation.theme.PreviewTheme
 import com.store.core.presentation.theme.StoreTheme
 import com.store.core.presentation.ui.ViewAction
@@ -32,19 +34,24 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(welcomeMessage: String? = null) {
+    val snackBarState = remember { StoreSnackbarHostState() }
+    LaunchedEffect(welcomeMessage) {
+        welcomeMessage?.let { snackBarState.show(MessageEventData.success(it)) }
+    }
     Column(
         modifier = Modifier.fillMaxSize()
             .padding(StoreTheme.dimens.defaultPadding)
     ) {
         Text("HomeScreen")
+        StoreSnackbar(snackBarState)
     }
 }
 
 @Composable
 fun AuthenticationScreen(
     viewModel: AuthenticationViewModel = koinViewModel(),
-    navigateToHome: () -> Unit
+    navigateToHome: (String) -> Unit
 ) {
     val viewData by viewModel.viewDataState.collectAsState()
     val snackBarState = remember { StoreSnackbarHostState() }
@@ -52,7 +59,7 @@ fun AuthenticationScreen(
         snackbarHostState = snackBarState,
         processCustom = { event, defaultProcess ->
             when (event) {
-                is AuthenticationViewAction.ToMainScreen -> navigateToHome()
+                is AuthenticationViewAction.ToMainScreen -> navigateToHome(event.welcomeMessage)
                 event -> defaultProcess(event)
             }
         })

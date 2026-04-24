@@ -9,7 +9,9 @@ sealed interface Screen : NavKey {
     data object Auth : Screen, NavKey
 
     @Serializable
-    data object HomeGraph : Screen, NavKey
+    data class HomeGraph(
+        val welcomeMessage: String? = null
+    ) : Screen, NavKey
 
     @Serializable
     data object ProductsOverview : Screen

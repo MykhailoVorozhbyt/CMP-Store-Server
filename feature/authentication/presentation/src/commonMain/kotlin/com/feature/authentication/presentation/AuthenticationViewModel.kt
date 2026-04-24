@@ -1,6 +1,9 @@
 package com.feature.authentication.presentation
 
 import androidx.lifecycle.viewModelScope
+import com.feature.authentication.domain.model.onFailure
+import com.feature.authentication.domain.model.onSuccess
+import com.feature.authentication.domain.model.onUserAlreadyExists
 import com.feature.authentication.domain.usecases.CreateCustomerUseCase
 import com.feature.authentication.presentation.social_media.SocialMediaViewAction
 import com.feature.authentication.presentation.view_data.AuthenticationViewAction
@@ -11,12 +14,12 @@ import com.store.core.presentation.core.viewmodel.BaseActionHandleViewModel
 import com.store.core.presentation.ui.ViewAction
 import com.store.core.resources.Res
 import com.store.core.resources.authentication_successful
+import com.store.core.resources.authentication_successful_account_exist
 import com.store.core.resources.internet_connection_unavailable
 import com.store.core.resources.sign_in_canceled
 import com.store.core.utils.Logger
 import com.store.core.utils.i
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -51,13 +54,14 @@ class AuthenticationViewModel(
             useCase.invoke(action.user)
                 .onSuccess {
                     Logger.i("createCustomer: $it")
-                    showSuccess(getString(Res.string.authentication_successful))
-                    delay(1000)
-                    emitEvent(AuthenticationViewAction.ToMainScreen)
+                    emitEvent(AuthenticationViewAction.ToMainScreen(getString(Res.string.authentication_successful)))
+                }
+                .onUserAlreadyExists {
+                    emitEvent(AuthenticationViewAction.ToMainScreen(getString(Res.string.authentication_successful_account_exist)))
                 }
                 .onFailure {
-                    Logger.i("createCustomer: ${it.message}")
-                    showError(it.message)
+                    Logger.i("createCustomer: ${it.errorCode}")
+                    showError(it.errorCode)
                 }.also {
                     setGoogleLoading(false)
                 }

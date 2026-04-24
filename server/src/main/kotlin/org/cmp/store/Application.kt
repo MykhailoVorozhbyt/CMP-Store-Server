@@ -7,7 +7,7 @@ import io.ktor.server.routing.routing
 import org.cmp.store.database.DatabaseFactory
 import org.cmp.store.plugins.configureRouting
 import org.cmp.store.plugins.configureSerialization
-import org.cmp.store.routes.customerRoutes
+import org.cmp.store.features.customer.customerRoutes
 
 fun main() {
     DatabaseFactory.init()

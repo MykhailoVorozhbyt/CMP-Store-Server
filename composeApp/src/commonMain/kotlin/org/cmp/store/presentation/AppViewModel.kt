@@ -22,7 +22,7 @@ class AppViewModel(
 
     init {
         val startDestination =
-            if (getCurrentUserIdUseCase() != null) Screen.HomeGraph else Screen.Auth
+            if (getCurrentUserIdUseCase() != null) Screen.HomeGraph() else Screen.Auth
         GoogleAuthProvider.create(
             credentials = GoogleAuthCredentials(serverId = WEB_CLIENT_ID)
         )

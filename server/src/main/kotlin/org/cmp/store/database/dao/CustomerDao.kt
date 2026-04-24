@@ -10,38 +10,22 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.statements.UpdateBuilder
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.update
 
 object CustomerDao {
 
+    suspend fun exists(id: String): Boolean = newSuspendedTransaction {
+        CustomerTable
+            .selectAll()
+            .where { CustomerTable.id eq id }
+            .empty().not()
+    }
+
     suspend fun create(customer: Customer) = newSuspendedTransaction {
-        CustomerTable.insert {
-            it[id] = customer.id
-            it[firstName] = customer.firstName
-            it[lastName] = customer.lastName
-            it[email] = customer.email
-            it[city] = customer.city
-            it[postalCode] = customer.postalCode
-            it[address] = customer.address
-            it[isAdmin] = customer.isAdmin
-        }
-        customer.phoneNumber?.let { phone ->
-            PhoneNumberTable.insert {
-                it[customerId] = customer.id
-                it[dialCode] = phone.dialCode
-                it[number] = phone.number
-            }
-        }
-        customer.cart.forEach { item ->
-            CartItemTable.insert {
-                it[id] = item.id
-                it[customerId] = customer.id
-                it[productId] = item.productId
-                it[flavor] = item.flavor
-                it[quantity] = item.quantity
-            }
-        }
+        insertCustomer(customer)
+        insertRelations(customer)
     }
 
     suspend fun read(id: String): Customer? = newSuspendedTransaction {
@@ -70,17 +54,14 @@ object CustomerDao {
             address = customerRow[CustomerTable.address],
             isAdmin = customerRow[CustomerTable.isAdmin],
             phoneNumber = phoneRow?.let {
-                PhoneNumber(
-                    dialCode = it[PhoneNumberTable.dialCode],
-                    number = it[PhoneNumberTable.number]
-                )
+                PhoneNumber(it[PhoneNumberTable.dialCode], it[PhoneNumberTable.number])
             },
             cart = cartRows.map {
                 CartItem(
-                    id = it[CartItemTable.id],
-                    productId = it[CartItemTable.productId],
-                    flavor = it[CartItemTable.flavor],
-                    quantity = it[CartItemTable.quantity]
+                    it[CartItemTable.id],
+                    it[CartItemTable.productId],
+                    it[CartItemTable.flavor],
+                    it[CartItemTable.quantity]
                 )
             }
         )
@@ -88,17 +69,23 @@ object CustomerDao {
 
     suspend fun update(customer: Customer): Boolean = newSuspendedTransaction {
         val updated = CustomerTable.update({ CustomerTable.id eq customer.id }) {
-            it[firstName] = customer.firstName
-            it[lastName] = customer.lastName
-            it[email] = customer.email
-            it[city] = customer.city
-            it[postalCode] = customer.postalCode
-            it[address] = customer.address
-            it[isAdmin] = customer.isAdmin
+            it.mapFrom(customer)
         }
-        if (updated == 0) return@newSuspendedTransaction false
+        if (updated > 0) {
+            // Delete old relations and re-insert (Cleanest way to handle nested updates)
+            PhoneNumberTable.deleteWhere { customerId eq customer.id }
+            CartItemTable.deleteWhere { customerId eq customer.id }
+            insertRelations(customer)
+            true
+        } else false
+    }
 
-        PhoneNumberTable.deleteWhere { customerId eq customer.id }
+    // --- Private Helpers to Eliminate Duplication ---
+    private fun insertCustomer(customer: Customer) {
+        CustomerTable.insert { it.mapFrom(customer) }
+    }
+
+    private fun insertRelations(customer: Customer) {
         customer.phoneNumber?.let { phone ->
             PhoneNumberTable.insert {
                 it[customerId] = customer.id
@@ -106,8 +93,6 @@ object CustomerDao {
                 it[number] = phone.number
             }
         }
-
-        CartItemTable.deleteWhere { customerId eq customer.id }
         customer.cart.forEach { item ->
             CartItemTable.insert {
                 it[id] = item.id
@@ -117,7 +102,19 @@ object CustomerDao {
                 it[quantity] = item.quantity
             }
         }
+    }
 
-        true
+    /**
+     * Extension function to map Customer properties to Table Update/Insert statements
+     */
+    private fun UpdateBuilder<*>.mapFrom(customer: Customer) {
+        this[CustomerTable.id] = customer.id
+        this[CustomerTable.firstName] = customer.firstName
+        this[CustomerTable.lastName] = customer.lastName
+        this[CustomerTable.email] = customer.email
+        this[CustomerTable.city] = customer.city
+        this[CustomerTable.postalCode] = customer.postalCode
+        this[CustomerTable.address] = customer.address
+        this[CustomerTable.isAdmin] = customer.isAdmin
     }
 }

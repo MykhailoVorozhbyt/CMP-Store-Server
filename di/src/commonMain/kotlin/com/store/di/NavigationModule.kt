@@ -15,13 +15,13 @@ val navigationModule = module {
     navEntry(Screen.Auth.serializer()) {
         val navigator = get<Navigator>()
         AuthenticationScreen(
-            navigateToHome = {
+            navigateToHome = { m ->
                 navigator.backStack.remove(Screen.Auth)
-                navigator.backStack.add(Screen.HomeGraph)
+                navigator.backStack.add(Screen.HomeGraph(m))
             }
         )
     }
     navEntry(Screen.HomeGraph.serializer()) {
-        HomeScreen()
+        HomeScreen(welcomeMessage = it.welcomeMessage)
     }
 }
