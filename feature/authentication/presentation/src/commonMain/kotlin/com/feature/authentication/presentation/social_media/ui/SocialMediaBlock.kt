@@ -49,24 +49,20 @@ fun SocialMediaBlockContent(
     Column(
         modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally
     ) {
-//        GoogleButtonUiContainerFirebase(
-//            linkAccount = false,
-//            onResult = { result ->
-//                result.onSuccess { user ->
-//                    onViewAction.invoke(SocialMediaViewAction.OnGoogleSignInSuccess(user))
-//                }.onFailure { error ->
-//                    onViewAction.invoke(SocialMediaViewAction.OnGoogleSignInFailure(error))
-//                }
-//            }
-//        ) {
-//            GoogleButton(loading = viewData.google.isLoading) {
-//                onViewAction.invoke(SocialMediaViewAction.OnGoogleClick)
-//                this@GoogleButtonUiContainerFirebase.onClick()
-//            }
-//        }
-        GoogleButton(loading = viewData.google.isLoading) {
-            onViewAction.invoke(SocialMediaViewAction.OnGoogleClick)
-            onViewAction.invoke(SocialMediaViewAction.OnGoogleSignInSuccess(null))
+        GoogleButtonUiContainerFirebase(
+            linkAccount = false,
+            onResult = { result ->
+                result.onSuccess { user ->
+                    onViewAction.invoke(SocialMediaViewAction.OnGoogleSignInSuccess(user))
+                }.onFailure { error ->
+                    onViewAction.invoke(SocialMediaViewAction.OnGoogleSignInFailure(error))
+                }
+            }
+        ) {
+            GoogleButton(loading = viewData.google.isLoading) {
+                onViewAction.invoke(SocialMediaViewAction.OnGoogleClick)
+                this@GoogleButtonUiContainerFirebase.onClick()
+            }
         }
     }
 }

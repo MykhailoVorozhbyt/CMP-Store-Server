@@ -49,18 +49,15 @@ class AuthenticationViewModel(
     }
 
     private fun handleGoogleSignInSuccess(action: SocialMediaViewAction.OnGoogleSignInSuccess) {
-        Logger.i("OnGoogleSignInSuccess: ${action.user}")
         viewModelScope.launch {
             useCase.invoke(action.user)
                 .onSuccess {
-                    Logger.i("createCustomer: $it")
                     emitEvent(AuthenticationViewAction.ToMainScreen(getString(Res.string.authentication_successful)))
                 }
                 .onUserAlreadyExists {
                     emitEvent(AuthenticationViewAction.ToMainScreen(getString(Res.string.authentication_successful_account_exist)))
                 }
                 .onFailure {
-                    Logger.i("createCustomer: ${it.errorCode}")
                     showError(it.errorCode)
                 }.also {
                     setGoogleLoading(false)

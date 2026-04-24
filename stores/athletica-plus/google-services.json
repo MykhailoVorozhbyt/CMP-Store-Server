@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:270317432366:android:dea6f2bd329a7d9781b9bf",
+        "mobilesdk_app_id": "1:270317432366:android:28ca5e8dfd877c1581b9bf",
         "android_client_info": {
           "package_name": "com.store.athletica_plus"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "270317432366-i5aq1d04ju88ehcktejlp18q1v0hf000.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.store.athletica_plus",
+            "certificate_hash": "9e36752cdaa7701ad4b1b502b41ffecc2c5f16e6"
+          }
+        },
         {
           "client_id": "270317432366-b7ov9htghc4kmd2cc63a3ejqmfb6e026.apps.googleusercontent.com",
           "client_type": 3
@@ -49,6 +57,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "270317432366-9m72c1qd7uhbrghlks9be6r9f3lt0fbe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.store.nutri_sport",
+            "certificate_hash": "9e36752cdaa7701ad4b1b502b41ffecc2c5f16e6"
+          }
+        },
         {
           "client_id": "270317432366-b7ov9htghc4kmd2cc63a3ejqmfb6e026.apps.googleusercontent.com",
           "client_type": 3

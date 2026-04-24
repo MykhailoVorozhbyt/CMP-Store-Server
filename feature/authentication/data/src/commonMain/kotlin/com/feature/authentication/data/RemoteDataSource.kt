@@ -9,7 +9,7 @@ import org.cmp.store.network.EmptyResult
 import org.cmp.store.network.NetworkError
 import org.cmp.store.network.safeApiCall
 
-class CustomerApi(private val client: HttpClient) {
+class RemoteDataSource(private val client: HttpClient) {
 
     suspend fun createCustomer(customer: Customer): EmptyResult<NetworkError> =
         safeApiCall { client.post(CUSTOMER) { setBody(customer) } }

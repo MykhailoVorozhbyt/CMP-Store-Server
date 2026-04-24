@@ -33,7 +33,7 @@ class AppViewModel(
 
     companion object Constants {
         const val WEB_CLIENT_ID =
-            "270317432366-vkjja1fka4tldblvjcslblivetqh0ue7.apps.googleusercontent.com"
+            "270317432366-b7ov9htghc4kmd2cc63a3ejqmfb6e026.apps.googleusercontent.com"
     }
 
 }

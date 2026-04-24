@@ -4,6 +4,7 @@ import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.http.HttpStatusCode
+import io.ktor.utils.io.CancellationException
 
 suspend fun <T> safeApiCall(
     execute: suspend () -> T
@@ -25,6 +26,8 @@ suspend fun <T> safeApiCall(
         ApiResult.Error(NetworkError.SERVER_ERROR)
     } catch (_: HttpRequestTimeoutException) {
         ApiResult.Error(NetworkError.REQUEST_TIMEOUT)
+    } catch (e: CancellationException) {
+        throw e
     } catch (_: Exception) {
         ApiResult.Error(NetworkError.UNKNOWN)
     }

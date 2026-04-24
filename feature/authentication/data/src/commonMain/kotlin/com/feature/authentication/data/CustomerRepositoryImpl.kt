@@ -10,21 +10,18 @@ import kotlinx.coroutines.flow.flow
 import org.cmp.store.domain.customer.Customer
 import org.cmp.store.network.ApiResult
 import org.cmp.store.network.NetworkError
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
-class CustomerRepositoryImpl(private val api: CustomerApi) : CustomerRepository {
+class CustomerRepositoryImpl(private val api: RemoteDataSource) : CustomerRepository {
 
     override fun getCurrentUserId(): String? = Firebase.auth.currentUser?.uid
 
-    @OptIn(ExperimentalUuidApi::class)
     override suspend fun createCustomer(user: FirebaseUser?): CreateCustomerResult {
         val nameParts = user?.displayName?.split(" ") ?: emptyList()
         val customer = Customer(
-            id = user?.uid ?: error("User ID is null"),
+            id = user?.uid ?: return CreateCustomerResult.Failure("User ID is null!"),
             firstName = nameParts.firstOrNull() ?: "",
             lastName = nameParts.drop(1).joinToString(" "),
-            email = user.email ?: ""
+            email = user.email ?: return CreateCustomerResult.Failure("User Email is null!"),
         )
         return when (val result = api.createCustomer(customer)) {
             is ApiResult.Success -> CreateCustomerResult.Success
