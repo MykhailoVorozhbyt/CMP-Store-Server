@@ -1,6 +1,7 @@
 package com.store.di
 
 import com.feature.authentication.presentation.AuthenticationViewModel
+import com.feature.home.presentation.HomeViewModel
 import com.store.core.presentation.core.di.coroutines.IoDispatcher
 import com.store.core.presentation.core.di.coroutines.MainDispatcher
 import org.koin.core.module.dsl.viewModel
@@ -11,6 +12,13 @@ val viewModelModule = module {
     viewModel {
         AuthenticationViewModel(
             get(),
+            mainDispatcher = get(named<MainDispatcher>()),
+            ioDispatcher = get(named<IoDispatcher>())
+        )
+    }
+
+    viewModel {
+        HomeViewModel(
             mainDispatcher = get(named<MainDispatcher>()),
             ioDispatcher = get(named<IoDispatcher>())
         )

@@ -12,4 +12,7 @@ enum class ModulePath(val path: String) {
     FEATURE_AUTHENTICATION_DATA(":feature:authentication:data"),
     FEATURE_AUTHENTICATION_DOMAIN(":feature:authentication:domain"),
     FEATURE_AUTHENTICATION_PRESENTATION(":feature:authentication:presentation"),
+    FEATURE_HOME_DATA(":feature:home:data"),
+    FEATURE_HOME_DOMAIN(":feature:home:domain"),
+    FEATURE_HOME_PRESENTATION(":feature:home:presentation"),
 }

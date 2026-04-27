@@ -16,16 +16,16 @@ import utils.enums.ModulePath
 import utils.enums.PluginName
 
 
-class FeatureAuthenticationDataModulePlugin : FeatureAuthenticationModulePlugin() {
+class FeatureHomeDataModulePlugin : FeatureHomeModulePlugin() {
     override val moduleName: ModuleName
-        get() = ModuleName.AUTHENTICATION_DATA
+        get() = ModuleName.HOME_DATA
 
     override fun apply(target: Project): Unit = with(target) project@{
         super.apply(target)
         kotlinMultiplatformExtension {
             sourceSets {
                 commonMain.dependencies {
-                    implementation(project(ModulePath.FEATURE_AUTHENTICATION_DOMAIN.path))
+                    implementation(project(ModulePath.FEATURE_HOME_DOMAIN.path))
                     implementation(library(LibraryName.KTOR_CLIENT_CORE))
                     implementation(library(LibraryName.KTOR_CLIENT_CONTENT_NEGOTIATION))
                     implementation(library(LibraryName.KTOR_SERIALIZATION_KOTLINX_JSON))
@@ -44,15 +44,14 @@ class FeatureAuthenticationDataModulePlugin : FeatureAuthenticationModulePlugin(
     }
 }
 
-class FeatureAuthenticationDomainModulePlugin : FeatureAuthenticationModulePlugin() {
+class FeatureHomeDomainModulePlugin : FeatureHomeModulePlugin() {
     override val moduleName: ModuleName
-        get() = ModuleName.AUTHENTICATION_DOMAIN
-
+        get() = ModuleName.HOME_DOMAIN
 }
 
-class FeatureAuthenticationPresentationModulePlugin : FeatureAuthenticationModulePlugin() {
+class FeatureHomePresentationModulePlugin : FeatureHomeModulePlugin() {
     override val moduleName: ModuleName
-        get() = ModuleName.AUTHENTICATION_PRESENTATION
+        get() = ModuleName.HOME_PRESENTATION
 
     override fun apply(target: Project): Unit = with(target) project@{
         super.apply(target)
@@ -70,7 +69,7 @@ class FeatureAuthenticationPresentationModulePlugin : FeatureAuthenticationModul
                     implementation(project(ModulePath.CORE_RESOURCES.path))
                     implementation(project(ModulePath.CORE_PRESENTATION.path))
                     implementation(project(ModulePath.CORE_UTILS.path))
-                    implementation(project(ModulePath.FEATURE_AUTHENTICATION_DOMAIN.path))
+                    implementation(project(ModulePath.FEATURE_HOME_DOMAIN.path))
 
                     implementation(library(LibraryName.COMPOSE_UI))
                     implementation(library(LibraryName.COMPOSE_RUNTIME))
@@ -82,18 +81,16 @@ class FeatureAuthenticationPresentationModulePlugin : FeatureAuthenticationModul
                     implementation(library(LibraryName.KOIN_CORE))
                     implementation(library(LibraryName.KOIN_COMPOSE))
                     implementation(library(LibraryName.KOIN_COMPOSE_VIEWMODEL))
-
-                    implementation(library(LibraryName.KMPAUTH_GOOGLE))
                 }
             }
         }
     }
 }
 
-abstract class FeatureAuthenticationModulePlugin : Plugin<Project> {
+abstract class FeatureHomeModulePlugin : Plugin<Project> {
     abstract val moduleName: ModuleName
     override fun apply(target: Project): Unit = with(target) project@{
-        println("*** ${this@FeatureAuthenticationModulePlugin} invoked ***")
+        println("*** ${this@FeatureHomeModulePlugin} invoked ***")
         applyPlugins {
             listOf(
                 libs.plugin(PluginName.STORE_KOTLIN_MULTIPLATFORM.pName).pluginId
@@ -110,9 +107,6 @@ abstract class FeatureAuthenticationModulePlugin : Plugin<Project> {
 
                     implementation(library(LibraryName.ANDROIDX_LIFECYCLE_VIEWMODEL_COMPOSE))
                     implementation(library(LibraryName.ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE))
-
-                    implementation(project.dependencies.platform(library(LibraryName.FIREBASE_BOM)))
-                    implementation(library(LibraryName.KMPAUTH_FIREBASE))
                 }
             }
         }

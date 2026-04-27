@@ -34,21 +34,6 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun HomeScreen(welcomeMessage: String? = null) {
-    val snackBarState = remember { StoreSnackbarHostState() }
-    LaunchedEffect(welcomeMessage) {
-        welcomeMessage?.let { snackBarState.show(MessageEventData.success(it)) }
-    }
-    Column(
-        modifier = Modifier.fillMaxSize()
-            .padding(StoreTheme.dimens.defaultPadding)
-    ) {
-        Text("HomeScreen")
-        StoreSnackbar(snackBarState)
-    }
-}
-
-@Composable
 fun AuthenticationScreen(
     viewModel: AuthenticationViewModel = koinViewModel(),
     navigateToHome: (String) -> Unit

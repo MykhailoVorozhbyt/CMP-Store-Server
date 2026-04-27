@@ -79,6 +79,20 @@ gradlePlugin {
             implementationClass = "plugins.feature.FeatureAuthenticationPresentationModulePlugin"
         }
 
+        //Feature - Home
+        register("FeatureHomeData") {
+            id = libs.plugins.store.feature.home.data.get().pluginId
+            implementationClass = "plugins.feature.FeatureHomeDataModulePlugin"
+        }
+        register("FeatureHomeDomain") {
+            id = libs.plugins.store.feature.home.domain.get().pluginId
+            implementationClass = "plugins.feature.FeatureHomeDomainModulePlugin"
+        }
+        register("FeatureHomePresentation") {
+            id = libs.plugins.store.feature.home.presentation.get().pluginId
+            implementationClass = "plugins.feature.FeatureHomePresentationModulePlugin"
+        }
+
         //DI
         register("Di") {
             id = libs.plugins.store.di.get().pluginId

@@ -136,4 +136,7 @@ store-core-navigation = { id = "store.core.navigation" }
 store-feature-authentication-data = { id = "store.feature.authentication.data" }
 store-feature-authentication-domain = { id = "store.feature.authentication.domain" }
 store-feature-authentication-presentation = { id = "store.feature.authentication.presentation" }
+store-feature-home-data = { id = "store.feature.home.data" }
+store-feature-home-domain = { id = "store.feature.home.domain" }
+store-feature-home-presentation = { id = "store.feature.home.presentation" }
 store-di = { id = "store.di" }

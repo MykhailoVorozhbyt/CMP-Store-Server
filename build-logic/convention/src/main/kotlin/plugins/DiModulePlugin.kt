@@ -39,6 +39,9 @@ class DiModulePlugin : Plugin<Project> {
                     implementation(project(ModulePath.FEATURE_AUTHENTICATION_DATA.path))
                     implementation(project(ModulePath.FEATURE_AUTHENTICATION_DOMAIN.path))
                     implementation(project(ModulePath.FEATURE_AUTHENTICATION_PRESENTATION.path))
+                    implementation(project(ModulePath.FEATURE_HOME_DATA.path))
+                    implementation(project(ModulePath.FEATURE_HOME_DOMAIN.path))
+                    implementation(project(ModulePath.FEATURE_HOME_PRESENTATION.path))
 
                     implementation(library(LibraryName.KOIN_CORE))
                     implementation(library(LibraryName.KOIN_COMPOSE_VIEWMODEL))

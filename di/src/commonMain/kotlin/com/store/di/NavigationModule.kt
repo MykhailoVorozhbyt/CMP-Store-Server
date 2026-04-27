@@ -1,7 +1,7 @@
 package com.store.di
 
 import com.feature.authentication.presentation.AuthenticationScreen
-import com.feature.authentication.presentation.HomeScreen
+import com.feature.home.presentation.HomeScreen
 import com.store.core.navigation.navEntry
 import com.store.core.presentation.navigation.Navigator
 import org.cmp.store.navigation.Screen
@@ -22,6 +22,8 @@ val navigationModule = module {
         )
     }
     navEntry(Screen.HomeGraph.serializer()) {
-        HomeScreen(welcomeMessage = it.welcomeMessage)
+        HomeScreen(
+            welcomeMessage = it.welcomeMessage
+        )
     }
 }
