@@ -7,6 +7,7 @@ group = "com.store.buildlogic"
 dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.kotlin.multiplatform.gradlePlugin)
     compileOnly(libs.compose.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
 }
@@ -37,14 +38,23 @@ gradlePlugin {
             implementationClass = "plugins.ComposeAppModulePlugin"
         }
 
-        //Stores
+        //Stores - KMP library
         register("AndroidAthleticaPlus") {
-            id = libs.plugins.store.android.athleticaPlus.get().pluginId
+            id = libs.plugins.store.android.athleticaPlus.kmp.get().pluginId
             implementationClass = "plugins.stores.AppAthleticaPlusModulePlugin"
         }
         register("AndroidNutriSport") {
-            id = libs.plugins.store.android.nutriSport.get().pluginId
+            id = libs.plugins.store.android.nutriSport.kmp.get().pluginId
             implementationClass = "plugins.stores.AppNutriSportModulePlugin"
+        }
+        //Stores - pure Android app
+        register("AndroidAthleticaPlusApp") {
+            id = libs.plugins.store.android.athleticaPlus.androidApp.get().pluginId
+            implementationClass = "plugins.stores.AthleticaPlusAndroidAppPlugin"
+        }
+        register("AndroidNutriSportApp") {
+            id = libs.plugins.store.android.nutriSport.androidApp.get().pluginId
+            implementationClass = "plugins.stores.NutriSportAndroidAppPlugin"
         }
 
         //Core

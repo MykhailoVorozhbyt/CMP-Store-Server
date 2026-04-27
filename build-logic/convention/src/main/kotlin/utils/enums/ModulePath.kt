@@ -4,6 +4,8 @@ enum class ModulePath(val path: String) {
     COMPOSE_APP(":composeApp"),
     SERVER(":server"),
     SHARED(":shared"),
+    STORES_ATHLETICA_PLUS(":stores:athletica-plus"),
+    STORES_NUTRI_SPORT(":stores:nutri-sport"),
     DI(":di"),
     CORE_PRESENTATION(":core:presentation"),
     CORE_UTILS(":core:utils"),

@@ -100,6 +100,7 @@ sqlite-jdbc = { module = "org.xerial:sqlite-jdbc", version.ref = "sqlite-jdbc" }
 # Build logic dependencies
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-multiplatform-gradlePlugin = { module = "org.jetbrains.kotlin.multiplatform:org.jetbrains.kotlin.multiplatform.gradle.plugin", version.ref = "kotlin" }
 compose-gradlePlugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "composeMultiplatform" }
 ksp-gradlePlugin = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp" }
 
@@ -127,8 +128,10 @@ store-kotlinMultiplatform = { id = "store.kotlin.multiplatform" }
 store-composeMultiplatform = { id = "store.kotlin.composeMultiplatform" }
 store-shared = { id = "store.shared" }
 store-composeApp = { id = "store.composeApp" }
-store-android-athleticaPlus = { id = "store.android.AthleticaPlus" }
-store-android-nutriSport = { id = "store.android.NutriSport" }
+store-android-athleticaPlus-kmp = { id = "store.android.AthleticaPlus.kmp" }
+store-android-nutriSport-kmp = { id = "store.android.NutriSport.kmp" }
+store-android-athleticaPlus-androidApp = { id = "store.android.AthleticaPlus.AndroidApp" }
+store-android-nutriSport-androidApp = { id = "store.android.NutriSport.AndroidApp" }
 store-core-presentation = { id = "store.core.presentation" }
 store-core-utils = { id = "store.core.utils" }
 store-core-resources = { id = "store.core.resources" }
