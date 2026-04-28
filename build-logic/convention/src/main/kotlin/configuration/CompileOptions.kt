@@ -1,14 +1,15 @@
 package configuration
 
-import extensions.androidExtension
+import extensions.android
 import org.gradle.api.Project
 import utils.sourceCompatibilityVersion
 import utils.targetCompatibilityVersion
 
-fun Project.configureCompileOptions(isCoreLibraryDesugaringEnabled: Boolean = false) = this.androidExtension {
-    compileOptions {
-        this.sourceCompatibility = sourceCompatibilityVersion
-        this.targetCompatibility = targetCompatibilityVersion
-        this.isCoreLibraryDesugaringEnabled = isCoreLibraryDesugaringEnabled
+fun Project.configureCompileOptions(isCoreLibraryDesugaringEnabled: Boolean = false) =
+    this.android {
+        compileOptions {
+            this.sourceCompatibility = sourceCompatibilityVersion
+            this.targetCompatibility = targetCompatibilityVersion
+            this.isCoreLibraryDesugaringEnabled = isCoreLibraryDesugaringEnabled
+        }
     }
-}

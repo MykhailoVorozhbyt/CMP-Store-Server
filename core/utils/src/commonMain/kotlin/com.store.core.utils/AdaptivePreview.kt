@@ -78,7 +78,7 @@ annotation class DesktopPreview
 @DesktopPreview
 annotation class LargeScreensPreview
 
+@LargeScreensPreview
 @SmallPhonePreview
 @PhonePreview
-@LargeScreensPreview
 annotation class AdaptivePreview

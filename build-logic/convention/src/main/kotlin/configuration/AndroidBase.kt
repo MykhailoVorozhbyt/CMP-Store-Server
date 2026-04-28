@@ -1,6 +1,6 @@
 package configuration
 
-import com.android.build.api.dsl.androidLibrary
+import extensions.androidLibrary
 import extensions.getAndroidSdkVersions
 import extensions.kotlinMultiplatformExtension
 import org.gradle.api.Project
@@ -16,7 +16,9 @@ fun Project.configureAndroidLibraryBase(namespace: String) = this.kotlinMultipla
         compilerOptions {
             jvmTarget.set(currentJvmTarget)
         }
-
+        androidResources {
+            enable = true
+        }
         withJava()
         withHostTestBuilder {}.configure {}
         withDeviceTestBuilder {

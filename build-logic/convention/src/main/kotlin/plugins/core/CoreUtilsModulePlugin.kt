@@ -25,9 +25,6 @@ class CoreUtilsModulePlugin : Plugin<Project> {
             jvm()
 
             sourceSets {
-                androidMain.dependencies {
-                    implementation(library(LibraryName.COMPOSE_UI_TOOLING))
-                }
                 commonMain.dependencies {
                     implementation(library(LibraryName.COMPOSE_UI_TOOLING_PREVIEW))
                 }

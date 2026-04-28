@@ -14,7 +14,7 @@ class ComposeMultiplatformConventionPlugin : Plugin<Project> {
             listOf(
                 libs.plugin(PluginName.COMPOSE_MULTIPLATFORM.pName).pluginId,
                 libs.plugin(PluginName.COMPOSE_COMPILER.pName).pluginId,
-                libs.plugin(PluginName.COMPOSE_HOT_RELOAD.pName).pluginId,
+//                libs.plugin(PluginName.COMPOSE_HOT_RELOAD.pName).pluginId,
             )
         }
     }

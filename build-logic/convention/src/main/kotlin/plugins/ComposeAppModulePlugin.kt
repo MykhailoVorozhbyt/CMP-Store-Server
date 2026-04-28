@@ -27,6 +27,7 @@ class ComposeAppModulePlugin : Plugin<Project> {
                 libs.plugin(PluginName.KSP.pName).pluginId,
             )
         }
+        dependencies.add("androidRuntimeClasspath", library(LibraryName.COMPOSE_UI_TOOLING))
         kotlinMultiplatformExtension {
             configureAndroidLibraryBase(ModuleName.APP.mName)
             configureIOS()
@@ -34,12 +35,9 @@ class ComposeAppModulePlugin : Plugin<Project> {
 
             sourceSets {
                 androidMain.dependencies {
-                    implementation(library(LibraryName.COMPOSE_UI_TOOLING))
                     implementation(library(LibraryName.ANDROIDX_ACTIVITY_COMPOSE))
                     implementation(library(LibraryName.ANDROIDX_CORE_SPLASHSCREEN))
                     implementation(library(LibraryName.ANDROIDX_CUSTOMVIEW))
-                    implementation(library(LibraryName.ANDROIDX_CUSTOMVIEW_POOLINGCONTAINER))
-                    implementation(library(LibraryName.ANDROIDX_EMOJI_2))
                 }
                 commonMain.dependencies {
                     implementation(project(ModulePath.DI.path))

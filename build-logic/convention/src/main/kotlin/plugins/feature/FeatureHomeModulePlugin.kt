@@ -58,11 +58,6 @@ class FeatureHomePresentationModulePlugin : FeatureHomeModulePlugin() {
         applyPlugins {
             listOf(libs.plugin(PluginName.STORE_COMPOSE_MULTIPLATFORM.pName).pluginId)
         }
-        pluginManager.withPlugin("com.android.library") {
-            dependencies.add("debugImplementation", library(LibraryName.COMPOSE_UI_TOOLING))
-            dependencies.add("debugImplementation", library(LibraryName.ANDROIDX_CUSTOMVIEW_POOLINGCONTAINER))
-            dependencies.add("debugImplementation", library(LibraryName.ANDROIDX_EMOJI_2))
-        }
         kotlinMultiplatformExtension {
             sourceSets {
                 commonMain.dependencies {
@@ -70,6 +65,9 @@ class FeatureHomePresentationModulePlugin : FeatureHomeModulePlugin() {
                     implementation(project(ModulePath.CORE_PRESENTATION.path))
                     implementation(project(ModulePath.CORE_UTILS.path))
                     implementation(project(ModulePath.FEATURE_HOME_DOMAIN.path))
+
+                    implementation(library(LibraryName.ANDROIDX_LIFECYCLE_VIEWMODEL_COMPOSE))
+                    implementation(library(LibraryName.ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE))
 
                     implementation(library(LibraryName.COMPOSE_UI))
                     implementation(library(LibraryName.COMPOSE_RUNTIME))
@@ -84,6 +82,7 @@ class FeatureHomePresentationModulePlugin : FeatureHomeModulePlugin() {
                 }
             }
         }
+        dependencies.add("androidRuntimeClasspath", library(LibraryName.COMPOSE_UI_TOOLING))
     }
 }
 
@@ -104,9 +103,6 @@ abstract class FeatureHomeModulePlugin : Plugin<Project> {
             sourceSets {
                 commonMain.dependencies {
                     implementation(project(ModulePath.SHARED.path))
-
-                    implementation(library(LibraryName.ANDROIDX_LIFECYCLE_VIEWMODEL_COMPOSE))
-                    implementation(library(LibraryName.ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE))
                 }
             }
         }

@@ -1,8 +1,8 @@
 package plugins.stores
 
 import configuration.configureCompileOptions
+import extensions.android
 import extensions.applyPlugins
-import extensions.baseAppModuleExtension
 import extensions.getAndroidSdkVersions
 import extensions.libs
 import extensions.plugin
@@ -37,14 +37,13 @@ abstract class StoreAndroidAppPlugin : Plugin<Project> {
         applyPlugins {
             listOf(
                 libs.plugin(PluginName.ANDROID_APPLICATION.pName).pluginId,
-                libs.plugin(PluginName.KOTLIN_ANDROID.pName).pluginId,
                 libs.plugin(PluginName.COMPOSE_MULTIPLATFORM.pName).pluginId,
                 libs.plugin(PluginName.COMPOSE_COMPILER.pName).pluginId,
                 libs.plugin(PluginName.GOOGLE_SERVICES.pName).pluginId,
             )
         }
 
-        baseAppModuleExtension {
+        android {
             val sdk = getAndroidSdkVersions()
             namespace = applicationId
             compileSdk = sdk.compileSdk

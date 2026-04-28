@@ -24,14 +24,13 @@ class CorePresentationModulePlugin : Plugin<Project> {
                 libs.plugin(PluginName.STORE_COMPOSE_MULTIPLATFORM.pName).pluginId,
             )
         }
+        dependencies.add("androidRuntimeClasspath", library(LibraryName.COMPOSE_UI_TOOLING))
+
         kotlinMultiplatformExtension {
             configureIOS()
             jvm()
 
             sourceSets {
-                androidMain.dependencies {
-                    implementation(library(LibraryName.COMPOSE_UI_TOOLING))
-                }
                 commonMain.dependencies {
                     implementation(project(ModulePath.SHARED.path))
                     implementation(project(ModulePath.CORE_RESOURCES.path))

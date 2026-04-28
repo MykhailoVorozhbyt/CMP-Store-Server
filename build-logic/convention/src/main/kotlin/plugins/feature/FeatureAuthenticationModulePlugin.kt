@@ -59,11 +59,6 @@ class FeatureAuthenticationPresentationModulePlugin : FeatureAuthenticationModul
         applyPlugins {
             listOf(libs.plugin(PluginName.STORE_COMPOSE_MULTIPLATFORM.pName).pluginId)
         }
-        pluginManager.withPlugin("com.android.library") {
-            dependencies.add("debugImplementation", library(LibraryName.COMPOSE_UI_TOOLING))
-            dependencies.add("debugImplementation", library(LibraryName.ANDROIDX_CUSTOMVIEW_POOLINGCONTAINER))
-            dependencies.add("debugImplementation", library(LibraryName.ANDROIDX_EMOJI_2))
-        }
         kotlinMultiplatformExtension {
             sourceSets {
                 commonMain.dependencies {
@@ -71,6 +66,9 @@ class FeatureAuthenticationPresentationModulePlugin : FeatureAuthenticationModul
                     implementation(project(ModulePath.CORE_PRESENTATION.path))
                     implementation(project(ModulePath.CORE_UTILS.path))
                     implementation(project(ModulePath.FEATURE_AUTHENTICATION_DOMAIN.path))
+
+                    implementation(library(LibraryName.ANDROIDX_LIFECYCLE_VIEWMODEL_COMPOSE))
+                    implementation(library(LibraryName.ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE))
 
                     implementation(library(LibraryName.COMPOSE_UI))
                     implementation(library(LibraryName.COMPOSE_RUNTIME))
@@ -87,6 +85,7 @@ class FeatureAuthenticationPresentationModulePlugin : FeatureAuthenticationModul
                 }
             }
         }
+        dependencies.add("androidRuntimeClasspath", library(LibraryName.COMPOSE_UI_TOOLING))
     }
 }
 
@@ -107,9 +106,6 @@ abstract class FeatureAuthenticationModulePlugin : Plugin<Project> {
             sourceSets {
                 commonMain.dependencies {
                     implementation(project(ModulePath.SHARED.path))
-
-                    implementation(library(LibraryName.ANDROIDX_LIFECYCLE_VIEWMODEL_COMPOSE))
-                    implementation(library(LibraryName.ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE))
 
                     implementation(project.dependencies.platform(library(LibraryName.FIREBASE_BOM)))
                     implementation(library(LibraryName.KMPAUTH_FIREBASE))

@@ -18,8 +18,6 @@ enum class LibraryName(val lName: String) {
     ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE("androidx-lifecycle-runtimeCompose"),
     ANDROIDX_CORE_SPLASHSCREEN("androidx-core-splashscreen"),
     ANDROIDX_CUSTOMVIEW("androidx-customview-customview"),
-    ANDROIDX_CUSTOMVIEW_POOLINGCONTAINER("androidx-customview-customview-poolingcontainer"),
-    ANDROIDX_EMOJI_2("androidx-emoji2"),
 
     KOTLINX_COROUTINES_SWING("kotlinx-coroutinesSwing"),
 

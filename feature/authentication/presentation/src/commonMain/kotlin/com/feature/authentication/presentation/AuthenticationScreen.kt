@@ -1,5 +1,6 @@
 package com.feature.authentication.presentation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -57,7 +58,11 @@ fun AuthenticationContent(
     viewData: AuthenticationViewData,
     onViewAction: (ViewAction) -> Unit
 ) {
-    Column(modifier = Modifier.fillMaxSize().padding(StoreTheme.dimens.defaultPadding)) {
+    Column(
+        modifier = Modifier.fillMaxSize()
+            .background(StoreTheme.color.window)
+            .padding(StoreTheme.dimens.defaultPadding)
+    ) {
         Column(
             modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.Center,
