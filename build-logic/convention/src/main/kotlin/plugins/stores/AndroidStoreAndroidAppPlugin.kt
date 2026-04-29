@@ -1,20 +1,15 @@
 package plugins.stores
 
 import configuration.configureCompileOptions
+import extensions.alias
 import extensions.android
-import extensions.applyPlugins
 import extensions.getAndroidSdkVersions
 import extensions.libs
-import extensions.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import utils.currentJvmTarget
-import utils.enums.LibraryName
-import utils.enums.LibraryName.Companion.library
 import utils.enums.ModulePath
-import utils.enums.PluginName
-
 
 class AthleticaPlusAndroidAppPlugin : StoreAndroidAppPlugin() {
     override val applicationId = "com.store.athletica_plus"
@@ -34,14 +29,10 @@ abstract class StoreAndroidAppPlugin : Plugin<Project> {
     abstract val storeKmpModulePath: ModulePath
 
     override fun apply(target: Project): Unit = with(target) {
-        applyPlugins {
-            listOf(
-                libs.plugin(PluginName.ANDROID_APPLICATION.pName).pluginId,
-                libs.plugin(PluginName.COMPOSE_MULTIPLATFORM.pName).pluginId,
-                libs.plugin(PluginName.COMPOSE_COMPILER.pName).pluginId,
-                libs.plugin(PluginName.GOOGLE_SERVICES.pName).pluginId,
-            )
-        }
+        pluginManager.alias(libs.plugins.androidApplication)
+        pluginManager.alias(libs.plugins.composeMultiplatform)
+        pluginManager.alias(libs.plugins.composeCompiler)
+        pluginManager.alias(libs.plugins.google.services)
 
         android {
             val sdk = getAndroidSdkVersions()
@@ -89,7 +80,7 @@ abstract class StoreAndroidAppPlugin : Plugin<Project> {
 
         dependencies.add("implementation", project(storeKmpModulePath.path))
         dependencies.add("implementation", project(ModulePath.COMPOSE_APP.path))
-        dependencies.add("implementation", library(LibraryName.COMPOSE_RUNTIME))
-        dependencies.add("implementation", library(LibraryName.KOIN_ANDROID))
+        dependencies.add("implementation", libs.compose.runtime)
+        dependencies.add("implementation", libs.koin.android)
     }
 }

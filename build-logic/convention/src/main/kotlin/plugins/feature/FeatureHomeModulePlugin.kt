@@ -2,19 +2,15 @@ package plugins.feature
 
 import configuration.configureAndroidLibraryBase
 import configuration.configureIOS
-import extensions.applyPlugins
+import extensions.alias
+import extensions.androidRuntimeClasspath
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
-import extensions.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
-import utils.enums.LibraryName
-import utils.enums.LibraryName.Companion.library
 import utils.enums.ModuleName
 import utils.enums.ModulePath
-import utils.enums.PluginName
-
 
 class FeatureHomeDataModulePlugin : FeatureHomeModulePlugin() {
     override val moduleName: ModuleName
@@ -26,18 +22,18 @@ class FeatureHomeDataModulePlugin : FeatureHomeModulePlugin() {
             sourceSets {
                 commonMain.dependencies {
                     implementation(project(ModulePath.FEATURE_HOME_DOMAIN.path))
-                    implementation(library(LibraryName.KTOR_CLIENT_CORE))
-                    implementation(library(LibraryName.KTOR_CLIENT_CONTENT_NEGOTIATION))
-                    implementation(library(LibraryName.KTOR_SERIALIZATION_KOTLINX_JSON))
+                    implementation(libs.ktor.clientCore)
+                    implementation(libs.ktor.clientContentNegotiation)
+                    implementation(libs.ktor.serializationKotlinxJson)
                 }
                 androidMain.dependencies {
-                    implementation(library(LibraryName.KTOR_CLIENT_OKHTTP))
+                    implementation(libs.ktor.clientOkHttp)
                 }
                 iosMain.dependencies {
-                    implementation(library(LibraryName.KTOR_CLIENT_DARWIN))
+                    implementation(libs.ktor.clientDarwin)
                 }
                 jvmMain.dependencies {
-                    implementation(library(LibraryName.KTOR_CLIENT_OKHTTP))
+                    implementation(libs.ktor.clientOkHttp)
                 }
             }
         }
@@ -55,9 +51,7 @@ class FeatureHomePresentationModulePlugin : FeatureHomeModulePlugin() {
 
     override fun apply(target: Project): Unit = with(target) project@{
         super.apply(target)
-        applyPlugins {
-            listOf(libs.plugin(PluginName.STORE_COMPOSE_MULTIPLATFORM.pName).pluginId)
-        }
+        pluginManager.alias(libs.plugins.store.composeMultiplatform)
         kotlinMultiplatformExtension {
             sourceSets {
                 commonMain.dependencies {
@@ -66,23 +60,23 @@ class FeatureHomePresentationModulePlugin : FeatureHomeModulePlugin() {
                     implementation(project(ModulePath.CORE_UTILS.path))
                     implementation(project(ModulePath.FEATURE_HOME_DOMAIN.path))
 
-                    implementation(library(LibraryName.ANDROIDX_LIFECYCLE_VIEWMODEL_COMPOSE))
-                    implementation(library(LibraryName.ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE))
+                    implementation(libs.androidx.lifecycle.viewmodelCompose)
+                    implementation(libs.androidx.lifecycle.runtimeCompose)
 
-                    implementation(library(LibraryName.COMPOSE_UI))
-                    implementation(library(LibraryName.COMPOSE_RUNTIME))
-                    implementation(library(LibraryName.COMPOSE_FOUNDATION))
-                    implementation(library(LibraryName.COMPOSE_MATERIAL_3))
-                    implementation(library(LibraryName.COMPOSE_COMPONENTS_RESOURCES))
-                    implementation(library(LibraryName.COMPOSE_UI_TOOLING_PREVIEW))
+                    implementation(libs.compose.ui)
+                    implementation(libs.compose.runtime)
+                    implementation(libs.compose.foundation)
+                    implementation(libs.compose.material3)
+                    implementation(libs.compose.components.resources)
+                    implementation(libs.compose.ui.tooling.preview)
 
-                    implementation(library(LibraryName.KOIN_CORE))
-                    implementation(library(LibraryName.KOIN_COMPOSE))
-                    implementation(library(LibraryName.KOIN_COMPOSE_VIEWMODEL))
+                    implementation(libs.koin.core)
+                    implementation(libs.koin.compose)
+                    implementation(libs.koin.compose.viewmodel)
                 }
             }
         }
-        dependencies.add("androidRuntimeClasspath", library(LibraryName.COMPOSE_UI_TOOLING))
+        dependencies.androidRuntimeClasspath(libs.compose.ui.tooling)
     }
 }
 
@@ -90,11 +84,7 @@ abstract class FeatureHomeModulePlugin : Plugin<Project> {
     abstract val moduleName: ModuleName
     override fun apply(target: Project): Unit = with(target) project@{
         println("*** ${this@FeatureHomeModulePlugin} invoked ***")
-        applyPlugins {
-            listOf(
-                libs.plugin(PluginName.STORE_KOTLIN_MULTIPLATFORM.pName).pluginId
-            )
-        }
+        pluginManager.alias(libs.plugins.store.kotlinMultiplatform)
         kotlinMultiplatformExtension {
             configureAndroidLibraryBase(moduleName.mName)
             configureIOS()

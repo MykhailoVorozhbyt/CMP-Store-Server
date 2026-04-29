@@ -1,5 +1,6 @@
 package com.feature.home.presentation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -48,6 +49,7 @@ internal fun HomeContent(
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
+            .background(StoreTheme.color.window)
             .padding(StoreTheme.dimens.defaultPadding)
     ) {
         Text("HomeScreen")

@@ -2,29 +2,23 @@ package plugins.core
 
 import configuration.configureAndroidLibraryBase
 import configuration.configureIOS
-import extensions.applyPlugins
+import extensions.alias
+import extensions.androidRuntimeClasspath
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
-import extensions.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
-import utils.enums.LibraryName
-import utils.enums.LibraryName.Companion.library
 import utils.enums.ModuleName
 import utils.enums.ModulePath
-import utils.enums.PluginName
 
 class CorePresentationModulePlugin : Plugin<Project> {
     override fun apply(target: Project): Unit = with(target) project@{
         println("*** ${this@CorePresentationModulePlugin} invoked ***")
-        applyPlugins {
-            listOf(
-                libs.plugin(PluginName.STORE_KOTLIN_MULTIPLATFORM.pName).pluginId,
-                libs.plugin(PluginName.STORE_COMPOSE_MULTIPLATFORM.pName).pluginId,
-            )
-        }
-        dependencies.add("androidRuntimeClasspath", library(LibraryName.COMPOSE_UI_TOOLING))
+        pluginManager.alias(libs.plugins.store.kotlinMultiplatform)
+        pluginManager.alias(libs.plugins.store.composeMultiplatform)
+
+        dependencies.androidRuntimeClasspath(libs.compose.ui.tooling)
 
         kotlinMultiplatformExtension {
             configureIOS()
@@ -36,18 +30,18 @@ class CorePresentationModulePlugin : Plugin<Project> {
                     implementation(project(ModulePath.CORE_RESOURCES.path))
                     implementation(project(ModulePath.CORE_UTILS.path))
 
-                    implementation(library(LibraryName.COMPOSE_UI))
-                    implementation(library(LibraryName.COMPOSE_RUNTIME))
-                    implementation(library(LibraryName.COMPOSE_FOUNDATION))
-                    implementation(library(LibraryName.COMPOSE_MATERIAL_3))
-                    implementation(library(LibraryName.COMPOSE_COMPONENTS_RESOURCES))
-                    implementation(library(LibraryName.COMPOSE_UI_TOOLING_PREVIEW))
+                    implementation(libs.compose.ui)
+                    implementation(libs.compose.runtime)
+                    implementation(libs.compose.foundation)
+                    implementation(libs.compose.material3)
+                    implementation(libs.compose.components.resources)
+                    implementation(libs.compose.ui.tooling.preview)
 
-                    implementation(library(LibraryName.JETBRAINS_NAVIGATION_3_UI))
+                    implementation(libs.jetbrains.navigation3.ui)
 
-                    implementation(library(LibraryName.ANDROIDX_LIFECYCLE_VIEWMODEL_COMPOSE))
+                    implementation(libs.androidx.lifecycle.viewmodelCompose)
 
-                    implementation(library(LibraryName.KOIN_COMPOSE))
+                    implementation(libs.koin.compose)
                 }
             }
         }

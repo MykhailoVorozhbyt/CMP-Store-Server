@@ -2,6 +2,7 @@ package extensions
 
 import org.gradle.api.InvalidUserDataException
 import org.gradle.api.artifacts.UnknownConfigurationException
+import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 
@@ -20,10 +21,10 @@ fun DependencyHandlerScope.testImplementation(dep: Any) {
 fun DependencyHandlerScope.androidTestImplementation(dep: Any) {
     safeAdd("androidTestImplementation", dep)
 }
-//
-//fun DependencyHandlerScope.debugImplementation(dep: Any) {
-//    safeAdd("debugImplementation", dep)
-//}
+
+fun DependencyHandlerScope.debugImplementation(dep: Any) {
+    safeAdd("debugImplementation", dep)
+}
 
 fun DependencyHandlerScope.custom(configuration: String, dep: Any) {
     safeAdd(configuration, dep)
@@ -67,4 +68,8 @@ private fun DependencyHandlerScope.safeAdd(
             }
         }
     }
+}
+
+fun DependencyHandler.androidRuntimeClasspath(dep: Any) {
+    add("androidRuntimeClasspath", dep)
 }

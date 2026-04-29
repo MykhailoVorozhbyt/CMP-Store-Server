@@ -3,20 +3,15 @@ package plugins.stores
 import configuration.configureAndroidLibraryBase
 import configuration.configureDesktopApplication
 import configuration.configureIOS
-import extensions.applyPlugins
+import extensions.alias
 import extensions.composeDep
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
-import extensions.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
-import utils.enums.LibraryName
-import utils.enums.LibraryName.Companion.library
 import utils.enums.ModuleName
 import utils.enums.ModulePath
-import utils.enums.PluginName
-
 
 class AppAthleticaPlusModulePlugin : StoreModulePlugin() {
     override val moduleName: ModuleName = ModuleName.ATHLETICA_PLUS_KMP
@@ -39,12 +34,9 @@ abstract class StoreModulePlugin : Plugin<Project> {
     abstract val appVersion: String
 
     override fun apply(target: Project) = with(target) {
-        applyPlugins {
-            listOf(
-                libs.plugin(PluginName.STORE_KOTLIN_MULTIPLATFORM.pName).pluginId,
-                libs.plugin(PluginName.STORE_COMPOSE_MULTIPLATFORM.pName).pluginId,
-            )
-        }
+        pluginManager.alias(libs.plugins.store.kotlinMultiplatform)
+        pluginManager.alias(libs.plugins.store.composeMultiplatform)
+
         kotlinMultiplatformExtension {
             configureAndroidLibraryBase(moduleName.mName)
             configureIOS()
@@ -54,15 +46,15 @@ abstract class StoreModulePlugin : Plugin<Project> {
                 commonMain.dependencies {
                     implementation(project(ModulePath.COMPOSE_APP.path))
                     implementation(project(ModulePath.CORE_PRESENTATION.path))
-                    implementation(library(LibraryName.COMPOSE_COMPONENTS_RESOURCES))
-                    implementation(library(LibraryName.COMPOSE_UI_TOOLING_PREVIEW))
-                    implementation(library(LibraryName.KOIN_CORE))
-                    implementation(library(LibraryName.KOIN_COMPOSE))
-                    implementation(library(LibraryName.FIREBASE_APP))
-                    implementation(library(LibraryName.KMPAUTH_GOOGLE))
+                    implementation(libs.compose.components.resources)
+                    implementation(libs.compose.ui.tooling.preview)
+                    implementation(libs.koin.core)
+                    implementation(libs.koin.compose)
+                    implementation(libs.firebase.app)
+                    implementation(libs.kmpauth.google)
                 }
                 androidMain.dependencies {
-                    implementation(project.dependencies.platform(library(LibraryName.FIREBASE_BOM)))
+                    implementation(project.dependencies.platform(libs.firebase.bom))
                 }
                 jvmMain.dependencies {
                     implementation(composeDep.desktop.currentOs)

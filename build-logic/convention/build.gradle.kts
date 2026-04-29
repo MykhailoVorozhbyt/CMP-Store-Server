@@ -10,6 +10,7 @@ dependencies {
     compileOnly(libs.kotlin.multiplatform.gradlePlugin)
     compileOnly(libs.compose.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
+    implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 }
 
 tasks {
