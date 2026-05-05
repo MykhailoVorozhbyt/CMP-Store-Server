@@ -1,10 +1,12 @@
 package com.store.di
 
 import com.feature.authentication.presentation.AuthenticationViewModel
+import com.feature.home.presentation.HomeGraphViewModel
 import com.feature.home.presentation.HomeViewModel
 import com.store.core.presentation.core.di.coroutines.IoDispatcher
 import com.store.core.presentation.core.di.coroutines.MainDispatcher
 import org.koin.core.module.dsl.viewModel
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -16,9 +18,9 @@ val viewModelModule = module {
             ioDispatcher = get(named<IoDispatcher>())
         )
     }
-
     viewModel {
-        HomeViewModel(
+        HomeGraphViewModel(
+            get(), get(), get(),
             mainDispatcher = get(named<MainDispatcher>()),
             ioDispatcher = get(named<IoDispatcher>())
         )

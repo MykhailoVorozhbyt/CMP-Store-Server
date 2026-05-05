@@ -31,6 +31,14 @@ interface StoreDimens {
     val defaultPadding: Dp
     val spaceBetweenItems: Dp
 
+    // Bottom Bar
+    val bottomBarShape: Dp
+    val bottomBarVerticalPadding: Dp
+    val bottomBarHorizontalPadding: Dp
+
+    // Drawer
+    val drawerItemPadding: Dp
+
     // Splash Logo Size
     val splashLogoSize: Dp
 
@@ -62,8 +70,12 @@ interface StoreDimens {
 
 val CompactDimens = object : StoreDimens {
     override val defaultPadding: Dp get() = 20.dp
-    override val splashLogoSize: Dp get() = 240.dp
     override val spaceBetweenItems: Dp get() = 12.dp
+    override val bottomBarShape: Dp get() = 12.dp
+    override val bottomBarVerticalPadding: Dp get() = 24.dp
+    override val bottomBarHorizontalPadding: Dp get() = 36.dp
+    override val drawerItemPadding: Dp get() = 12.dp
+    override val splashLogoSize: Dp get() = 240.dp
     override val iconSize: Dp get() = 24.dp
     override val iconLSize: Dp get() = 60.dp
     override val iconButonSize: Dp get() = 14.dp
@@ -83,8 +95,12 @@ val CompactDimens = object : StoreDimens {
 
 val MediumDimens = object : StoreDimens {
     override val defaultPadding: Dp get() = 20.dp
-    override val splashLogoSize: Dp get() = 240.dp
     override val spaceBetweenItems: Dp get() = 12.dp
+    override val bottomBarShape: Dp get() = 12.dp
+    override val bottomBarVerticalPadding: Dp get() = 24.dp
+    override val bottomBarHorizontalPadding: Dp get() = 36.dp
+    override val drawerItemPadding: Dp get() = 12.dp
+    override val splashLogoSize: Dp get() = 240.dp
     override val iconSize: Dp get() = 24.dp
     override val iconLSize: Dp get() = 60.dp
     override val iconButonSize: Dp get() = 14.dp
@@ -104,8 +120,12 @@ val MediumDimens = object : StoreDimens {
 
 val ExpandedDimens = object : StoreDimens {
     override val defaultPadding: Dp get() = 20.dp
-    override val splashLogoSize: Dp get() = 260.dp
     override val spaceBetweenItems: Dp get() = 14.dp
+    override val bottomBarShape: Dp get() = 12.dp
+    override val bottomBarVerticalPadding: Dp get() = 24.dp
+    override val bottomBarHorizontalPadding: Dp get() = 36.dp
+    override val drawerItemPadding: Dp get() = 12.dp
+    override val splashLogoSize: Dp get() = 260.dp
     override val iconSize: Dp get() = 24.dp
     override val iconLSize: Dp get() = 60.dp
     override val iconButonSize: Dp get() = 14.dp

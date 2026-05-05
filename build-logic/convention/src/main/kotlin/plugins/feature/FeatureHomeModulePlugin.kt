@@ -55,13 +55,12 @@ class FeatureHomePresentationModulePlugin : FeatureHomeModulePlugin() {
         kotlinMultiplatformExtension {
             sourceSets {
                 commonMain.dependencies {
+                    implementation(project(ModulePath.CORE_NAVIGATION.path))
                     implementation(project(ModulePath.CORE_RESOURCES.path))
                     implementation(project(ModulePath.CORE_PRESENTATION.path))
                     implementation(project(ModulePath.CORE_UTILS.path))
                     implementation(project(ModulePath.FEATURE_HOME_DOMAIN.path))
-
-                    implementation(libs.androidx.lifecycle.viewmodelCompose)
-                    implementation(libs.androidx.lifecycle.runtimeCompose)
+                    implementation(project(ModulePath.FEATURE_AUTHENTICATION_DOMAIN.path))
 
                     implementation(libs.compose.ui)
                     implementation(libs.compose.runtime)
@@ -69,6 +68,7 @@ class FeatureHomePresentationModulePlugin : FeatureHomeModulePlugin() {
                     implementation(libs.compose.material3)
                     implementation(libs.compose.components.resources)
                     implementation(libs.compose.ui.tooling.preview)
+                    implementation(libs.jetbrains.navigation3.ui)
 
                     implementation(libs.koin.core)
                     implementation(libs.koin.compose)
@@ -93,6 +93,9 @@ abstract class FeatureHomeModulePlugin : Plugin<Project> {
             sourceSets {
                 commonMain.dependencies {
                     implementation(project(ModulePath.SHARED.path))
+
+                    implementation(libs.androidx.lifecycle.viewmodelCompose)
+                    implementation(libs.androidx.lifecycle.runtimeCompose)
                 }
             }
         }

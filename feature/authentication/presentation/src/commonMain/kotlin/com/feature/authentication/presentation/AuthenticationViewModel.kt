@@ -13,10 +13,10 @@ import com.store.core.presentation.core.di.coroutines.MainDispatcher
 import com.store.core.presentation.core.viewmodel.BaseActionHandleViewModel
 import com.store.core.presentation.ui.ViewAction
 import com.store.core.resources.Res
-import com.store.core.resources.authentication_successful
-import com.store.core.resources.authentication_successful_account_exist
-import com.store.core.resources.internet_connection_unavailable
-import com.store.core.resources.sign_in_canceled
+import com.store.core.resources.auth_success
+import com.store.core.resources.auth_success_already_registered
+import com.store.core.resources.common_error_no_internet
+import com.store.core.resources.auth_error_canceled
 import com.store.core.utils.Logger
 import com.store.core.utils.i
 import kotlinx.coroutines.CoroutineDispatcher
@@ -52,10 +52,10 @@ class AuthenticationViewModel(
         viewModelScope.launch {
             useCase.invoke(action.user)
                 .onSuccess {
-                    emitEvent(AuthenticationViewAction.ToMainScreen(getString(Res.string.authentication_successful)))
+                    emitEvent(AuthenticationViewAction.ToMainScreen(getString(Res.string.auth_success)))
                 }
                 .onUserAlreadyExists {
-                    emitEvent(AuthenticationViewAction.ToMainScreen(getString(Res.string.authentication_successful_account_exist)))
+                    emitEvent(AuthenticationViewAction.ToMainScreen(getString(Res.string.auth_success_already_registered)))
                 }
                 .onFailure {
                     showError(it.errorCode)
@@ -70,8 +70,8 @@ class AuthenticationViewModel(
         Logger.i("OnGoogleSignInFailure: ${action.exception}")
         setGoogleLoading(false)
         when {
-            message?.contains(A_NETWORK_ERROR) == true -> showError(getString(Res.string.internet_connection_unavailable))
-            message?.contains(ID_TOKEN_IS_NULL) == true -> showError(getString(Res.string.sign_in_canceled))
+            message?.contains(A_NETWORK_ERROR) == true -> showError(getString(Res.string.common_error_no_internet))
+            message?.contains(ID_TOKEN_IS_NULL) == true -> showError(getString(Res.string.auth_error_canceled))
             else -> showError(message)
         }
     }

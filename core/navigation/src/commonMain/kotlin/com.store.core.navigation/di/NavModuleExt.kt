@@ -1,7 +1,8 @@
-package com.store.core.navigation
+package com.store.core.navigation.di
 
 import androidx.compose.runtime.Composable
 import androidx.navigation3.runtime.NavKey
+import com.store.core.navigation.di.NavKeyProviderInstaller
 import kotlinx.serialization.KSerializer
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.definition.KoinDefinition

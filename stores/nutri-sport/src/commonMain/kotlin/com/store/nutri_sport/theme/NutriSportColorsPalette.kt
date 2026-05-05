@@ -11,7 +11,7 @@ class NutriSportStoreThemeProvider() : StoreThemeProvider {
 
 private val nutriSportLightColorsPalette = object : StoreColorsPalette {
     // Window / Inputs
-    override val window: Color = Color(0xFFEEFF00)
+    override val window: Color = Color(0xFFFFFFFF)
     override val inputLabelTxt: Color = Color(0xFF000000)
 
     // Brand
@@ -43,7 +43,7 @@ private val nutriSportLightColorsPalette = object : StoreColorsPalette {
 
     // Surfaces
     override val surface: Color = Color(0xFFFFFFFF)
-    override val surfaceLight: Color = Color(0xFFF7F7F7)
+    override val surfaceLight: Color = Color(0xFF121212)
     override val surfaceDark: Color = Color(0xFFEAEAEA)
     override val surfaceError: Color = Color(0xFFE60000)
     override val surfaceBrand: Color = Color(0xFFE6FF00)
@@ -64,7 +64,7 @@ private val nutriSportLightColorsPalette = object : StoreColorsPalette {
 
 private val nutriSportDarkColorsPalette = object : StoreColorsPalette {
     // Window / Inputs
-    override val window: Color = Color(0xFFEEFF00)
+    override val window: Color = Color(0xFF000000)
     override val inputLabelTxt: Color = Color(0xFF000000)
 
     // Brand
@@ -85,7 +85,7 @@ private val nutriSportDarkColorsPalette = object : StoreColorsPalette {
     override val buttonSecondary: Color = Color(0xFFF2F2F2)
 
     // Icons
-    override val iconPrimary: Color = Color(0xFF000000)
+    override val iconPrimary: Color = Color(0xFFFFFFFF)
     override val iconSecondary: Color = Color(0xFFF24C00)
     override val iconWhite: Color = Color(0xFFFFFFFF)
 
@@ -96,7 +96,7 @@ private val nutriSportDarkColorsPalette = object : StoreColorsPalette {
 
     // Surfaces
     override val surface: Color = Color(0xFFFFFFFF)
-    override val surfaceLight: Color = Color(0xFFF7F7F7)
+    override val surfaceLight: Color = Color(0xFF121212)
     override val surfaceDark: Color = Color(0xFFEAEAEA)
     override val surfaceError: Color = Color(0xFFE60000)
     override val surfaceBrand: Color = Color(0xFFE6FF00)

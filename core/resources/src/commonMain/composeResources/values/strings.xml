@@ -1,11 +1,17 @@
 <resources>
+    <!-- Common (reusable across features) -->
+    <string name="common_loading">Please wait…</string>
+    <string name="common_error_unknown">Unknown error</string>
+    <string name="common_error_no_internet">Internet connection unavailable.</string>
+
+    <!-- Auth -->
     <string name="app_name">App</string>
-    <string name="sign_in_text">Sign in to continue</string>
-    <string name="sign_in_with_google">Sign in with Google</string>
-    <string name="please_wait">Please wait...</string>
-    <string name="authentication_successful">Authentication successful!</string>
-    <string name="authentication_successful_account_exist">You already have an account with log in!</string>
-    <string name="unknown_error">Unknown error</string>
-    <string name="internet_connection_unavailable">Internet connection unavailable.</string>
-    <string name="sign_in_canceled">Sign in canceled.</string>
+    <string name="auth_title">Sign in to continue</string>
+    <string name="auth_btn_google">Sign in with Google</string>
+    <string name="auth_success">Authentication successful!</string>
+    <string name="auth_success_already_registered">You already have an account. Please log in.</string>
+    <string name="auth_error_canceled">Sign in canceled.</string>
+
+    <!--Drawer-->
+    <string name="drawer_healthy_lifestyle">Healthy Lifestyle</string>
 </resources>

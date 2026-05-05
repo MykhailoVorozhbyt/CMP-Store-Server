@@ -60,9 +60,6 @@ class FeatureAuthenticationPresentationModulePlugin : FeatureAuthenticationModul
                     implementation(project(ModulePath.CORE_UTILS.path))
                     implementation(project(ModulePath.FEATURE_AUTHENTICATION_DOMAIN.path))
 
-                    implementation(libs.androidx.lifecycle.viewmodelCompose)
-                    implementation(libs.androidx.lifecycle.runtimeCompose)
-
                     implementation(libs.compose.ui)
                     implementation(libs.compose.runtime)
                     implementation(libs.compose.foundation)
@@ -95,6 +92,9 @@ abstract class FeatureAuthenticationModulePlugin : Plugin<Project> {
             sourceSets {
                 commonMain.dependencies {
                     implementation(project(ModulePath.SHARED.path))
+
+                    implementation(libs.androidx.lifecycle.viewmodelCompose)
+                    implementation(libs.androidx.lifecycle.runtimeCompose)
 
                     implementation(project.dependencies.platform(libs.firebase.bom))
                     implementation(libs.kmpauth.firebase)

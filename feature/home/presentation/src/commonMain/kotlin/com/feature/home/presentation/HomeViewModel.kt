@@ -17,4 +17,9 @@ class HomeViewModel(
     override suspend fun handleViewAction(action: ViewAction) {
         // implement after HomeViewData fields are defined
     }
+
+    fun signOut() {
+        //  onSuccess = navigateToAuth,
+        //  onError = { message -> messageBarState.addError(message) }
+    }
 }

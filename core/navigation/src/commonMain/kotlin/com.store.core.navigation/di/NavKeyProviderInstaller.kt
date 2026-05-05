@@ -1,4 +1,4 @@
-package com.store.core.navigation
+package com.store.core.navigation.di
 
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.modules.PolymorphicModuleBuilder

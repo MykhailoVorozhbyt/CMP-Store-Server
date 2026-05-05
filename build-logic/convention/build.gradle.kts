@@ -10,8 +10,9 @@ dependencies {
     compileOnly(libs.kotlin.multiplatform.gradlePlugin)
     compileOnly(libs.compose.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
-    implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
-}
+
+    // Workaround for version catalog working inside precompiled scripts https://github.com/gradle/gradle/issues/15383
+    compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))}
 
 tasks {
     validatePlugins {

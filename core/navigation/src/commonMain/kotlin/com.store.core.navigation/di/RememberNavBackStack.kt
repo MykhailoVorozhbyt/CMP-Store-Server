@@ -1,4 +1,4 @@
-package com.store.core.navigation
+package com.store.core.navigation.di
 
 import androidx.compose.runtime.Composable
 import androidx.navigation3.runtime.NavBackStack

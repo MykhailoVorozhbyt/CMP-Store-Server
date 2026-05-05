@@ -11,6 +11,9 @@ import org.cmp.store.network.safeApiCall
 
 class RemoteDataSource(private val client: HttpClient) {
 
+    /**
+     * For Custome
+     * */
     suspend fun createCustomer(customer: Customer): EmptyResult<NetworkError> =
         safeApiCall { client.post(CUSTOMER) { setBody(customer) } }
 
@@ -20,7 +23,13 @@ class RemoteDataSource(private val client: HttpClient) {
     suspend fun updateCustomer(customer: Customer): EmptyResult<NetworkError> =
         safeApiCall { client.put(CUSTOMER) { setBody(customer) } }
 
+    /**
+     * For Product
+     * */
+
+
     companion object {
         private const val CUSTOMER = "customer"
+        private const val PRODUCT = "product"
     }
 }

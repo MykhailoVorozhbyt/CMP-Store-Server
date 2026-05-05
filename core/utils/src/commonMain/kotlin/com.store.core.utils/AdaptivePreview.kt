@@ -6,11 +6,11 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 
 @Preview(
-    device = Devices.PIXEL_7_PRO,
+    device = Devices.PIXEL_9_PRO,
     name = "Phone preview Light"
 )
 @Preview(
-    device = Devices.PIXEL_7_PRO,
+    device = Devices.PIXEL_9_PRO,
     name = "Phone preview Dark",
     uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL
 )
@@ -79,6 +79,5 @@ annotation class DesktopPreview
 annotation class LargeScreensPreview
 
 @LargeScreensPreview
-@SmallPhonePreview
 @PhonePreview
 annotation class AdaptivePreview

@@ -1,29 +1,58 @@
 package com.store.di
 
 import com.feature.authentication.presentation.AuthenticationScreen
-import com.feature.home.presentation.HomeScreen
-import com.store.core.navigation.navEntry
-import com.store.core.presentation.navigation.Navigator
+import com.feature.home.presentation.HomeGraphScreen
+import com.feature.home.presentation.NavigationPlaceholderScreen
+import com.store.core.navigation.AppNavigator
+import com.store.core.navigation.di.navEntry
+import com.store.core.navigation.RootNavigator
 import org.cmp.store.navigation.Screen
 import org.koin.core.annotation.KoinExperimentalAPI
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 @OptIn(KoinExperimentalAPI::class)
 val navigationModule = module {
-    single { Navigator() }
+    singleOf(::AppNavigator)
+    singleOf(::RootNavigator)
 
     navEntry(Screen.Auth.serializer()) {
-        val navigator = get<Navigator>()
+        val navigator = get<AppNavigator>()
         AuthenticationScreen(
             navigateToHome = { m ->
-                navigator.backStack.remove(Screen.Auth)
-                navigator.backStack.add(Screen.HomeGraph(m))
+                navigator.replaceAll(Screen.HomeGraph(m))
             }
         )
     }
     navEntry(Screen.HomeGraph.serializer()) {
-        HomeScreen(
-            welcomeMessage = it.welcomeMessage
+        val appNavigator = get<AppNavigator>()
+        HomeGraphScreen(
+            welcomeMessage = it.welcomeMessage,
+            rootNavigator = appNavigator,
         )
+    }
+    navEntry(Screen.ProductsOverview.serializer()) {
+        NavigationPlaceholderScreen("Products overview")
+    }
+    navEntry(Screen.Cart.serializer()) {
+        NavigationPlaceholderScreen("Cart")
+    }
+    navEntry(Screen.Categories.serializer()) {
+        NavigationPlaceholderScreen("Categories")
+    }
+    navEntry(Screen.Profile.serializer()) {
+        NavigationPlaceholderScreen("Profile")
+    }
+    navEntry(Screen.AdminPanel.serializer()) {
+        NavigationPlaceholderScreen("Admin panel")
+    }
+    navEntry(Screen.Details.serializer()) {
+        NavigationPlaceholderScreen("Details: ${it.id}")
+    }
+    navEntry(Screen.CategorySearch.serializer()) {
+        NavigationPlaceholderScreen("Category: ${it.category}")
+    }
+    navEntry(Screen.Checkout.serializer()) {
+        NavigationPlaceholderScreen("Checkout total: ${it.totalAmount}")
     }
 }

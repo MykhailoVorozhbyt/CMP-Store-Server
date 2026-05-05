@@ -86,7 +86,7 @@ private val darkColorsPalette = object : StoreColorsPalette {
     override val buttonSecondary: Color = Color(0xFFF2F2F2)
 
     // Icon
-    override val iconPrimary: Color = Color(0xFF000000)
+    override val iconPrimary: Color = Color(0xFFFFFFFF)
     override val iconSecondary: Color = Color(0xFF1296FF)
     override val iconWhite: Color = Color(0xFFFFFFFF)
 
@@ -97,7 +97,7 @@ private val darkColorsPalette = object : StoreColorsPalette {
 
     // Surface
     override val surface: Color = Color(0xFFFFFFFF)
-    override val surfaceLight: Color = Color(0xFFFAFAFA)
+    override val surfaceLight: Color = Color(0xFF121212)
     override val surfaceDark: Color = Color(0xFFF1F1F1)
     override val surfaceError: Color = Color(0xFFBD5858)
     override val surfaceBrand: Color = Color(0xFF35FFB8)
