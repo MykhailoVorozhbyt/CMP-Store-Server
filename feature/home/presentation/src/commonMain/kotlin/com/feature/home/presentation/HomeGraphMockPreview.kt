@@ -5,7 +5,7 @@ import org.cmp.store.domain.customer.CartItem
 import org.cmp.store.domain.customer.Customer
 import org.cmp.store.domain.customer.PhoneNumber
 
-object HomeMockPreview {
+object HomeGraphMockPreview {
     fun getViewData() = HomeViewData(
         isLoading = false,
     )

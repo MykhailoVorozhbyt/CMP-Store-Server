@@ -6,7 +6,7 @@ import com.feature.authentication.domain.model.onSuccess
 import com.feature.authentication.domain.model.onUserAlreadyExists
 import com.feature.authentication.domain.usecases.CreateCustomerUseCase
 import com.feature.authentication.presentation.social_media.SocialMediaViewAction
-import com.feature.authentication.presentation.view_data.AuthenticationViewAction
+import com.feature.authentication.presentation.view_data.AuthenticationUiEvent
 import com.feature.authentication.presentation.view_data.AuthenticationViewData
 import com.store.core.presentation.core.di.coroutines.IoDispatcher
 import com.store.core.presentation.core.di.coroutines.MainDispatcher
@@ -52,10 +52,10 @@ class AuthenticationViewModel(
         viewModelScope.launch {
             useCase.invoke(action.user)
                 .onSuccess {
-                    emitEvent(AuthenticationViewAction.ToMainScreen(getString(Res.string.auth_success)))
+                    emitEvent(AuthenticationUiEvent.ToMainScreen(getString(Res.string.auth_success)))
                 }
                 .onUserAlreadyExists {
-                    emitEvent(AuthenticationViewAction.ToMainScreen(getString(Res.string.auth_success_already_registered)))
+                    emitEvent(AuthenticationUiEvent.ToMainScreen(getString(Res.string.auth_success_already_registered)))
                 }
                 .onFailure {
                     showError(it.errorCode)

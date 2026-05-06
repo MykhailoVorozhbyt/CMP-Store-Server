@@ -4,7 +4,7 @@ import com.store.core.resources.Resources
 import org.cmp.store.navigation.Screen
 import org.jetbrains.compose.resources.DrawableResource
 
-internal enum class BottomBarDestination(
+enum class BottomBarDestination(
     val icon: DrawableResource,
     val title: String,
     val screen: Screen

@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 @Preview(
     device = Devices.PIXEL_9_PRO,
     name = "Phone preview Dark",
-    uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL
+    uiMode = UI_MODE_NIGHT_YES
 )
 annotation class PhonePreview
 
@@ -29,7 +29,7 @@ annotation class PhonePreview
     widthDp = 300,
     heightDp = 500,
     apiLevel = 34,
-    uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL
+    uiMode = UI_MODE_NIGHT_YES
 )
 annotation class SmallPhonePreview
 
@@ -42,7 +42,7 @@ annotation class SmallPhonePreview
     device = Devices.PIXEL_FOLD,
     name = "Foldable preview Dark",
     apiLevel = 34,
-    uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL
+    uiMode = UI_MODE_NIGHT_YES
 )
 annotation class FoldablePreview
 
@@ -55,7 +55,7 @@ annotation class FoldablePreview
     device = Devices.PIXEL_TABLET,
     name = "Tablet preview Dark",
     apiLevel = 34,
-    uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL
+    uiMode = UI_MODE_NIGHT_YES
 )
 annotation class TabletPreview
 
@@ -68,7 +68,7 @@ annotation class TabletPreview
     device = Devices.DESKTOP,
     name = "Desktop preview Dark",
     apiLevel = 34,
-    uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL
+    uiMode = UI_MODE_NIGHT_YES
 )
 annotation class DesktopPreview
 

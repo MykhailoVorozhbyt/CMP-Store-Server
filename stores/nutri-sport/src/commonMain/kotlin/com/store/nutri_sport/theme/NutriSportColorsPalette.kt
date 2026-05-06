@@ -43,7 +43,7 @@ private val nutriSportLightColorsPalette = object : StoreColorsPalette {
 
     // Surfaces
     override val surface: Color = Color(0xFFFFFFFF)
-    override val surfaceLight: Color = Color(0xFF121212)
+    override val surfaceLight: Color = Color(0xFFFAFAFA)
     override val surfaceDark: Color = Color(0xFFEAEAEA)
     override val surfaceError: Color = Color(0xFFE60000)
     override val surfaceBrand: Color = Color(0xFFE6FF00)

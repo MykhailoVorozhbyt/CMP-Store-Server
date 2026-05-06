@@ -14,4 +14,10 @@
 
     <!--Drawer-->
     <string name="drawer_healthy_lifestyle">Healthy Lifestyle</string>
+    <string name="drawer_item_profile">Profile</string>
+    <string name="drawer_item_blog">Blog</string>
+    <string name="drawer_item_locations">Locations</string>
+    <string name="drawer_item_contact_us">Contact us</string>
+    <string name="drawer_item_sign_out">Sign Out</string>
+    <string name="drawer_item_admin_panel">Admin Panel</string>
 </resources>

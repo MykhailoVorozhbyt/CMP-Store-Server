@@ -44,6 +44,7 @@ import com.feature.home.presentation.utils.CustomDrawerState
 import com.feature.home.presentation.utils.TOP_LEVEL_SCREENS
 import com.feature.home.presentation.utils.isOpened
 import com.feature.home.presentation.utils.opposite
+import com.feature.home.presentation.view_data.HomeGraphUiEvent
 import com.store.core.navigation.AppNavigator
 import com.store.core.navigation.RootNavigator
 import com.store.core.navigation.rememberNavigationState
@@ -111,13 +112,18 @@ fun HomeGraphScreen(
 
     val snackBarState = remember { StoreSnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
-    viewModel.collectEventsWithDefaultProcessing(snackbarHostState = snackBarState)
+    viewModel.collectEventsWithDefaultProcessing(
+        snackbarHostState = snackBarState,
+        processCustom = { event, defaultProcess ->
+            when (event) {
+                is HomeGraphUiEvent.Navigate -> rootNavigator.navigate(event.screen)
+                event -> defaultProcess(event)
+            }
+        })
 
     LaunchedEffect(welcomeMessage) {
         welcomeMessage?.let { snackBarState.show(MessageEventData.success(it)) }
     }
-
-    StoreSnackbar(snackBarState)
 
     Box(
         modifier = Modifier
@@ -127,19 +133,8 @@ fun HomeGraphScreen(
     ) {
         CustomDrawer(
             customer = customer,
-            onProfileClick = { rootNavigator.navigate(Screen.Profile) },
-            onContactUsClick = {},
-            onSignOutClick = {
-                viewModel.signOut(
-                    onSuccess = { rootNavigator.replaceAll(Screen.Auth) },
-                    onError = { message ->
-                        coroutineScope.launch {
-                            snackBarState.show(MessageEventData.error(message))
-                        }
-                    },
-                )
-            },
-            onAdminPanelClick = { rootNavigator.navigate(Screen.AdminPanel) },
+            onItemClick = { navigator -> rootNavigator.navigate(navigator) },
+            onSignOutClick = viewModel::signOut,
         )
         Box(
             modifier = Modifier
@@ -217,14 +212,7 @@ fun HomeGraphScreen(
                         },
                     )
                 },
-            ) { padding ->
-                Column(modifier = Modifier.fillMaxSize().padding(padding)) {
-                    NavDisplay(
-                        modifier = Modifier.weight(1f),
-                        entries = navigator.state.toEntries(),
-                        onBack = navigator::goBack,
-                    )
-                    Spacer(modifier = Modifier.height(12.dp))
+                bottomBar = {
                     Box(modifier = Modifier.padding(all = 12.dp)) {
                         BottomBar(
                             customer = customer,
@@ -233,6 +221,17 @@ fun HomeGraphScreen(
                         )
                     }
                 }
+            ) { padding ->
+                Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+                    NavDisplay(
+                        modifier = Modifier.weight(1f),
+                        entries = navigator.state.toEntries(),
+                        onBack = navigator::goBack,
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
+                //TODO: fix
+                StoreSnackbar(snackBarState)
             }
         }
     }

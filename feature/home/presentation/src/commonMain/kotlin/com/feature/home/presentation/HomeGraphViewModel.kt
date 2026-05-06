@@ -1,10 +1,10 @@
 package com.feature.home.presentation
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.feature.authentication.domain.usecases.ReadCustomerUseCase
 import com.feature.authentication.domain.usecases.SignOutUseCase
 import com.feature.home.domain.repository.ProductRepository
+import com.feature.home.presentation.view_data.HomeGraphUiEvent
 import com.feature.home.presentation.view_data.HomeViewData
 import com.store.core.presentation.core.di.coroutines.IoDispatcher
 import com.store.core.presentation.core.di.coroutines.MainDispatcher
@@ -21,10 +21,11 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.cmp.store.navigation.Screen
 
 class HomeGraphViewModel(
-    private val productRepository: ProductRepository,
-    private val readCustomerUseCase: ReadCustomerUseCase,
+    productRepository: ProductRepository,
+    readCustomerUseCase: ReadCustomerUseCase,
     private val signOutUseCase: SignOutUseCase,
     @MainDispatcher mainDispatcher: CoroutineDispatcher,
     @IoDispatcher ioDispatcher: CoroutineDispatcher,
@@ -112,15 +113,13 @@ class HomeGraphViewModel(
             else flowOf(RequestState.Loading)
         }
 
-    fun signOut(
-        onSuccess: () -> Unit,
-        onError: (String) -> Unit,
-    ) {
-        viewModelScope.launch {
-            signOutUseCase()
-                .onSuccess { onSuccess() }
-                .onFailure { onError(it.message ?: SIGN_OUT_ERROR) }
-        }
+    fun signOut() {
+        showError("WERqwrawd")
+//        viewModelScope.launch {
+//            signOutUseCase()
+//                .onSuccess { emitEvent(HomeGraphUiEvent.Navigate(Screen.Auth)) }
+//                .onFailure { showError(it.message) }
+//        }
     }
 
     private companion object {

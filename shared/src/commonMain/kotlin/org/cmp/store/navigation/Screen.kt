@@ -34,6 +34,9 @@ sealed interface Screen : NavKey {
     data object AdminPanel : Screen
 
     @Serializable
+    data object ContactUs : Screen
+
+    @Serializable
     data class ManageProduct(
         val id: String? = null,
     ) : Screen
