@@ -1,12 +1,12 @@
 package com.feature.home.presentation
 
-import com.feature.home.presentation.view_data.HomeViewData
+import com.feature.home.presentation.view_data.HomeGraphViewData
 import org.cmp.store.domain.customer.CartItem
 import org.cmp.store.domain.customer.Customer
 import org.cmp.store.domain.customer.PhoneNumber
 
 object HomeGraphMockPreview {
-    fun getViewData() = HomeViewData(
+    fun getViewData() = HomeGraphViewData(
         isLoading = false,
     )
 

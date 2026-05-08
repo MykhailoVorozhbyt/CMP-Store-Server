@@ -52,7 +52,7 @@ fun BottomBar(
                     BadgedBox(
                         badge = {
                             if (destination == BottomBarDestination.Cart) {
-                                if (customer.isSuccess() && customer.getSuccessData().cart.isNotEmpty()) {
+                                if (customer.isSuccess() && customer.successData().cart.isNotEmpty()) {
                                     Badge(
                                         modifier = Modifier
                                             .size(8.dp)

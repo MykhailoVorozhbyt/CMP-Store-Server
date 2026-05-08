@@ -27,9 +27,12 @@ val navigationModule = module {
     navEntry(Screen.HomeGraph.serializer()) {
         val appNavigator = get<AppNavigator>()
         HomeGraphScreen(
-            welcomeMessage = it.welcomeMessage,
             rootNavigator = appNavigator,
+            welcomeMessage = it.welcomeMessage,
         )
+    }
+    navEntry(Screen.ContactUs.serializer()) {
+        NavigationPlaceholderScreen("Products overview")
     }
     navEntry(Screen.ProductsOverview.serializer()) {
         NavigationPlaceholderScreen("Products overview")

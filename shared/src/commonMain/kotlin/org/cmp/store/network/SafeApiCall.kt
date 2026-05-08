@@ -28,7 +28,8 @@ suspend fun <T> safeApiCall(
         ApiResult.Error(NetworkError.REQUEST_TIMEOUT)
     } catch (e: CancellationException) {
         throw e
-    } catch (_: Exception) {
+    } catch (e: Exception) {
+        print(e.message)
         ApiResult.Error(NetworkError.UNKNOWN)
     }
 }

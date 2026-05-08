@@ -3,6 +3,10 @@
     <string name="common_loading">Please wait…</string>
     <string name="common_error_unknown">Unknown error</string>
     <string name="common_error_no_internet">Internet connection unavailable.</string>
+    <string name="common_error_customer_read">Failed to read customer.</string>
+    <string name="common_error_product_read">Failed to read products.</string>
+    <string name="common_error_sign_out">Failed to sign out.</string>
+    <string name="common_error_calculating">Error while calculating total amount: %s</string>
 
     <!-- Auth -->
     <string name="app_name">App</string>
@@ -20,4 +24,5 @@
     <string name="drawer_item_contact_us">Contact us</string>
     <string name="drawer_item_sign_out">Sign Out</string>
     <string name="drawer_item_admin_panel">Admin Panel</string>
+
 </resources>

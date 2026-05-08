@@ -8,9 +8,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
@@ -28,7 +26,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,20 +41,19 @@ import com.feature.home.presentation.utils.CustomDrawerState
 import com.feature.home.presentation.utils.TOP_LEVEL_SCREENS
 import com.feature.home.presentation.utils.isOpened
 import com.feature.home.presentation.utils.opposite
-import com.feature.home.presentation.view_data.HomeGraphUiEvent
+import com.feature.home.presentation.view_data.HomeGraphViewAction
 import com.store.core.navigation.AppNavigator
 import com.store.core.navigation.RootNavigator
 import com.store.core.navigation.rememberNavigationState
 import com.store.core.navigation.toEntries
 import com.store.core.presentation.theme.StoreTheme
 import com.store.core.presentation.ui.base.MessageEventData
+import com.store.core.presentation.ui.base.UiEvent
 import com.store.core.presentation.ui.base.collectEventsWithDefaultProcessing
 import com.store.core.presentation.ui.components.StoreSnackbar
 import com.store.core.presentation.ui.components.StoreSnackbarHostState
-import com.store.core.presentation.utils.RequestState
 import com.store.core.resources.Resources
 import com.store.core.utils.Alpha
-import kotlinx.coroutines.launch
 import org.cmp.store.navigation.Screen
 import org.cmp.store.utils.getScreenWidth
 import org.jetbrains.compose.resources.painterResource
@@ -68,9 +64,9 @@ import org.koin.compose.viewmodel.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeGraphScreen(
-    welcomeMessage: String? = null,
-    viewModel: HomeGraphViewModel = koinViewModel(),
     rootNavigator: AppNavigator,
+    viewModel: HomeGraphViewModel = koinViewModel(),
+    welcomeMessage: String? = null,
 ) {
     val navigationState = rememberNavigationState(
         startKey = Screen.ProductsOverview,
@@ -107,16 +103,16 @@ fun HomeGraphScreen(
         targetValue = if (drawerState.isOpened()) 20.dp else 0.dp
     )
 
-    val customer by viewModel.customer.collectAsState()
-    val totalAmount by viewModel.totalAmountFlow.collectAsState(RequestState.Loading)
+    val viewData by viewModel.viewDataState.collectAsState()
+    val customer = viewData.customer
 
     val snackBarState = remember { StoreSnackbarHostState() }
-    val coroutineScope = rememberCoroutineScope()
     viewModel.collectEventsWithDefaultProcessing(
         snackbarHostState = snackBarState,
         processCustom = { event, defaultProcess ->
             when (event) {
-                is HomeGraphUiEvent.Navigate -> rootNavigator.navigate(event.screen)
+                is UiEvent.Navigate -> rootNavigator.navigate(event.screen)
+                is UiEvent.NavigateInclusive -> rootNavigator.replaceAll(event.screen)
                 event -> defaultProcess(event)
             }
         })
@@ -134,7 +130,7 @@ fun HomeGraphScreen(
         CustomDrawer(
             customer = customer,
             onItemClick = { navigator -> rootNavigator.navigate(navigator) },
-            onSignOutClick = viewModel::signOut,
+            onSignOutClick = { viewModel.onViewAction(HomeGraphViewAction.SignOutClicked) },
         )
         Box(
             modifier = Modifier
@@ -155,29 +151,18 @@ fun HomeGraphScreen(
                     CenterAlignedTopAppBar(
                         title = {
                             AnimatedContent(targetState = selectedDestination) { destination ->
-                                Text(text = destination.title)
+                                Text(
+                                    text = destination.title,
+                                    style = StoreTheme.typography.topAppBar
+                                )
                             }
                         },
                         actions = {
                             AnimatedVisibility(visible = selectedDestination == BottomBarDestination.Cart) {
-                                if (customer.isSuccess() && customer.getSuccessData().cart.isNotEmpty()) {
+                                if (customer.isSuccess() && customer.successData().cart.isNotEmpty()) {
                                     IconButton(
                                         onClick = {
-                                            if (totalAmount.isSuccess()) {
-                                                rootNavigator.navigate(
-                                                    Screen.Checkout(
-                                                        totalAmount.getSuccessData().toString()
-                                                    ),
-                                                )
-                                            } else if (totalAmount.isError()) {
-                                                coroutineScope.launch {
-                                                    snackBarState.show(
-                                                        MessageEventData.error(
-                                                            "Error while calculating total amount: ${totalAmount.getErrorMessage()}",
-                                                        ),
-                                                    )
-                                                }
-                                            }
+                                            viewModel.onViewAction(HomeGraphViewAction.CheckoutClicked)
                                         },
                                     ) {
                                         Icon(
@@ -222,16 +207,14 @@ fun HomeGraphScreen(
                     }
                 }
             ) { padding ->
-                Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+                Box(modifier = Modifier.fillMaxSize().padding(padding)) {
                     NavDisplay(
-                        modifier = Modifier.weight(1f),
+//                        modifier = Modifier.weight(1f),
                         entries = navigator.state.toEntries(),
                         onBack = navigator::goBack,
                     )
-                    Spacer(modifier = Modifier.height(12.dp))
+                    StoreSnackbar(snackBarState)
                 }
-                //TODO: fix
-                StoreSnackbar(snackBarState)
             }
         }
     }
@@ -242,7 +225,7 @@ fun NavigationPlaceholderScreen(title: String) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(StoreTheme.color.window)
+            .background(StoreTheme.color.brand1)
             .padding(StoreTheme.dimens.defaultPadding),
     ) {
         Text(title)

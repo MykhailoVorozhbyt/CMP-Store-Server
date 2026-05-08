@@ -14,10 +14,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.feature.home.presentation.HomeGraphMockPreview
 import com.feature.home.presentation.utils.DrawerItem
-import com.feature.home.presentation.view_data.HomeGraphUiEvent
 import com.store.core.presentation.theme.PreviewTheme
 import com.store.core.presentation.theme.StoreTheme
-import com.store.core.presentation.ui.base.UiEvent
 import com.store.core.presentation.utils.RequestState
 import com.store.core.resources.Res
 import com.store.core.resources.drawer_healthy_lifestyle
@@ -71,7 +69,7 @@ fun CustomDrawer(
         }
         Spacer(modifier = Modifier.weight(1f))
         AnimatedContent(targetState = customer) { customerState ->
-            if (customerState.isSuccess() && customerState.getSuccessData().isAdmin) {
+            if (customerState.isSuccess() && customerState.successData().isAdmin) {
                 DrawerItemCard(
                     drawerItem = DrawerItem.Admin,
                     onClick = { onItemClick(Screen.AdminPanel) }

@@ -16,8 +16,7 @@ class AppNavigator {
     }
 
     fun replaceAll(screen: Screen) {
-        while (backStack.removeLastOrNull() != null) {
-        }
+        backStack.clear()
         backStack.add(screen)
     }
 
