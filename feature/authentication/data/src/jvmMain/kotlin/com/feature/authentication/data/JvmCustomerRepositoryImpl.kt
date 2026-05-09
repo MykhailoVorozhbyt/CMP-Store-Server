@@ -1,8 +1,8 @@
 package com.feature.authentication.data
 
+import com.feature.authentication.domain.model.AuthUser
 import com.feature.authentication.domain.model.CreateCustomerResult
 import com.feature.authentication.domain.repository.CustomerRepository
-import dev.gitlive.firebase.auth.FirebaseUser
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import org.cmp.store.domain.customer.Customer
@@ -12,7 +12,7 @@ private const val DESKTOP_AUTH_MESSAGE = "Google/Firebase auth is not configured
 class JvmCustomerRepositoryImpl : CustomerRepository {
     override fun getCurrentUserId(): String? = null
 
-    override suspend fun createCustomer(user: FirebaseUser?): CreateCustomerResult {
+    override suspend fun createCustomer(user: AuthUser?): CreateCustomerResult {
         return CreateCustomerResult.Failure(DESKTOP_AUTH_MESSAGE)
     }
 

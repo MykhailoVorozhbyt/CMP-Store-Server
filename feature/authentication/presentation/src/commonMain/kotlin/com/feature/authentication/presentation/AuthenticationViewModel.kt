@@ -1,6 +1,7 @@
 package com.feature.authentication.presentation
 
 import androidx.lifecycle.viewModelScope
+import com.feature.authentication.domain.model.AuthUser
 import com.feature.authentication.domain.model.onFailure
 import com.feature.authentication.domain.model.onSuccess
 import com.feature.authentication.domain.model.onUserAlreadyExists
@@ -13,10 +14,10 @@ import com.store.core.presentation.core.di.coroutines.MainDispatcher
 import com.store.core.presentation.core.viewmodel.BaseActionHandleViewModel
 import com.store.core.presentation.ui.ViewAction
 import com.store.core.resources.Res
+import com.store.core.resources.auth_error_canceled
 import com.store.core.resources.auth_success
 import com.store.core.resources.auth_success_already_registered
 import com.store.core.resources.common_error_no_internet
-import com.store.core.resources.auth_error_canceled
 import com.store.core.utils.Logger
 import com.store.core.utils.i
 import kotlinx.coroutines.CoroutineDispatcher
@@ -50,7 +51,13 @@ class AuthenticationViewModel(
 
     private fun handleGoogleSignInSuccess(action: SocialMediaViewAction.OnGoogleSignInSuccess) {
         viewModelScope.launch {
-            useCase.invoke(action.user)
+            useCase.invoke(
+                AuthUser(
+                    uid = action.user?.uid,
+                    displayName = action.user?.displayName,
+                    email = action.user?.email,
+                )
+            )
                 .onSuccess {
                     emitEvent(AuthenticationUiEvent.ToMainScreen(getString(Res.string.auth_success)))
                 }

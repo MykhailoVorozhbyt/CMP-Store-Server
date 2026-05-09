@@ -1,6 +1,7 @@
 package com.store.di.modules.core
 
 import com.feature.authentication.data.RemoteDataSource as AuthRemoteDataSource
+import com.feature.authentication.data.RemoteDataSourceImpl as AuthRemoteDataSourceImpl
 import com.feature.home.data.RemoteDataSource as HomeRemoteDataSource
 import com.store.core.presentation.core.di.coroutines.ApplicationScope
 import com.store.core.presentation.core.di.coroutines.DefaultDispatcher
@@ -16,6 +17,7 @@ import org.cmp.store.network.createHttpClient
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val dispatchersModule: Module = module {
@@ -30,6 +32,6 @@ val dispatchersModule: Module = module {
 
 val networkModule = module {
     singleOf(::createHttpClient)
-    singleOf(::AuthRemoteDataSource)
+    singleOf(::AuthRemoteDataSourceImpl).bind(AuthRemoteDataSource::class)
     singleOf(::HomeRemoteDataSource)
 }

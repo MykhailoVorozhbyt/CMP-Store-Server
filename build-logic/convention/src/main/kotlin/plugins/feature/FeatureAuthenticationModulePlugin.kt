@@ -35,6 +35,10 @@ class FeatureAuthenticationDataModulePlugin : FeatureAuthenticationModulePlugin(
                 jvmMain.dependencies {
                     implementation(libs.ktor.clientOkHttp)
                 }
+                commonTest.dependencies {
+                    implementation(libs.kotlin.test)
+                    implementation(libs.ktor.clientMock)
+                }
             }
         }
     }

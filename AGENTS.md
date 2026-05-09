@@ -32,6 +32,13 @@ All commands use Gradle wrapper. On Windows use `.\gradlew.bat` instead of `./gr
 
 For iOS: open `/iosApp` in Xcode and run from there.
 
+## Network Safety Rule
+
+- Never download anything from the internet without the user's explicit prior consent.
+- Never run commands that fetch dependencies, artifacts, packages, SDKs, Gradle modules, or any other external resources without the user's explicit prior consent.
+- Never create temporary folders or extracted-inspection directories for downloaded/external artifacts without the user's explicit prior consent.
+- If a task might require network access or fetching external resources, stop and ask first.
+
 ## Module Structure
 
 ```

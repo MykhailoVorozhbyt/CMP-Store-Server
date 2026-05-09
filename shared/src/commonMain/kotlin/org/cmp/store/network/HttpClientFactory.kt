@@ -10,6 +10,7 @@ import kotlinx.serialization.json.Json
 import org.cmp.store.SERVER_PORT
 
 fun createHttpClient(): HttpClient = HttpClient {
+    expectSuccess = true
     install(Logging) {
         level = LogLevel.ALL
     }
