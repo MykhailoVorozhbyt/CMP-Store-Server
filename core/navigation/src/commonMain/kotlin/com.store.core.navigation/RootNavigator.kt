@@ -2,15 +2,12 @@ package com.store.core.navigation
 
 import androidx.navigation3.runtime.NavKey
 
-
 /**
  * Handles navigation events (forward and back) by updating the navigation state.
  */
-class RootNavigator {
-    /**
-     * The navigation state that will be updated in response to navigation events.
-     */
-    lateinit var state: NavigationState
+class RootNavigator(
+    private val state: NavigationState,
+) {
 
     /**
      * Navigate to a navigation key
@@ -30,7 +27,7 @@ class RootNavigator {
      */
     fun goBack() {
         when (state.currentKey) {
-            state.startKey -> error("You cannot go back from the start route")
+            state.startKey -> Unit
             state.currentTopLevelKey -> state.topLevelStack.removeLastOrNull()
             else -> state.currentSubStack.removeLastOrNull()
         }
@@ -72,4 +69,3 @@ class RootNavigator {
         }
     }
 }
-

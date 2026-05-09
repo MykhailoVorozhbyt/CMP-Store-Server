@@ -4,12 +4,9 @@ import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import org.cmp.store.navigation.Screen
 
-class AppNavigator {
-    private var backStack: NavBackStack<NavKey> = NavBackStack()
-
-    fun attach(backStack: NavBackStack<NavKey>) {
-        this.backStack = backStack
-    }
+class AppNavigator(
+    private val backStack: NavBackStack<NavKey>,
+) {
 
     fun navigate(screen: Screen) {
         backStack.add(screen)
@@ -20,7 +17,6 @@ class AppNavigator {
         backStack.add(screen)
     }
 
-    fun back() {
-        backStack.removeLastOrNull()
-    }
+    fun back() = backStack.removeLastOrNull()
+
 }

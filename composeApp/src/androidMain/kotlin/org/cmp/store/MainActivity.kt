@@ -15,7 +15,7 @@ class MainActivity : ComponentActivity() {
 //        WindowCompat.enableEdgeToEdge(window)
         super.onCreate(savedInstanceState)
         setContent {
-            BaseTheme { App() }
+            App()
         }
     }
 }

@@ -26,7 +26,7 @@ enum class BottomBarDestination(
     )
 }
 
-internal val TOP_LEVEL_SCREENS = setOf(
+internal val TOP_LEVEL_SCREENS = listOf(
     Screen.ProductsOverview,
     Screen.Cart,
     Screen.Categories,

@@ -42,7 +42,7 @@ import com.feature.home.presentation.utils.TOP_LEVEL_SCREENS
 import com.feature.home.presentation.utils.isOpened
 import com.feature.home.presentation.utils.opposite
 import com.feature.home.presentation.view_data.HomeGraphViewAction
-import com.store.core.navigation.AppNavigator
+import com.store.core.navigation.LocalAppNavigator
 import com.store.core.navigation.RootNavigator
 import com.store.core.navigation.rememberNavigationState
 import com.store.core.navigation.toEntries
@@ -64,7 +64,6 @@ import org.koin.compose.viewmodel.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeGraphScreen(
-    rootNavigator: AppNavigator,
     viewModel: HomeGraphViewModel = koinViewModel(),
     welcomeMessage: String? = null,
 ) {
@@ -72,8 +71,8 @@ fun HomeGraphScreen(
         startKey = Screen.ProductsOverview,
         topLevelKeys = TOP_LEVEL_SCREENS,
     )
-    val navigator = remember { RootNavigator() }
-    navigator.state = navigationState
+    val rootNavigator = LocalAppNavigator.current
+    val navigator = remember(navigationState) { RootNavigator(navigationState) }
 
     val selectedDestination by remember(navigationState.currentTopLevelKey) {
         derivedStateOf {
@@ -210,7 +209,7 @@ fun HomeGraphScreen(
                 Box(modifier = Modifier.fillMaxSize().padding(padding)) {
                     NavDisplay(
 //                        modifier = Modifier.weight(1f),
-                        entries = navigator.state.toEntries(),
+                        entries = navigationState.toEntries(),
                         onBack = navigator::goBack,
                     )
                     StoreSnackbar(snackBarState)

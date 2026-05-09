@@ -19,12 +19,16 @@ import org.koin.core.annotation.KoinExperimentalAPI
 @Composable
 fun rememberNavigationState(
     startKey: NavKey,
-    topLevelKeys: Set<NavKey>,
+    topLevelKeys: List<NavKey>,
 ): NavigationState {
     val topLevelStack = rememberKoinNavBackStack(startKey)
-    val subStacks = topLevelKeys.associateWith { key -> rememberKoinNavBackStack(key) }
+    val topLevelKeysList = remember(topLevelKeys) { topLevelKeys.toList() }
+    val subStackPairs = topLevelKeysList.map { key ->
+        key to rememberKoinNavBackStack(key)
+    }
+    val subStacks = rememberMap(subStackPairs)
 
-    return remember(startKey, topLevelKeys) {
+    return remember(startKey, topLevelKeysList, topLevelStack, subStacks) {
         NavigationState(
             startKey = startKey,
             topLevelStack = topLevelStack,
@@ -40,8 +44,9 @@ class NavigationState(
 ) {
     val currentTopLevelKey: NavKey by derivedStateOf { topLevelStack.last() }
 
-    val topLevelKeys: Set<NavKey>
+    val topLevelKeys: List<NavKey>
         get() = subStacks.keys
+            .toList()
 
     val currentSubStack: NavBackStack<NavKey>
         get() = subStacks[currentTopLevelKey]
@@ -55,7 +60,7 @@ class NavigationState(
 fun NavigationState.toEntries(
     entryProvider: (Any) -> NavEntry<Any> = koinEntryProvider(),
 ): SnapshotStateList<NavEntry<Any>> {
-    val decoratedEntries = subStacks.mapValues { (_, backStack) ->
+    val decoratedEntryPairs = subStacks.map { (key, backStack) ->
         rememberDecoratedNavEntries(
             backStack = backStack,
             entryDecorators = listOf(
@@ -63,10 +68,24 @@ fun NavigationState.toEntries(
                 rememberViewModelStoreNavEntryDecorator(),
             ),
             entryProvider = entryProvider,
-        )
+        ) to key
     }
+    val decoratedEntries = rememberMap(
+        decoratedEntryPairs.map { (entries, key) -> key to entries },
+    )
 
     return topLevelStack
         .flatMap { decoratedEntries[it] ?: emptyList() }
         .toMutableStateList()
+}
+
+@Composable
+private fun <K, V> rememberMap(entries: List<Pair<K, V>>): Map<K, V> {
+    val rememberKeys = entries.flatMap { (key, value) -> listOf(key as Any, value as Any) }
+        .toTypedArray()
+    return remember(*rememberKeys) {
+        linkedMapOf<K, V>().apply {
+            entries.forEach { (key, value) -> put(key, value) }
+        }
+    }
 }

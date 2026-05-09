@@ -1,6 +1,7 @@
 package com.store.core.navigation.di
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -24,11 +25,15 @@ fun rememberKoinNavBackStack(vararg elements: NavKey): NavBackStack<NavKey> {
 private fun koinNavConfigProvider(
     scope: Scope = LocalKoinScopeContext.current.getValue(),
 ): SavedStateConfiguration {
-    val entries = scope.getAll<NavKeyProviderInstaller<out NavKey>>()
-    return SavedStateConfiguration {
-        serializersModule = SerializersModule {
-            polymorphic(NavKey::class) {
-                entries.forEach { it.build(this) }
+    val installers = remember(scope) {
+        scope.getAll<NavKeyProviderInstaller<out NavKey>>()
+    }
+    return remember(scope, installers) {
+        SavedStateConfiguration {
+            serializersModule = SerializersModule {
+                polymorphic(NavKey::class) {
+                    installers.forEach { it.build(this) }
+                }
             }
         }
     }
