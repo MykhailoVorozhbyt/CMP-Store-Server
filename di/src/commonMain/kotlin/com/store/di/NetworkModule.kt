@@ -1,11 +1,13 @@
 package com.store.di
 
-import com.feature.authentication.data.RemoteDataSource
+import com.feature.authentication.data.RemoteDataSource as AuthRemoteDataSource
+import com.feature.home.data.RemoteDataSource as HomeRemoteDataSource
 import org.cmp.store.network.createHttpClient
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val networkModule = module {
     singleOf(::createHttpClient)
-    singleOf(::RemoteDataSource)
+    singleOf(::AuthRemoteDataSource)
+    singleOf(::HomeRemoteDataSource)
 }

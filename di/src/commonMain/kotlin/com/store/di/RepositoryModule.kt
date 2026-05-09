@@ -4,9 +4,11 @@ import com.feature.authentication.data.CustomerRepositoryImpl
 import com.feature.authentication.domain.repository.CustomerRepository
 import com.feature.home.data.ProductRepositoryImpl
 import com.feature.home.domain.repository.ProductRepository
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    single<CustomerRepository> { CustomerRepositoryImpl(get()) }
-    single<ProductRepository> { ProductRepositoryImpl() }
+    singleOf(::CustomerRepositoryImpl).bind(CustomerRepository::class)
+    singleOf(::ProductRepositoryImpl).bind(ProductRepository::class)
 }

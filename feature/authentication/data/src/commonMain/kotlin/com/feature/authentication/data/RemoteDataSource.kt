@@ -23,13 +23,7 @@ class RemoteDataSource(private val client: HttpClient) {
     suspend fun updateCustomer(customer: Customer): EmptyResult<NetworkError> =
         safeApiCall { client.put(CUSTOMER) { setBody(customer) } }
 
-    /**
-     * For Product
-     * */
-
-
     companion object {
         private const val CUSTOMER = "customer"
-        private const val PRODUCT = "product"
     }
 }

@@ -25,4 +25,19 @@
     <string name="drawer_item_sign_out">Sign Out</string>
     <string name="drawer_item_admin_panel">Admin Panel</string>
 
+    <!--Currency-->
+    <string name="currency_uah">UAH</string>
+    <string name="currency_usd">USD</string>
+    <string name="currency_euro">EURO</string>
+    <string name="currency_franc">FRANC</string>
+
+    <!--Measurements-->
+    <string name="measurement_kilograms">Kilograms</string>
+    <string name="measurement_liters">Liters</string>
+    <string name="measurement_milliliters">Milliliters</string>
+    <string name="measurement_grams">Grams</string>
+    <string name="measurement_gallons">Gallons</string>
+    <string name="measurement_portions">Portions</string>
+    <string name="measurement_single_item">Single Item</string>
+
 </resources>

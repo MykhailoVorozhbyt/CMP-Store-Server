@@ -1,7 +1,8 @@
 package org.cmp.store.domain.product
 
-import androidx.compose.ui.graphics.Color
+import kotlinx.serialization.Serializable
 
+@Serializable
 enum class ProductCategory(
     val title: String,
 //    val color: Color
