@@ -1,6 +1,6 @@
 package com.store.di.modules.auth
 
-import com.feature.authentication.data.CustomerRepositoryImpl
+import com.feature.authentication.data.RemoteDataSource
 import com.feature.authentication.domain.repository.CustomerRepository
 import com.feature.authentication.domain.usecases.CreateCustomerUseCase
 import com.feature.authentication.domain.usecases.GetCurrentUserIdUseCase
@@ -11,14 +11,18 @@ import com.feature.authentication.presentation.AuthenticationViewModel
 import com.store.core.presentation.core.di.coroutines.IoDispatcher
 import com.store.core.presentation.core.di.coroutines.MainDispatcher
 import org.koin.core.module.dsl.factoryOf
-import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
-import org.koin.dsl.bind
 import org.koin.dsl.module
 
+internal expect class PlatformRepositoryProvider(remoteDataSource: RemoteDataSource) {
+    fun createCustomerRepository(): CustomerRepository
+}
+
 private val authRepositoryModule = module {
-    singleOf(::CustomerRepositoryImpl).bind(CustomerRepository::class)
+    single<CustomerRepository> {
+        PlatformRepositoryProvider(get()).createCustomerRepository()
+    }
 }
 
 private val authUseCaseModule = module {

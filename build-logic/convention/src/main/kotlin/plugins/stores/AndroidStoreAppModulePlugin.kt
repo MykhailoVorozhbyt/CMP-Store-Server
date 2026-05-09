@@ -9,6 +9,7 @@ import extensions.kotlinMultiplatformExtension
 import extensions.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.gradle.kotlin.dsl.invoke
 import utils.enums.ModuleName
 import utils.enums.ModulePath
@@ -33,6 +34,7 @@ abstract class StoreModulePlugin : Plugin<Project> {
     abstract val packageName: String
     abstract val appVersion: String
 
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
     override fun apply(target: Project) = with(target) {
         pluginManager.alias(libs.plugins.store.kotlinMultiplatform)
         pluginManager.alias(libs.plugins.store.composeMultiplatform)
@@ -40,7 +42,11 @@ abstract class StoreModulePlugin : Plugin<Project> {
         kotlinMultiplatformExtension {
             configureAndroidLibraryBase(moduleName.mName)
             configureIOS()
-            jvm()
+            jvm {
+                mainRun {
+                    mainClass.set(this@StoreModulePlugin.mainClass)
+                }
+            }
 
             sourceSets {
                 commonMain.dependencies {
