@@ -11,8 +11,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.ShortNavigationBarItem
+import androidx.compose.material3.ShortNavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,18 +21,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.feature.home.presentation.HomeGraphMockPreview
 import com.feature.home.presentation.utils.BottomBarDestination
+import com.feature.home.presentation.view_data.CustomerViewData
 import com.store.core.presentation.theme.PreviewTheme
 import com.store.core.presentation.theme.StoreTheme
 import com.store.core.presentation.utils.RequestState
 import com.store.core.utils.AdaptivePreview
 import com.store.core.utils.Alpha
-import org.cmp.store.domain.customer.Customer
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun BottomBar(
     modifier: Modifier = Modifier,
-    customer: RequestState<Customer>,
+    customer: RequestState<CustomerViewData>,
     selected: BottomBarDestination,
     onSelect: (BottomBarDestination) -> Unit,
 ) {
@@ -42,51 +42,66 @@ fun BottomBar(
             .clip(RoundedCornerShape(size = StoreTheme.dimens.bottomBarShape))
             .background(StoreTheme.color.surfaceLight),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceAround
     ) {
         BottomBarDestination.entries.forEach { destination ->
-            NavigationBarItem(
+            BottomBarItem(
+                destination = destination,
                 selected = selected == destination,
-                onClick = { onSelect(destination) },
-                icon = {
-                    BadgedBox(
-                        badge = {
-                            if (destination == BottomBarDestination.Cart) {
-                                if (customer.isSuccess() && customer.successData().cart.isNotEmpty()) {
-                                    Badge(
-                                        modifier = Modifier
-                                            .size(8.dp)
-                                            .offset(x = 12.dp, y = (-12).dp)
-                                            .clip(CircleShape),
-                                        containerColor = StoreTheme.color.iconSecondary
-                                    )
-                                }
-                            }
-                        },
-                        content = {
-                            Icon(
-                                painter = painterResource(destination.icon),
-                                contentDescription = "Bottom Bar destination icon",
-                            )
-                        }
-                    )
-                },
-                label = {
-                    Text(
-                        destination.title,
-                        style = StoreTheme.typography.bs
-                    )
-                },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = StoreTheme.color.iconSecondary,
-                    selectedTextColor = StoreTheme.color.iconSecondary,
-                    indicatorColor = StoreTheme.color.surfaceSecondary.copy(alpha = Alpha.TEN_PERCENT),
-                    unselectedIconColor = StoreTheme.color.iconPrimary,
-                    unselectedTextColor = StoreTheme.color.iconPrimary,
-                )
+                cartBadgeVisible = destination == BottomBarDestination.Cart
+                        && customer.isSuccess()
+                        && customer.successData().cart.isNotEmpty(),
+                onSelect = onSelect,
             )
         }
     }
+}
+
+@Composable
+private fun BottomBarItem(
+    destination: BottomBarDestination,
+    selected: Boolean,
+    cartBadgeVisible: Boolean,
+    onSelect: (BottomBarDestination) -> Unit,
+) {
+    ShortNavigationBarItem(
+        selected = selected,
+        onClick = { onSelect(destination) },
+        icon = {
+            BadgedBox(
+                badge = {
+                    if (cartBadgeVisible) {
+                        Badge(
+                            modifier = Modifier
+                                .size(8.dp)
+                                .offset(x = 12.dp, y = (-12).dp)
+                                .clip(CircleShape),
+                            containerColor = StoreTheme.color.iconSecondary
+                        )
+                    }
+                },
+                content = {
+                    Icon(
+                        painter = painterResource(destination.icon),
+                        contentDescription = "Bottom Bar destination icon",
+                    )
+                }
+            )
+        },
+        label = {
+            Text(
+                destination.title,
+                style = StoreTheme.typography.bs
+            )
+        },
+        colors = ShortNavigationBarItemDefaults.colors(
+            selectedIconColor = StoreTheme.color.iconSecondary,
+            selectedTextColor = StoreTheme.color.iconSecondary,
+            selectedIndicatorColor = StoreTheme.color.surfaceSecondary.copy(alpha = Alpha.TEN_PERCENT),
+            unselectedIconColor = StoreTheme.color.iconPrimary,
+            unselectedTextColor = StoreTheme.color.iconPrimary,
+        )
+    )
 }
 
 @AdaptivePreview

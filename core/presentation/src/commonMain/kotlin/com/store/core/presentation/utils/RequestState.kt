@@ -1,5 +1,8 @@
 package com.store.core.presentation.utils
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 sealed class RequestState<out T> {
     data object Idle : RequestState<Nothing>()
     data object Loading : RequestState<Nothing>()

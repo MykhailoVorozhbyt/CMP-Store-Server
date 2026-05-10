@@ -10,12 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import com.feature.home.presentation.utils.DrawerItem
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.store.core.presentation.theme.PreviewTheme
 import com.store.core.presentation.theme.StoreTheme
 import com.store.core.utils.AdaptivePreview
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
+@TraceRecomposition(tag = "DrawerItemCard")
 @Composable
 fun DrawerItemCard(
     drawerItem: DrawerItem,

@@ -1,6 +1,7 @@
 package com.feature.home.presentation.utils
 
 import com.store.core.resources.Resources
+import kotlinx.collections.immutable.persistentListOf
 import org.cmp.store.navigation.Screen
 import org.jetbrains.compose.resources.DrawableResource
 
@@ -26,7 +27,7 @@ enum class BottomBarDestination(
     )
 }
 
-internal val TOP_LEVEL_SCREENS = listOf(
+internal val TOP_LEVEL_SCREENS = persistentListOf(
     Screen.ProductsOverview,
     Screen.Cart,
     Screen.Categories,

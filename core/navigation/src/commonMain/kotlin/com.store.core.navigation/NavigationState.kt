@@ -13,13 +13,14 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberDecoratedNavEntries
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import com.store.core.navigation.di.rememberKoinNavBackStack
+import kotlinx.collections.immutable.ImmutableList
 import org.koin.compose.navigation3.koinEntryProvider
 import org.koin.core.annotation.KoinExperimentalAPI
 
 @Composable
 fun rememberNavigationState(
     startKey: NavKey,
-    topLevelKeys: List<NavKey>,
+    topLevelKeys: ImmutableList<NavKey>,
 ): NavigationState {
     val topLevelStack = rememberKoinNavBackStack(startKey)
     val topLevelKeysList = remember(topLevelKeys) { topLevelKeys.toList() }

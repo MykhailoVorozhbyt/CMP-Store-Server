@@ -9,13 +9,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.feature.authentication.presentation.social_media.ui.SocialMediaBlockContent
 import com.feature.authentication.presentation.view_data.AuthenticationUiEvent
 import com.feature.authentication.presentation.view_data.AuthenticationViewData
@@ -35,7 +35,7 @@ fun AuthenticationScreen(
     viewModel: AuthenticationViewModel = koinViewModel(),
     navigateToHome: (String) -> Unit
 ) {
-    val viewData by viewModel.viewDataState.collectAsState()
+    val viewData by viewModel.viewDataState.collectAsStateWithLifecycle()
     val snackBarState = remember { StoreSnackbarHostState() }
     viewModel.collectEventsWithDefaultProcessing(
         snackbarHostState = snackBarState,

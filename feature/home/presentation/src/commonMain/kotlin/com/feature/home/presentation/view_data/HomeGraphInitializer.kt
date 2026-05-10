@@ -2,12 +2,15 @@ package com.feature.home.presentation.view_data
 
 import com.feature.authentication.domain.usecases.ReadCustomerUseCase
 import com.feature.home.domain.usecases.ReadProductsByIdsUseCase
+import com.feature.home.presentation.mappers.toViewData
 import com.store.core.presentation.ui.base.ActionHandlerScope
 import com.store.core.presentation.ui.base.ViewDataInitializer
 import com.store.core.presentation.utils.RequestState
 import com.store.core.resources.Res
 import com.store.core.resources.common_error_customer_read
 import com.store.core.resources.common_error_product_read
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -30,25 +33,7 @@ class HomeGraphInitializer(
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun initialize(ctx: ActionHandlerScope<HomeGraphViewData>) {
         val customer = readCustomer(ctx)
-        val products = customer
-            .flatMapLatest { customerState ->
-                when {
-                    customerState.isSuccess() -> {
-                        val productIds = customerState.successData().cart
-                            .map { it.productId }
-                            .toSet()
-                            .toList()
-                        if (productIds.isEmpty()) {
-                            flowOf(RequestState.Success(emptyList()))
-                        } else {
-                            readProductsByIds(productIds)
-                        }
-                    }
-
-                    customerState.isError() -> flowOf(RequestState.Error(customerState.errorMessage()))
-                    else -> flowOf(RequestState.Loading)
-                }
-            }
+        val products = getProducts(customer)
 
         val cartItemsWithProducts = combine(customer, products, ::buildCartItemsWithProducts)
         val totalAmount = cartItemsWithProducts.map(::calculateTotalAmount)
@@ -70,6 +55,28 @@ class HomeGraphInitializer(
             }
         }
     }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun getProducts(customer: StateFlow<RequestState<Customer>>): Flow<RequestState<List<Product>>> =
+        customer
+            .flatMapLatest { customerState ->
+                when {
+                    customerState.isSuccess() -> {
+                        val productIds = customerState.successData().cart
+                            .map { it.productId }
+                            .toSet()
+                            .toList()
+                        if (productIds.isEmpty()) {
+                            flowOf(RequestState.Success(emptyList()))
+                        } else {
+                            readProductsByIds(productIds)
+                        }
+                    }
+
+                    customerState.isError() -> flowOf(RequestState.Error(customerState.errorMessage()))
+                    else -> flowOf(RequestState.Loading)
+                }
+            }
 
     private fun readCustomer(ctx: ActionHandlerScope<HomeGraphViewData>): StateFlow<RequestState<Customer>> =
         readCustomerUseCase()
@@ -145,18 +152,21 @@ class HomeGraphInitializer(
         message = "For test only. Remove when backend cart data is wired.",
         level = DeprecationLevel.WARNING,
     )
-    private fun RequestState<Customer>.withTestCartItems(): RequestState<Customer> =
+    private fun RequestState<Customer>.withTestCartItems(): RequestState<CustomerViewData> =
         when (this) {
-            is RequestState.Success -> RequestState.Success(data.copy(cart = getTestCartItems()))
-            is RequestState.Error -> this
-            RequestState.Idle -> this
-            RequestState.Loading -> this
+            is RequestState.Success -> RequestState.Success(
+                data.toViewData().copy(cart = getTestCartItems())
+            )
+
+            is RequestState.Error -> RequestState.Error(message)
+            RequestState.Idle -> RequestState.Idle
+            RequestState.Loading -> RequestState.Loading
         }
 
-    private fun getTestCartItems(): List<CartItem> = listOf(
-        CartItem(productId = "protein-whey-1", quantity = 1),
-        CartItem(productId = "creatine-1", quantity = 2),
-        CartItem(productId = "shaker-1", quantity = 1),
+    private fun getTestCartItems(): ImmutableList<CartItemViewData> = persistentListOf(
+        CartItemViewData(id = "1", productId = "protein-whey-1", quantity = 1),
+        CartItemViewData(id = "1", productId = "creatine-1", quantity = 2),
+        CartItemViewData(id = "1", productId = "shaker-1", quantity = 1),
     )
 
 }

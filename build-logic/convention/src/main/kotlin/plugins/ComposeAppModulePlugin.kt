@@ -63,7 +63,7 @@ class ComposeAppModulePlugin : Plugin<Project> {
                 }
                 jvmMain.dependencies {
                     implementation(composeDep.desktop.currentOs)
-                    implementation(libs.kotlinx.coroutinesSwing)
+                    implementation(libs.kotlinx.coroutines.swing)
                 }
             }
         }

@@ -33,6 +33,7 @@ class CoreNavigationModulePlugin : Plugin<Project> {
                         implementation(libs.jetbrains.material3.adaptiveNavigation3)
                         implementation(libs.jetbrains.lifecycle.viewmodelNavigation3)
                         implementation(libs.kotlinx.serialization.json)
+                        implementation(libs.kotlinx.collections.immutable)
                     }
                 }
             }

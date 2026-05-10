@@ -52,6 +52,7 @@ class FeatureHomePresentationModulePlugin : FeatureHomeModulePlugin() {
     override fun apply(target: Project): Unit = with(target) project@{
         super.apply(target)
         pluginManager.alias(libs.plugins.store.composeMultiplatform)
+        pluginManager.alias(libs.plugins.stability.analyzer)
         kotlinMultiplatformExtension {
             sourceSets {
                 commonMain.dependencies {
@@ -69,6 +70,7 @@ class FeatureHomePresentationModulePlugin : FeatureHomeModulePlugin() {
                     implementation(libs.compose.components.resources)
                     implementation(libs.compose.ui.tooling.preview)
                     implementation(libs.jetbrains.navigation3.ui)
+                    implementation(libs.kotlinx.collections.immutable)
 
                     implementation(libs.koin.core)
                     implementation(libs.koin.compose)

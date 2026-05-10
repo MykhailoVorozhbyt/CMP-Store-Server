@@ -9,24 +9,27 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.feature.home.presentation.HomeGraphMockPreview
 import com.feature.home.presentation.utils.DrawerItem
+import com.feature.home.presentation.view_data.CustomerViewData
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.store.core.presentation.theme.PreviewTheme
 import com.store.core.presentation.theme.StoreTheme
 import com.store.core.presentation.utils.RequestState
 import com.store.core.resources.Res
 import com.store.core.resources.drawer_healthy_lifestyle
 import com.store.core.utils.AdaptivePreview
-import org.cmp.store.domain.customer.Customer
 import org.cmp.store.navigation.Screen
 import org.jetbrains.compose.resources.stringResource
 
+@TraceRecomposition(tag = "CustomDrawer")
 @Composable
 fun CustomDrawer(
-    customer: RequestState<Customer>,
+    customer: RequestState<CustomerViewData>,
     onItemClick: (Screen) -> Unit,
     onSignOutClick: () -> Unit,
 ) {
@@ -53,11 +56,12 @@ fun CustomDrawer(
         )
         Spacer(modifier = Modifier.height(50.dp))
         DrawerItem.entries.filter { it.default }.forEach { item ->
+            val drawer = remember { item }
             DrawerItemCard(
-                drawerItem = item,
+                drawerItem = drawer,
                 onClick = {
-                    when (item) {
-                        DrawerItem.Profile, DrawerItem.Contact -> item.navigation?.let { navigation ->
+                    when (drawer) {
+                        DrawerItem.Profile, DrawerItem.Contact -> drawer.navigation?.let { navigation ->
                             onItemClick(navigation)
                         }
 
