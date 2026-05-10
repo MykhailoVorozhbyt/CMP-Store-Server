@@ -35,6 +35,10 @@ class FeatureHomeDataModulePlugin : FeatureHomeModulePlugin() {
                 jvmMain.dependencies {
                     implementation(libs.ktor.clientOkHttp)
                 }
+                commonTest.dependencies {
+                    implementation(libs.kotlin.test)
+                    implementation(libs.ktor.clientMock)
+                }
             }
         }
     }
@@ -70,6 +74,7 @@ class FeatureHomePresentationModulePlugin : FeatureHomeModulePlugin() {
                     implementation(libs.compose.components.resources)
                     implementation(libs.compose.ui.tooling.preview)
                     implementation(libs.jetbrains.navigation3.ui)
+
                     implementation(libs.kotlinx.collections.immutable)
 
                     implementation(libs.koin.core)

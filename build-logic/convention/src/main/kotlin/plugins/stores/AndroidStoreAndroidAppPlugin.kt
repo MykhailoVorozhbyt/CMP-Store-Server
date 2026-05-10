@@ -52,7 +52,7 @@ abstract class StoreAndroidAppPlugin : Plugin<Project> {
                     isMinifyEnabled = providers.gradleProperty("minifyWithR8")
                         .map(String::toBooleanStrict).getOrElse(true)
                     isShrinkResources = true
-                    isDebuggable = true
+//                    isDebuggable = true
                     proguardFiles(
                         getDefaultProguardFile("proguard-android-optimize.txt"),
                         "proguard-rules.pro"

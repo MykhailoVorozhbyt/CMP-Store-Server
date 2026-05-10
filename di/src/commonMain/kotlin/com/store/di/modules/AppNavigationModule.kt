@@ -12,12 +12,7 @@ import org.koin.dsl.module
 @OptIn(KoinExperimentalAPI::class)
 val appNavigationModule = module {
     navEntry(Screen.Auth.serializer()) {
-        val navigator = LocalAppNavigator.current
-        AuthenticationScreen(
-            navigateToHome = { message ->
-                navigator.replaceAll(Screen.HomeGraph(message))
-            },
-        )
+        AuthenticationScreen()
     }
     navEntry(Screen.HomeGraph.serializer()) {
         HomeGraphScreen(welcomeMessage = it.welcomeMessage)

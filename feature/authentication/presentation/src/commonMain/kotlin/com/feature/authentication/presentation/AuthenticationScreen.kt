@@ -19,6 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.feature.authentication.presentation.social_media.ui.SocialMediaBlockContent
 import com.feature.authentication.presentation.view_data.AuthenticationUiEvent
 import com.feature.authentication.presentation.view_data.AuthenticationViewData
+import com.store.core.navigation.LocalAppNavigator
 import com.store.core.presentation.theme.PreviewTheme
 import com.store.core.presentation.theme.StoreTheme
 import com.store.core.presentation.ui.ViewAction
@@ -27,21 +28,21 @@ import com.store.core.presentation.ui.components.StoreSnackbar
 import com.store.core.presentation.ui.components.StoreSnackbarHostState
 import com.store.core.utils.AdaptivePreview
 import com.store.core.utils.Alpha
+import org.cmp.store.navigation.Screen
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun AuthenticationScreen(
-    viewModel: AuthenticationViewModel = koinViewModel(),
-    navigateToHome: (String) -> Unit
-) {
+fun AuthenticationScreen() {
+    val viewModel = koinViewModel<AuthenticationViewModel>()
     val viewData by viewModel.viewDataState.collectAsStateWithLifecycle()
     val snackBarState = remember { StoreSnackbarHostState() }
+    val navigator = LocalAppNavigator.current
     viewModel.collectEventsWithDefaultProcessing(
         snackbarHostState = snackBarState,
         processCustom = { event, defaultProcess ->
             when (event) {
-                is AuthenticationUiEvent.ToMainScreen -> navigateToHome(event.welcomeMessage)
+                is AuthenticationUiEvent.ToMainScreen -> navigator.replaceAll(Screen.HomeGraph(event.welcomeMessage))
                 event -> defaultProcess(event)
             }
         })

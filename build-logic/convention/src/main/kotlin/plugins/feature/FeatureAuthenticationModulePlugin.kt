@@ -56,9 +56,11 @@ class FeatureAuthenticationPresentationModulePlugin : FeatureAuthenticationModul
     override fun apply(target: Project): Unit = with(target) project@{
         super.apply(target)
         pluginManager.alias(libs.plugins.store.composeMultiplatform)
+        pluginManager.alias(libs.plugins.stability.analyzer)
         kotlinMultiplatformExtension {
             sourceSets {
                 commonMain.dependencies {
+                    implementation(project(ModulePath.CORE_NAVIGATION.path))
                     implementation(project(ModulePath.CORE_RESOURCES.path))
                     implementation(project(ModulePath.CORE_PRESENTATION.path))
                     implementation(project(ModulePath.CORE_UTILS.path))
@@ -70,6 +72,7 @@ class FeatureAuthenticationPresentationModulePlugin : FeatureAuthenticationModul
                     implementation(libs.compose.material3)
                     implementation(libs.compose.components.resources)
                     implementation(libs.compose.ui.tooling.preview)
+                    implementation(libs.jetbrains.navigation3.ui)
 
                     implementation(libs.koin.core)
                     implementation(libs.koin.compose)

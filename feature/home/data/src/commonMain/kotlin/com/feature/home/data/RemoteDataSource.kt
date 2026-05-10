@@ -10,26 +10,34 @@ import org.cmp.store.network.ApiResult
 import org.cmp.store.network.NetworkError
 import org.cmp.store.network.safeApiCall
 
-class RemoteDataSource(
+interface RemoteDataSource {
+    suspend fun getDiscountedProducts(): ApiResult<List<Product>, NetworkError>
+    suspend fun getNewProducts(): ApiResult<List<Product>, NetworkError>
+    suspend fun getProduct(id: String): ApiResult<Product, NetworkError>
+    suspend fun getProductsByIds(ids: List<String>): ApiResult<List<Product>, NetworkError>
+    suspend fun getProductsByCategory(category: ProductCategory): ApiResult<List<Product>, NetworkError>
+}
+
+class RemoteDataSourceImpl(
     private val client: HttpClient,
-) {
-    suspend fun getDiscountedProducts(): ApiResult<List<Product>, NetworkError> =
+) : RemoteDataSource {
+    override suspend fun getDiscountedProducts(): ApiResult<List<Product>, NetworkError> =
         safeApiCall { client.get("$PRODUCT/discounted").body() }
 
-    suspend fun getNewProducts(): ApiResult<List<Product>, NetworkError> =
+    override suspend fun getNewProducts(): ApiResult<List<Product>, NetworkError> =
         safeApiCall { client.get("$PRODUCT/new").body() }
 
-    suspend fun getProduct(id: String): ApiResult<Product, NetworkError> =
+    override suspend fun getProduct(id: String): ApiResult<Product, NetworkError> =
         safeApiCall { client.get("$PRODUCT/$id").body() }
 
-    suspend fun getProductsByIds(ids: List<String>): ApiResult<List<Product>, NetworkError> =
+    override suspend fun getProductsByIds(ids: List<String>): ApiResult<List<Product>, NetworkError> =
         safeApiCall {
             client.get("$PRODUCT/by-ids") {
                 parameter("ids", ids.joinToString(","))
             }.body()
         }
 
-    suspend fun getProductsByCategory(category: ProductCategory): ApiResult<List<Product>, NetworkError> =
+    override suspend fun getProductsByCategory(category: ProductCategory): ApiResult<List<Product>, NetworkError> =
         safeApiCall { client.get("$PRODUCT/by-category/${category.name}").body() }
 
     private companion object {
