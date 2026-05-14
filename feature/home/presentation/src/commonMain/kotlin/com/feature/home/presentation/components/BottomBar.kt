@@ -90,8 +90,9 @@ private fun BottomBarItem(
         },
         label = {
             Text(
-                destination.title,
-                style = StoreTheme.typography.bs
+                text = destination.title,
+                style = StoreTheme.typography.bs,
+                color = StoreTheme.color.textPrimary
             )
         },
         colors = ShortNavigationBarItemDefaults.colors(

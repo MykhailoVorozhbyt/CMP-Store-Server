@@ -9,8 +9,6 @@ import com.store.core.presentation.utils.RequestState
 import com.store.core.resources.Res
 import com.store.core.resources.common_error_customer_read
 import com.store.core.resources.common_error_product_read
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -47,7 +45,7 @@ class HomeGraphInitializer(
                 ->
                 HomeGraphViewData(
                     isLoading = customerState.isLoading() || productsState.isLoading(),
-                    customer = customerState.withTestCartItems(),
+                    customer = customerState.toViewData(),
                     totalAmountFlow = totalAmountState,
                 )
             }.collect { viewData ->
@@ -147,26 +145,5 @@ class HomeGraphInitializer(
             else -> RequestState.Loading
         }
     }
-
-    @Deprecated(
-        message = "For test only. Remove when backend cart data is wired.",
-        level = DeprecationLevel.WARNING,
-    )
-    private fun RequestState<Customer>.withTestCartItems(): RequestState<CustomerViewData> =
-        when (this) {
-            is RequestState.Success -> RequestState.Success(
-                data.toViewData().copy(cart = getTestCartItems())
-            )
-
-            is RequestState.Error -> RequestState.Error(message)
-            RequestState.Idle -> RequestState.Idle
-            RequestState.Loading -> RequestState.Loading
-        }
-
-    private fun getTestCartItems(): ImmutableList<CartItemViewData> = persistentListOf(
-        CartItemViewData(id = "1", productId = "protein-whey-1", quantity = 1),
-        CartItemViewData(id = "1", productId = "creatine-1", quantity = 2),
-        CartItemViewData(id = "1", productId = "shaker-1", quantity = 1),
-    )
 
 }

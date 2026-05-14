@@ -4,28 +4,28 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 enum class ProductCategory(
-    val title: String,
-//    val color: Color
+    val id: Long,
+    val title: String
 ) {
     Protein(
-        title = "Protein",
-//        color = CategoryYellow
+        id = 1L,
+        title = "Protein"
     ),
     Creatine(
-        title = "Creatine",
-//        color = CategoryBlue
+        id = 2L,
+        title = "Creatine"
     ),
     PreWorkout(
-        title = "Pre-Workout",
-//        color = CategoryGreen
+        id = 3L,
+        title = "Pre-Workout"
     ),
     Gainers(
-        title = "Gainers",
-//        color = CategoryPurple
+        id = 4L,
+        title = "Gainers"
     ),
     Accessories(
-        title = "Accessories",
-//        color = CategoryRed
+        id = 5L,
+        title = "Accessories"
     ),
-    Unknown("")
+    Unknown(0L, "")
 }

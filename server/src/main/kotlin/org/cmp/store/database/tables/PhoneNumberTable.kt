@@ -1,6 +1,6 @@
 package org.cmp.store.database.tables
 
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.v1.core.Table
 
 object PhoneNumberTable : Table("phone_numbers") {
     val customerId = varchar("customer_id", 128).references(CustomerTable.id)

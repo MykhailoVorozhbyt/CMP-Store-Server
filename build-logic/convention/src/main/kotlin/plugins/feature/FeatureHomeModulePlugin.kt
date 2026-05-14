@@ -67,13 +67,18 @@ class FeatureHomePresentationModulePlugin : FeatureHomeModulePlugin() {
                     implementation(project(ModulePath.FEATURE_HOME_DOMAIN.path))
                     implementation(project(ModulePath.FEATURE_AUTHENTICATION_DOMAIN.path))
 
+                    implementation(libs.androidx.lifecycle.viewmodelCompose)
+                    implementation(libs.androidx.lifecycle.runtimeCompose)
+
                     implementation(libs.compose.ui)
                     implementation(libs.compose.runtime)
                     implementation(libs.compose.foundation)
                     implementation(libs.compose.material3)
                     implementation(libs.compose.components.resources)
                     implementation(libs.compose.ui.tooling.preview)
+
                     implementation(libs.jetbrains.navigation3.ui)
+                    implementation(libs.jetbrains.material3.adaptiveLayout)
 
                     implementation(libs.kotlinx.collections.immutable)
 
@@ -100,9 +105,7 @@ abstract class FeatureHomeModulePlugin : Plugin<Project> {
             sourceSets {
                 commonMain.dependencies {
                     implementation(project(ModulePath.SHARED.path))
-
-                    implementation(libs.androidx.lifecycle.viewmodelCompose)
-                    implementation(libs.androidx.lifecycle.runtimeCompose)
+                    implementation(libs.kotlinx.coroutines.core)
                 }
             }
         }

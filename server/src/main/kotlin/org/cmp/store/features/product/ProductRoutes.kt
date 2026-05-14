@@ -11,7 +11,7 @@ import org.cmp.store.domain.product.ProductCategory
 fun Route.productRoutes() {
     route("/product") {
         get("/discounted") {
-            call.respond(ProductDao.readDiscounted(discountedProductIds))
+            call.respond(ProductDao.readDiscounted())
         }
         get("/new") {
             call.respond(ProductDao.readNew(4))
@@ -24,11 +24,11 @@ fun Route.productRoutes() {
                 .orEmpty()
             call.respond(ProductDao.readByIds(ids))
         }
-        get("/by-category/{category}") {
-            val categoryName = call.parameters["category"]
+        get("/by-category/{categoryId}") {
+            val categoryId = call.parameters["categoryId"]?.toLongOrNull()
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "Missing category")
-            val category = ProductCategory.entries.firstOrNull { it.name.equals(categoryName, ignoreCase = true) }
-                ?: return@get call.respond(HttpStatusCode.BadRequest, "Unknown category: $categoryName")
+            val category = ProductCategory.entries.firstOrNull { it.id == categoryId }
+                ?: return@get call.respond(HttpStatusCode.BadRequest, "Unknown category: $categoryId")
             call.respond(ProductDao.readByCategory(category))
         }
         get("/{id}") {
@@ -40,5 +40,3 @@ fun Route.productRoutes() {
         }
     }
 }
-
-private val discountedProductIds = setOf("protein-whey-1", "creatine-1", "preworkout-2")

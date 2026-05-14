@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ProductMeasurements(
-    val id: String,
+    val id: Long,
     val name: String,
     val iconId: Int
 )

@@ -12,7 +12,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         enableEdgeToEdge()
-//        WindowCompat.enableEdgeToEdge(window)
         super.onCreate(savedInstanceState)
         setContent {
             App()

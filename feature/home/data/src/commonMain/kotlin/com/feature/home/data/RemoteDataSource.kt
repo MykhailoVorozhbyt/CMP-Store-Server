@@ -38,7 +38,7 @@ class RemoteDataSourceImpl(
         }
 
     override suspend fun getProductsByCategory(category: ProductCategory): ApiResult<List<Product>, NetworkError> =
-        safeApiCall { client.get("$PRODUCT/by-category/${category.name}").body() }
+        safeApiCall { client.get("$PRODUCT/by-category/${category.id}").body() }
 
     private companion object {
         const val PRODUCT = "product"

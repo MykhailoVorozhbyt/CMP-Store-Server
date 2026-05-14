@@ -19,7 +19,9 @@ class ProductRepositoryImplTest {
             title = "Whey Protein Gold",
             description = "Fast-absorbing whey protein.",
             thumbnail = "",
-            category = ProductCategory.Protein.title,
+            categoryId = ProductCategory.Protein.id,
+            measurementId = 1L,
+            currencyId = 840L,
             flavors = listOf("Chocolate"),
             weight = 900,
             price = 54.99,
@@ -30,7 +32,9 @@ class ProductRepositoryImplTest {
             title = "Creatine Monohydrate",
             description = "Classic creatine.",
             thumbnail = "",
-            category = ProductCategory.Creatine.title,
+            categoryId = ProductCategory.Creatine.id,
+            measurementId = 1L,
+            currencyId = 840L,
             weight = 300,
             price = 24.99,
             isDiscounted = true,
@@ -40,7 +44,9 @@ class ProductRepositoryImplTest {
             title = "Isolate Pro",
             description = "High-purity isolate.",
             thumbnail = "",
-            category = ProductCategory.Protein.title,
+            categoryId = ProductCategory.Protein.id,
+            measurementId = 1L,
+            currencyId = 840L,
             flavors = listOf("Strawberry"),
             weight = 750,
             price = 69.99,
@@ -51,7 +57,9 @@ class ProductRepositoryImplTest {
             title = "Pump Matrix",
             description = "Pre-workout for pump.",
             thumbnail = "",
-            category = ProductCategory.PreWorkout.title,
+            categoryId = ProductCategory.PreWorkout.id,
+            measurementId = 1L,
+            currencyId = 840L,
             weight = 390,
             price = 39.99,
             isDiscounted = true,
@@ -77,16 +85,14 @@ class ProductRepositoryImplTest {
     }
 
     @Test
-    fun readDiscountedProducts_returnsFallbackWhenApiFails() = runBlocking {
+    fun readDiscountedProducts_returnsFailureWhenApiFails() = runBlocking {
         val api = FakeRemoteDataSource().apply {
             discountedProductsResult = ApiResult.Error(NetworkError.NO_INTERNET)
         }
 
         val result = createRepository(api).readDiscountedProducts().first()
 
-        assertTrue(result.isSuccess)
-        val fallbackIds = setOf("protein-whey-1", "creatine-1", "preworkout-2")
-        result.getOrThrow().forEach { assertTrue(it.id in fallbackIds) }
+        assertTrue(result.isFailure)
     }
 
     // ─── readNewProducts ──────────────────────────────────────────────────────
@@ -105,15 +111,14 @@ class ProductRepositoryImplTest {
     }
 
     @Test
-    fun readNewProducts_returnsLast4LocalProductsWhenApiFails() = runBlocking {
+    fun readNewProducts_returnsFailureWhenApiFails() = runBlocking {
         val api = FakeRemoteDataSource().apply {
             newProductsResult = ApiResult.Error(NetworkError.NO_INTERNET)
         }
 
         val result = createRepository(api).readNewProducts().first()
 
-        assertTrue(result.isSuccess)
-        assertEquals(4, result.getOrThrow().size)
+        assertTrue(result.isFailure)
     }
 
     // ─── readProductByIdFlow ──────────────────────────────────────────────────
@@ -132,27 +137,14 @@ class ProductRepositoryImplTest {
     }
 
     @Test
-    fun readProductByIdFlow_returnsLocalProductWhenApiFailsAndIdExists() = runBlocking {
+    fun readProductByIdFlow_returnsFailureWhenApiFails() = runBlocking {
         val api = FakeRemoteDataSource().apply {
             productByIdResult = ApiResult.Error(NetworkError.NO_INTERNET)
         }
 
         val result = createRepository(api).readProductByIdFlow("protein-whey-1").first()
 
-        assertTrue(result.isSuccess)
-        assertEquals("protein-whey-1", result.getOrThrow().id)
-    }
-
-    @Test
-    fun readProductByIdFlow_returnsFailureWhenApiFailsAndIdNotFound() = runBlocking {
-        val api = FakeRemoteDataSource().apply {
-            productByIdResult = ApiResult.Error(NetworkError.NO_INTERNET)
-        }
-
-        val result = createRepository(api).readProductByIdFlow("non-existent-id").first()
-
         assertTrue(result.isFailure)
-        assertTrue(result.exceptionOrNull() is IllegalArgumentException)
     }
 
     // ─── readProductsByIdsFlow ────────────────────────────────────────────────
@@ -172,7 +164,7 @@ class ProductRepositoryImplTest {
     }
 
     @Test
-    fun readProductsByIdsFlow_returnsLocalProductsFilteredByIdsWhenApiFails() = runBlocking {
+    fun readProductsByIdsFlow_returnsFailureWhenApiFails() = runBlocking {
         val ids = listOf("protein-whey-1", "creatine-1")
         val api = FakeRemoteDataSource().apply {
             productsByIdsResult = ApiResult.Error(NetworkError.NO_INTERNET)
@@ -180,28 +172,14 @@ class ProductRepositoryImplTest {
 
         val result = createRepository(api).readProductsByIdsFlow(ids).first()
 
-        assertTrue(result.isSuccess)
-        result.getOrThrow().forEach { assertTrue(it.id in ids) }
-    }
-
-    @Test
-    fun readProductsByIdsFlow_returnsEmptyListWhenApiFailsAndNoMatchingLocalIds() = runBlocking {
-        val api = FakeRemoteDataSource().apply {
-            productsByIdsResult = ApiResult.Error(NetworkError.NO_INTERNET)
-        }
-
-        val result =
-            createRepository(api).readProductsByIdsFlow(listOf("unknown-1", "unknown-2")).first()
-
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrThrow().isEmpty())
+        assertTrue(result.isFailure)
     }
 
     // ─── readProductsByCategoryFlow ───────────────────────────────────────────
 
     @Test
     fun readProductsByCategoryFlow_returnsSuccessWhenApiSucceeds() = runBlocking {
-        val expected = sampleProducts.filter { it.category == ProductCategory.Protein.title }
+        val expected = sampleProducts.filter { it.categoryId == ProductCategory.Protein.id }
         val api = FakeRemoteDataSource().apply {
             productsByCategoryResult = ApiResult.Success(expected)
         }
@@ -214,7 +192,7 @@ class ProductRepositoryImplTest {
     }
 
     @Test
-    fun readProductsByCategoryFlow_returnsLocalProductsFilteredByCategoryWhenApiFails() =
+    fun readProductsByCategoryFlow_returnsFailureWhenApiFails() =
         runBlocking {
             val api = FakeRemoteDataSource().apply {
                 productsByCategoryResult = ApiResult.Error(NetworkError.NO_INTERNET)
@@ -223,20 +201,6 @@ class ProductRepositoryImplTest {
             val result =
                 createRepository(api).readProductsByCategoryFlow(ProductCategory.Protein).first()
 
-            assertTrue(result.isSuccess)
-            result.getOrThrow().forEach { assertEquals(ProductCategory.Protein.title, it.category) }
+            assertTrue(result.isFailure)
         }
-
-    @Test
-    fun readProductsByCategoryFlow_returnsEmptyListWhenApiFailsAndNoCategoryMatch() = runBlocking {
-        val api = FakeRemoteDataSource().apply {
-            productsByCategoryResult = ApiResult.Error(NetworkError.NO_INTERNET)
-        }
-
-        val result =
-            createRepository(api).readProductsByCategoryFlow(ProductCategory.Unknown).first()
-
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrThrow().isEmpty())
-    }
 }

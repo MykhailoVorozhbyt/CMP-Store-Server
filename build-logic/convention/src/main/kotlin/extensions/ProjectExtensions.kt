@@ -24,7 +24,7 @@ fun Project.android(configure: Action<ApplicationExtension>): Unit =
 
 inline fun Project.desktopExtension(
     crossinline action: DesktopExtension.() -> Unit
-): () -> Unit = { composeExtension { extensions.configure<DesktopExtension> { action() } } }
+) = composeExtension { extensions.configure<DesktopExtension> { action() } }
 
 inline fun Project.composeExtension(
     crossinline configure: ComposeExtension.() -> Unit

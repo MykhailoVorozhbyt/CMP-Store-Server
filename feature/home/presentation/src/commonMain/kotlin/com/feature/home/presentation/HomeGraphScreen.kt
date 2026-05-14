@@ -8,18 +8,19 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -28,11 +29,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.ui.NavDisplay
 import com.feature.home.presentation.components.BottomBar
@@ -63,8 +66,6 @@ import org.cmp.store.navigation.Screen
 import org.cmp.store.utils.getScreenWidth
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
-
-//TODO: think if NavigationSuiteScaffold needed
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -132,6 +133,7 @@ fun HomeGraphScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @TraceRecomposition
 @Composable
 private fun HomeGraphContent(
@@ -188,6 +190,7 @@ private fun HomeGraphContent(
                     spotColor = Color.Black.copy(alpha = Alpha.DISABLED),
                 )
         ) {
+            val scrollBehavior = BottomAppBarDefaults.exitAlwaysScrollBehavior()
             Scaffold(
                 containerColor = StoreTheme.color.surface,
                 topBar = {
@@ -199,17 +202,17 @@ private fun HomeGraphContent(
                         onCheckoutClick = onCheckoutClick,
                     )
                 },
-                bottomBar = {
-                    Box(modifier = Modifier.padding(all = 12.dp)) {
-                        BottomBar(
-                            customer = customer,
-                            selected = selectedDestination,
-                            onSelect = onBottomBarSelect,
-                        )
-                    }
-                }
+                modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             ) { padding ->
-                HomeGraphNavDisplay(padding, navigationState, goBack, snackBarState)
+                Box(modifier = Modifier.padding(padding)) {
+                    HomeGraphNavDisplay(navigationState, goBack, snackBarState)
+                    BottomBar(
+                        modifier = Modifier.align(Alignment.BottomCenter).padding(all = 12.dp),
+                        customer = customer,
+                        selected = selectedDestination,
+                        onSelect = onBottomBarSelect,
+                    )
+                }
             }
         }
     }
@@ -218,12 +221,11 @@ private fun HomeGraphContent(
 @TraceRecomposition
 @Composable
 private fun HomeGraphNavDisplay(
-    padding: PaddingValues,
     navigationState: NavigationState,
     goBack: () -> Unit,
     snackBarState: StoreSnackbarHostState
 ) {
-    Box(modifier = Modifier.fillMaxSize().padding(padding)) {
+    Box(modifier = Modifier.fillMaxSize()) {
         NavDisplay(
             entries = navigationState.toEntries(),
             onBack = goBack,
@@ -257,7 +259,6 @@ private fun HomeTopBar(
                         Icon(
                             painter = painterResource(Resources.Icon.RightArrow),
                             contentDescription = "Right icon",
-                            tint = StoreTheme.color.iconPrimary,
                         )
                     }
                 }
@@ -271,11 +272,16 @@ private fun HomeTopBar(
                     Icon(
                         painter = painterResource(icon),
                         contentDescription = desc,
-                        tint = StoreTheme.color.iconPrimary,
                     )
                 }
             }
         },
+        colors = TopAppBarDefaults.topAppBarColors().copy(
+            containerColor = StoreTheme.color.surface,
+            actionIconContentColor = StoreTheme.color.iconPrimary,
+            navigationIconContentColor = StoreTheme.color.iconPrimary,
+            titleContentColor = StoreTheme.color.textPrimary,
+        )
     )
 }
 

@@ -23,18 +23,16 @@ class CoreNavigationModulePlugin : Plugin<Project> {
             configureAndroidLibraryBase(ModuleName.NAVIGATION.mName)
             configureIOS()
             jvm()
-            kotlinMultiplatformExtension {
-                sourceSets {
-                    commonMain.dependencies {
-                        implementation(project(ModulePath.SHARED.path))
-                        implementation(project(ModulePath.CORE_PRESENTATION.path))
-                        implementation(libs.jetbrains.navigation3.ui)
-                        implementation(libs.koin.compose.navigation3)
-                        implementation(libs.jetbrains.material3.adaptiveNavigation3)
-                        implementation(libs.jetbrains.lifecycle.viewmodelNavigation3)
-                        implementation(libs.kotlinx.serialization.json)
-                        implementation(libs.kotlinx.collections.immutable)
-                    }
+            sourceSets {
+                commonMain.dependencies {
+                    implementation(project(ModulePath.SHARED.path))
+                    implementation(project(ModulePath.CORE_PRESENTATION.path))
+                    implementation(libs.jetbrains.navigation3.ui)
+                    implementation(libs.koin.compose.navigation3)
+                    implementation(libs.jetbrains.material3.adaptiveNavigation3)
+                    implementation(libs.jetbrains.lifecycle.viewmodelNavigation3)
+                    implementation(libs.kotlinx.serialization.json)
+                    implementation(libs.kotlinx.collections.immutable)
                 }
             }
         }

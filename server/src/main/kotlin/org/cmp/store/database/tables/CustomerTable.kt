@@ -1,6 +1,6 @@
 package org.cmp.store.database.tables
 
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.v1.core.Table
 
 object CustomerTable : Table("customers") {
     val id = varchar("id", 128)
