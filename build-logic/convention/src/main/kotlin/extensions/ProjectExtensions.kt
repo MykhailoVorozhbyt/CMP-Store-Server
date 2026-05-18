@@ -1,41 +1,30 @@
 package extensions
 
 import com.android.build.api.dsl.ApplicationExtension
-import com.android.build.api.dsl.CommonExtension
-import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryExtension
-import com.android.build.gradle.AppExtension
-import com.android.build.gradle.LibraryExtension
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
+import org.gradle.accessors.dm.LibrariesForLibs
+import org.gradle.api.Action
 import org.gradle.api.Project
-import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.plugins.ExtensionAware
+import org.gradle.api.plugins.PluginManager
+import org.gradle.api.provider.Provider
+import org.gradle.api.provider.ProviderConvertible
 import org.gradle.internal.extensions.stdlib.capitalized
-import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.accessors.runtime.extensionOf
 import org.gradle.kotlin.dsl.configure
+import org.gradle.plugin.use.PluginDependency
 import org.jetbrains.compose.ComposeExtension
 import org.jetbrains.compose.desktop.DesktopExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
-inline fun Project.androidExtension(
-    crossinline configure: CommonExtension<*, *, *, *, *, *>.() -> Unit
-) {
-    when {
-        pluginManager.hasPlugin("com.android.application") -> applicationExtension(configure)
-        pluginManager.hasPlugin("com.android.library") -> libraryExtension(configure)
-        else -> error("No Android plugin found in project '$name'")
-    }
-}
+val Project.libs: LibrariesForLibs
+    get() = extensionOf(this, "libs") as LibrariesForLibs
 
-inline fun Project.appExtension(
-    crossinline configure: AppExtension.() -> Unit
-) = extensions.configure<AppExtension> { configure() }
-
-inline fun Project.baseAppModuleExtension(
-    crossinline configure: BaseAppModuleExtension.() -> Unit
-) = extensions.configure<BaseAppModuleExtension> { configure() }
+fun Project.android(configure: Action<ApplicationExtension>): Unit =
+    (this as ExtensionAware).extensions.configure("android", configure)
 
 inline fun Project.desktopExtension(
     crossinline action: DesktopExtension.() -> Unit
-) = { composeExtension { extensions.configure<DesktopExtension> { action() } } }
+) = composeExtension { extensions.configure<DesktopExtension> { action() } }
 
 inline fun Project.composeExtension(
     crossinline configure: ComposeExtension.() -> Unit
@@ -44,18 +33,6 @@ inline fun Project.composeExtension(
 inline fun Project.kotlinMultiplatformExtension(
     crossinline configure: KotlinMultiplatformExtension.() -> Unit
 ) = extensions.configure<KotlinMultiplatformExtension> { configure() }
-
-inline fun Project.kotlinMultiplatformAndroidLibraryExtension(
-    crossinline configure: KotlinMultiplatformAndroidLibraryExtension.() -> Unit
-) = extensions.configure<KotlinMultiplatformAndroidLibraryExtension> { configure() }
-
-inline fun Project.javaLibraryExtension(
-    crossinline configure: JavaPluginExtension.() -> Unit
-) = extensions.configure<JavaPluginExtension> { configure() }
-
-inline fun Project.libraryExtension(
-    crossinline configure: LibraryExtension.() -> Unit
-) = extensions.configure<LibraryExtension> { configure() }
 
 inline fun Project.applicationExtension(
     crossinline configure: ApplicationExtension.() -> Unit
@@ -73,26 +50,10 @@ val Project.modulePackageName
         .filter { it.isNotBlank() }
         .joinToString(".") { it.lowercase() }
 
-/**
- * For the future*/
-/*
-inline fun Project.detektExtension(
-    crossinline configure: DetektExtension.() -> Unit
-) = extensions.configure<DetektExtension> { configure() }
+fun PluginManager.alias(notation: Provider<PluginDependency>) {
+    apply(notation.get().pluginId)
+}
 
-inline fun Project.crashlyticsExtension(
-    crossinline configure: CrashlyticsExtension.() -> Unit
-) = extensions.configure<CrashlyticsExtension> { configure() }
-
-inline fun Project.composeCompilerExtension(
-    crossinline configure: ComposeCompilerGradlePluginExtension.() -> Unit
-) = extensions.configure<ComposeCompilerGradlePluginExtension> { configure() }
-*/
-
-inline fun Project.applyPlugins(crossinline plugin: () -> List<String>) {
-    pluginManager.apply {
-        plugin().forEach {
-            apply(plugin = it)
-        }
-    }
+fun PluginManager.alias(notation: ProviderConvertible<PluginDependency>) {
+    apply(notation.asProvider().get().pluginId)
 }

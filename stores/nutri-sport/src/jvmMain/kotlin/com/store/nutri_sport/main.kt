@@ -1,15 +1,11 @@
 package com.store.nutri_sport
 
-import androidx.compose.ui.window.application
 import com.store.nutri_sport.di.nutriSportThemeModule
-import org.cmp.store.DesktopApp
+import org.cmp.store.desktopApp
 
 fun main() {
-    application {
-        DesktopApp(
-            onCloseRequest = ::exitApplication,
-            title = "Nutri Sport",
-            appModules = arrayOf(nutriSportThemeModule)
-        )
-    }
+    desktopApp(
+        title = "Nutri Sport",
+        appModules = arrayOf(nutriSportThemeModule)
+    )
 }

@@ -6,33 +6,33 @@ import org.cmp.store.database.tables.PhoneNumberTable
 import org.cmp.store.domain.customer.CartItem
 import org.cmp.store.domain.customer.Customer
 import org.cmp.store.domain.customer.PhoneNumber
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.selectAll
-import org.jetbrains.exposed.sql.statements.UpdateBuilder
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import org.jetbrains.exposed.sql.update
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.core.statements.UpdateBuilder
+import org.jetbrains.exposed.v1.jdbc.deleteWhere
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.selectAll
+import org.jetbrains.exposed.v1.jdbc.transactions.suspendTransaction
+import org.jetbrains.exposed.v1.jdbc.update
 
 object CustomerDao {
 
-    suspend fun exists(id: String): Boolean = newSuspendedTransaction {
+    suspend fun exists(id: String): Boolean = suspendTransaction {
         CustomerTable
             .selectAll()
             .where { CustomerTable.id eq id }
             .empty().not()
     }
 
-    suspend fun create(customer: Customer) = newSuspendedTransaction {
+    suspend fun create(customer: Customer) = suspendTransaction {
         insertCustomer(customer)
         insertRelations(customer)
     }
 
-    suspend fun read(id: String): Customer? = newSuspendedTransaction {
+    suspend fun read(id: String): Customer? = suspendTransaction {
         val customerRow = CustomerTable
             .selectAll()
             .where { CustomerTable.id eq id }
-            .singleOrNull() ?: return@newSuspendedTransaction null
+            .singleOrNull() ?: return@suspendTransaction null
 
         val phoneRow = PhoneNumberTable
             .selectAll()
@@ -67,7 +67,7 @@ object CustomerDao {
         )
     }
 
-    suspend fun update(customer: Customer): Boolean = newSuspendedTransaction {
+    suspend fun update(customer: Customer): Boolean = suspendTransaction {
         val updated = CustomerTable.update({ CustomerTable.id eq customer.id }) {
             it.mapFrom(customer)
         }

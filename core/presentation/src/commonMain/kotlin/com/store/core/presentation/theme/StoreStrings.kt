@@ -11,12 +11,12 @@ val LocalStoreStrings = staticCompositionLocalOf<AppStrings> {
 interface AppStrings {
     val appName get() = Res.string.app_name
     //splash screen
-    val signInText get() = Res.string.sign_in_text
-    val signInWithGoogle get() = Res.string.sign_in_with_google
-    val pleaseWait get() = Res.string.please_wait
-    val authenticationSuccessful get() = Res.string.authentication_successful
-    val unknownError get() = Res.string.unknown_error
-    val internetConnectionUnavailable get() = Res.string.internet_connection_unavailable
-    val signInCanceled get() = Res.string.sign_in_canceled
+    val signInText get() = Res.string.auth_title
+    val signInWithGoogle get() = Res.string.auth_btn_google
+    val pleaseWait get() = Res.string.common_loading
+    val authenticationSuccessful get() = Res.string.auth_success
+    val unknownError get() = Res.string.common_error_unknown
+    val internetConnectionUnavailable get() = Res.string.common_error_no_internet
+    val signInCanceled get() = Res.string.auth_error_canceled
 
 }

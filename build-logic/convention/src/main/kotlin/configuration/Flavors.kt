@@ -1,3 +1,4 @@
+/*
 package configuration
 
 import com.android.build.api.dsl.ApplicationExtension
@@ -41,4 +42,4 @@ fun configureFlavors(
             }
         }
     }
-}
+}*/

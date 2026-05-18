@@ -1,11 +1,43 @@
 <resources>
+    <!-- Common (reusable across features) -->
+    <string name="common_loading">Please wait…</string>
+    <string name="common_error_unknown">Unknown error</string>
+    <string name="common_error_no_internet">Internet connection unavailable.</string>
+    <string name="common_error_customer_read">Failed to read customer.</string>
+    <string name="common_error_product_read">Failed to read products.</string>
+    <string name="common_error_sign_out">Failed to sign out.</string>
+    <string name="common_error_calculating">Error while calculating total amount: %s</string>
+
+    <!-- Auth -->
     <string name="app_name">App</string>
-    <string name="sign_in_text">Sign in to continue</string>
-    <string name="sign_in_with_google">Sign in with Google</string>
-    <string name="please_wait">Please wait...</string>
-    <string name="authentication_successful">Authentication successful!</string>
-    <string name="authentication_successful_account_exist">You already have an account with log in!</string>
-    <string name="unknown_error">Unknown error</string>
-    <string name="internet_connection_unavailable">Internet connection unavailable.</string>
-    <string name="sign_in_canceled">Sign in canceled.</string>
+    <string name="auth_title">Sign in to continue</string>
+    <string name="auth_btn_google">Sign in with Google</string>
+    <string name="auth_success">Authentication successful!</string>
+    <string name="auth_success_already_registered">You already have an account. Please log in.</string>
+    <string name="auth_error_canceled">Sign in canceled.</string>
+
+    <!--Drawer-->
+    <string name="drawer_healthy_lifestyle">Healthy Lifestyle</string>
+    <string name="drawer_item_profile">Profile</string>
+    <string name="drawer_item_blog">Blog</string>
+    <string name="drawer_item_locations">Locations</string>
+    <string name="drawer_item_contact_us">Contact us</string>
+    <string name="drawer_item_sign_out">Sign Out</string>
+    <string name="drawer_item_admin_panel">Admin Panel</string>
+
+    <!--Currency-->
+    <string name="currency_uah">UAH</string>
+    <string name="currency_usd">USD</string>
+    <string name="currency_euro">EURO</string>
+    <string name="currency_franc">FRANC</string>
+
+    <!--Measurements-->
+    <string name="measurement_kilograms">Kilograms</string>
+    <string name="measurement_liters">Liters</string>
+    <string name="measurement_milliliters">Milliliters</string>
+    <string name="measurement_grams">Grams</string>
+    <string name="measurement_gallons">Gallons</string>
+    <string name="measurement_portions">Portions</string>
+    <string name="measurement_single_item">Single Item</string>
+
 </resources>

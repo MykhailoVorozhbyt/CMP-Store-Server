@@ -3,9 +3,10 @@ package org.cmp.store.database
 import org.cmp.store.database.tables.CartItemTable
 import org.cmp.store.database.tables.CustomerTable
 import org.cmp.store.database.tables.PhoneNumberTable
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.cmp.store.database.tables.ProductTable
+import org.jetbrains.exposed.v1.jdbc.Database
+import org.jetbrains.exposed.v1.jdbc.SchemaUtils
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 
 object DatabaseFactory {
     fun init() {
@@ -14,7 +15,7 @@ object DatabaseFactory {
             driver = "org.sqlite.JDBC"
         )
         transaction {
-            SchemaUtils.create(CustomerTable, PhoneNumberTable, CartItemTable)
+            SchemaUtils.create(CustomerTable, PhoneNumberTable, CartItemTable, ProductTable)
         }
     }
 }

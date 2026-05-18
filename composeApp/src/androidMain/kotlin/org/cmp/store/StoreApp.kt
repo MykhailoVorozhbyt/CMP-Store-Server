@@ -12,11 +12,8 @@ open class StoreApp(
 
     override fun onCreate() {
         super.onCreate()
-        initializeKoin(
-            config = {
-                androidContext(this@StoreApp)
-            },
-            appModules =  arrayOf(*appModules, appViewModelModule)
-        )
+        initializeKoin(*appModules, appViewModelModule) {
+            androidContext(this@StoreApp)
+        }
     }
 }

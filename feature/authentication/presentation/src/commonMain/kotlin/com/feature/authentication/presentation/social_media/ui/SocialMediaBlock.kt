@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
 import com.feature.authentication.presentation.social_media.SocialMediaBlockMockPreview
 import com.feature.authentication.presentation.social_media.SocialMediaViewAction
@@ -46,22 +47,27 @@ fun SocialMediaBlockContent(
     modifier: Modifier = Modifier,
     onViewAction: (ViewAction) -> Unit
 ) {
+    val isPreview = LocalInspectionMode.current
     Column(
         modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        GoogleButtonUiContainerFirebase(
-            linkAccount = false,
-            onResult = { result ->
-                result.onSuccess { user ->
-                    onViewAction.invoke(SocialMediaViewAction.OnGoogleSignInSuccess(user))
-                }.onFailure { error ->
-                    onViewAction.invoke(SocialMediaViewAction.OnGoogleSignInFailure(error))
+        if (isPreview) {
+            GoogleButton(loading = viewData.google.isLoading) {}
+        } else {
+            GoogleButtonUiContainerFirebase(
+                linkAccount = false,
+                onResult = { result ->
+                    result.onSuccess { user ->
+                        onViewAction.invoke(SocialMediaViewAction.OnGoogleSignInSuccess(user))
+                    }.onFailure { error ->
+                        onViewAction.invoke(SocialMediaViewAction.OnGoogleSignInFailure(error))
+                    }
                 }
-            }
-        ) {
-            GoogleButton(loading = viewData.google.isLoading) {
-                onViewAction.invoke(SocialMediaViewAction.OnGoogleClick)
-                this@GoogleButtonUiContainerFirebase.onClick()
+            ) {
+                GoogleButton(loading = viewData.google.isLoading) {
+                    onViewAction.invoke(SocialMediaViewAction.OnGoogleClick)
+                    this@GoogleButtonUiContainerFirebase.onClick()
+                }
             }
         }
     }

@@ -11,9 +11,5 @@ fun Application.configureRouting() {
         get("/") {
             call.respondText("Ktor: ${Greeting().greet()}")
         }
-
-        get("/test") {
-            call.respondText("Test Hello World")
-        }
     }
 }

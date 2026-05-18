@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(xargs grep *)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(rm -rf \"C:/Users/misha/StudioProjects/CMP-Store-Server/stores/nutri-sport/src/androidMain\")",
+      "Bash(rm -rf \"C:/Users/misha/StudioProjects/CMP-Store-Server/stores/athletica-plus/src/androidMain\")"
     ]
   },
   "outputStyle": "Learning"

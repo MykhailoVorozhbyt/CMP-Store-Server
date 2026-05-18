@@ -7,19 +7,21 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.store.core.navigation.SetupNavGraph
+import com.store.core.presentation.theme.BaseTheme
 import com.store.core.utils.AdaptivePreview
 import org.koin.compose.viewmodel.koinViewModel
 
-@AdaptivePreview
 @Composable
 fun App() {
-    val viewModel = koinViewModel<AppViewModel>()
-    val viewData by viewModel.viewDataState.collectAsState()
+    BaseTheme {
+        val viewModel = koinViewModel<AppViewModel>()
+        val viewData by viewModel.viewDataState.collectAsState()
 
-    AnimatedVisibility(
-        modifier = Modifier.fillMaxSize(),
-        visible = viewData.appReady
-    ) {
-        SetupNavGraph(viewData.startDestination)
+        AnimatedVisibility(
+            modifier = Modifier.fillMaxSize(),
+            visible = viewData.appReady
+        ) {
+            SetupNavGraph(viewData.startDestination)
+        }
     }
 }

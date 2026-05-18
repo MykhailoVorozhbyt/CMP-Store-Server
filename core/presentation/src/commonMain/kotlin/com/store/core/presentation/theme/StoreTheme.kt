@@ -75,11 +75,13 @@ fun PreviewTheme(
 ) {
     val theme = StoreThemeProviderPreviewApi()
     val colors = if (isSystemInDarkTheme()) theme.darkPalette else theme.lightPalette
+    val stringsProvider = object : AppStrings {}
     CompositionLocalProvider(
         LocalStoreColors provides colors,
         LocalStoreTypography provides StoreTypography.init(),
         LocalStoreWindowType provides rememberWindowType(),
         LocalStoreDimens provides rememberDimens(),
+        LocalStoreStrings provides stringsProvider,
         content = content
     )
 }

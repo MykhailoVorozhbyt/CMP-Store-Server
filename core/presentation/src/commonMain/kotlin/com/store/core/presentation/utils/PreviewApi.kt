@@ -11,7 +11,7 @@ class StoreThemeProviderPreviewApi : StoreThemeProvider {
 
 private val lightColorsPalette = object : StoreColorsPalette {
     // Window / inputs
-    override val window: Color = Color(0xFF1296FF)
+    override val window: Color = Color(0xFFF6F6F6)
     override val inputLabelTxt: Color = Color(0xFF000000)
 
     // Brand
@@ -65,7 +65,7 @@ private val lightColorsPalette = object : StoreColorsPalette {
 
 private val darkColorsPalette = object : StoreColorsPalette {
     // Window / inputs
-    override val window: Color = Color(0xFF1296FF)
+    override val window: Color = Color(0xFF000000)
     override val inputLabelTxt: Color = Color(0xFF000000)
 
     // Brand
@@ -76,7 +76,7 @@ private val darkColorsPalette = object : StoreColorsPalette {
     override val brand3: Color = Color(0xFFBD5858)
 
     // Text
-    override val textPrimary: Color = Color(0xFF000000)
+    override val textPrimary: Color = Color(0xFFFFFFFF)
     override val textSecondary: Color = Color(0xFF0095FF)
     override val textWhite: Color = Color(0xFFFFFFFF)
     override val textBrand: Color = Color(0xFF1296FF)
@@ -86,7 +86,7 @@ private val darkColorsPalette = object : StoreColorsPalette {
     override val buttonSecondary: Color = Color(0xFFF2F2F2)
 
     // Icon
-    override val iconPrimary: Color = Color(0xFF000000)
+    override val iconPrimary: Color = Color(0xFFFFFFFF)
     override val iconSecondary: Color = Color(0xFF1296FF)
     override val iconWhite: Color = Color(0xFFFFFFFF)
 
@@ -97,7 +97,7 @@ private val darkColorsPalette = object : StoreColorsPalette {
 
     // Surface
     override val surface: Color = Color(0xFFFFFFFF)
-    override val surfaceLight: Color = Color(0xFFFAFAFA)
+    override val surfaceLight: Color = Color(0xFF121212)
     override val surfaceDark: Color = Color(0xFFF1F1F1)
     override val surfaceError: Color = Color(0xFFBD5858)
     override val surfaceBrand: Color = Color(0xFF35FFB8)
