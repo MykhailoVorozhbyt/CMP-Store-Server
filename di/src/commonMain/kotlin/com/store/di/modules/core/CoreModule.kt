@@ -8,5 +8,6 @@ val coreModule = module {
         platformModule,
         dispatchersModule,
         networkModule,
+        secureStorageModule
     )
 }

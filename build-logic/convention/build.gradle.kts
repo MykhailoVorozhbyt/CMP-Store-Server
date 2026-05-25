@@ -8,11 +8,13 @@ dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.kotlin.multiplatform.gradlePlugin)
+    compileOnly(libs.compose.compiler.gradlePlugin)
     compileOnly(libs.compose.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
 
     // Workaround for version catalog working inside precompiled scripts https://github.com/gradle/gradle/issues/15383
-    compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))}
+    compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
+}
 
 tasks {
     validatePlugins {
@@ -38,6 +40,14 @@ gradlePlugin {
         register("ComposeApp") {
             id = libs.plugins.store.composeApp.get().pluginId
             implementationClass = "plugins.ComposeAppModulePlugin"
+        }
+        register("Test") {
+            id = libs.plugins.store.test.get().pluginId
+            implementationClass = "plugins.TestModulePlugin"
+        }
+        register("Server") {
+            id = libs.plugins.store.server.get().pluginId
+            implementationClass = "plugins.ServerModulePlugin"
         }
 
         //Stores - KMP library
@@ -75,6 +85,22 @@ gradlePlugin {
         register("CoreNavigation") {
             id = libs.plugins.store.core.navigation.get().pluginId
             implementationClass = "plugins.core.CoreNavigationModulePlugin"
+        }
+        register("CoreData") {
+            id = libs.plugins.store.core.data.get().pluginId
+            implementationClass = "plugins.core.CoreDataModulePlugin"
+        }
+        register("CoreDomain") {
+            id = libs.plugins.store.core.domain.get().pluginId
+            implementationClass = "plugins.core.CoreDomainModulePlugin"
+        }
+        register("CoreSecurity") {
+            id = libs.plugins.store.core.security.get().pluginId
+            implementationClass = "plugins.core.CoreSecurityModulePlugin"
+        }
+        register("CoreNetwork") {
+            id = libs.plugins.store.core.network.get().pluginId
+            implementationClass = "plugins.core.CoreNetworkModulePlugin"
         }
 
         //Futures

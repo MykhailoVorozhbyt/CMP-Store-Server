@@ -20,9 +20,13 @@ fun Project.configureAndroidLibraryBase(namespace: String) = this.kotlinMultipla
             enable = true
         }
         withJava()
-        withHostTestBuilder {}.configure {}
+        withHostTestBuilder {}.configure {
+            isReturnDefaultValues = true
+        }
         withDeviceTestBuilder {
             sourceSetTreeName = "test"
+        }.configure {
+            instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
     }
 }

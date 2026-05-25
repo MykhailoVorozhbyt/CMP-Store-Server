@@ -1,18 +1,25 @@
 package com.feature.home.presentation
 
+import androidx.navigation3.runtime.NavBackStack
 import com.feature.home.presentation.view_data.CartItemViewData
 import com.feature.home.presentation.view_data.CustomerViewData
 import com.feature.home.presentation.view_data.HomeGraphViewData
 import com.feature.home.presentation.view_data.PhoneNumberViewData
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.immutableListOf
-import kotlinx.collections.immutable.persistentListOf
+import com.store.core.navigation.NavigationState
 import kotlinx.collections.immutable.toImmutableList
-import org.cmp.store.domain.customer.CartItem
-import org.cmp.store.domain.customer.Customer
-import org.cmp.store.domain.customer.PhoneNumber
+import com.store.core.presentation.navigation.Screen
 
 object HomeGraphMockPreview {
+    fun getNavigationState() = NavigationState(
+        startKey = Screen.ProductsOverview,
+        topLevelStack = NavBackStack(
+            Screen.ProductsOverview,
+            Screen.Cart,
+            Screen.Categories
+        ),
+        subStacks = mapOf(),
+    )
+
     fun getViewData() = HomeGraphViewData(
         isLoading = false,
     )

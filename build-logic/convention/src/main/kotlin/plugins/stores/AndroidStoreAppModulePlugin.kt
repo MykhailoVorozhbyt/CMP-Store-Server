@@ -7,6 +7,7 @@ import extensions.alias
 import extensions.composeDep
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
+import extensions.module
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
@@ -50,8 +51,8 @@ abstract class StoreModulePlugin : Plugin<Project> {
 
             sourceSets {
                 commonMain.dependencies {
-                    implementation(project(ModulePath.COMPOSE_APP.path))
-                    implementation(project(ModulePath.CORE_PRESENTATION.path))
+                    module(ModulePath.COMPOSE_APP)
+                    module(ModulePath.CORE_PRESENTATION)
                     implementation(libs.compose.components.resources)
                     implementation(libs.compose.ui.tooling.preview)
                     implementation(libs.koin.core)

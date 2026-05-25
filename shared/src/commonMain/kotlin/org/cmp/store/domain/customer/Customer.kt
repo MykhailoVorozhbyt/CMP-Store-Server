@@ -1,8 +1,5 @@
 package org.cmp.store.domain.customer
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 data class Customer(
     val id: String,
     val firstName: String,
@@ -16,7 +13,6 @@ data class Customer(
     val isAdmin: Boolean = false
 )
 
-@Serializable
 data class PhoneNumber(
     val dialCode: Int,
     val number: String

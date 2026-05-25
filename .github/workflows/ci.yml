@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop, "feature/**"]
+#  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4096M -Dorg.gradle.daemon=false -Dorg.gradle.parallel=true -Dorg.gradle.caching=true"
+
+jobs:
+  test-app:
+    name: App tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Gradle setup
+        uses: ./.github/actions/gradle-setup
+
+      - name: Run app tests (everything except server)
+        # Compose UI tests render on the JVM/desktop target, which reaches AWT.
+        # The runner is headless, so wrap the run in a
+        # virtual X server via xvfb-run to avoid java.awt.HeadlessException.
+        run: xvfb-run --auto-servernum ./gradlew allTests -x :server:test
+
+      - name: Upload app test reports
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: app-test-reports
+          path: |
+            **/build/reports/tests/**
+            **/build/test-results/**
+          retention-days: 7
+          if-no-files-found: warn
+
+  test-server:
+    name: Server build & tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Gradle setup
+        uses: ./.github/actions/gradle-setup
+
+      - name: Build & test server (compiles + runs server tests)
+        run: ./gradlew :server:build
+
+      - name: Upload server test reports
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: server-test-reports
+          path: |
+            server/build/reports/tests/**
+            server/build/test-results/**
+          retention-days: 7

@@ -8,7 +8,7 @@ import com.store.core.resources.drawer_item_contact_us
 import com.store.core.resources.drawer_item_locations
 import com.store.core.resources.drawer_item_profile
 import com.store.core.resources.drawer_item_sign_out
-import org.cmp.store.navigation.Screen
+import com.store.core.presentation.navigation.Screen
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 

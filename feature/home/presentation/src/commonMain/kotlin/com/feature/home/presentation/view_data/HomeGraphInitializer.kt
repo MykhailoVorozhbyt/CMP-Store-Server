@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.stateIn
 import org.cmp.store.domain.customer.CartItem
 import org.cmp.store.domain.customer.Customer
 import org.cmp.store.domain.product.Product
+import com.store.core.domain.ApiResult
 import org.jetbrains.compose.resources.getString
 
 class HomeGraphInitializer(
@@ -60,10 +61,8 @@ class HomeGraphInitializer(
             .flatMapLatest { customerState ->
                 when {
                     customerState.isSuccess() -> {
-                        val productIds = customerState.successData().cart
-                            .map { it.productId }
-                            .toSet()
-                            .toList()
+                        val productIds =
+                            customerState.successData().cart.map { it.productId }.toSet().toList()
                         if (productIds.isEmpty()) {
                             flowOf(RequestState.Success(emptyList()))
                         } else {
@@ -79,14 +78,10 @@ class HomeGraphInitializer(
     private fun readCustomer(ctx: ActionHandlerScope<HomeGraphViewData>): StateFlow<RequestState<Customer>> =
         readCustomerUseCase()
             .map { result ->
-                result.fold(
-                    onSuccess = { RequestState.Success(it) },
-                    onFailure = {
-                        RequestState.Error(
-                            it.message ?: getString(Res.string.common_error_customer_read)
-                        )
-                    },
-                )
+                when (result) {
+                    is ApiResult.Success -> RequestState.Success(result.data)
+                    is ApiResult.Error -> RequestState.Error(result.error.message)
+                }
             }
             .stateIn(
                 scope = ctx.scope,
@@ -97,15 +92,10 @@ class HomeGraphInitializer(
     private fun readProductsByIds(productIds: List<String>): Flow<RequestState<List<Product>>> =
         readProductsByIdsUseCase(productIds)
             .map { result ->
-                result.fold(
-                    onSuccess = { RequestState.Success(it) },
-                    onFailure = {
-                        RequestState.Error(
-                            it.message
-                                ?: getString(Res.string.common_error_product_read)
-                        )
-                    },
-                )
+                when (result) {
+                    is ApiResult.Success -> RequestState.Success(result.data)
+                    is ApiResult.Error -> RequestState.Error(getString(Res.string.common_error_product_read))
+                }
             }
 
     private fun buildCartItemsWithProducts(

@@ -6,6 +6,7 @@ import extensions.alias
 import extensions.androidRuntimeClasspath
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
+import extensions.module
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
@@ -17,18 +18,23 @@ class CorePresentationModulePlugin : Plugin<Project> {
         println("*** ${this@CorePresentationModulePlugin} invoked ***")
         pluginManager.alias(libs.plugins.store.kotlinMultiplatform)
         pluginManager.alias(libs.plugins.store.composeMultiplatform)
+        pluginManager.alias(libs.plugins.serialization)
 
         dependencies.androidRuntimeClasspath(libs.compose.ui.tooling)
 
         kotlinMultiplatformExtension {
+            configureAndroidLibraryBase(ModuleName.CORE_PRESENTATION.mName)
             configureIOS()
             jvm()
 
             sourceSets {
                 commonMain.dependencies {
-                    implementation(project(ModulePath.SHARED.path))
-                    implementation(project(ModulePath.CORE_RESOURCES.path))
-                    implementation(project(ModulePath.CORE_UTILS.path))
+                    module(ModulePath.SHARED)
+                    module(ModulePath.CORE_RESOURCES)
+                    module(ModulePath.CORE_UTILS)
+                    module(ModulePath.CORE_DOMAIN)
+
+                    implementation(libs.kotlinx.serialization.json)
 
                     implementation(libs.compose.ui)
                     implementation(libs.compose.runtime)
@@ -43,9 +49,13 @@ class CorePresentationModulePlugin : Plugin<Project> {
 
                     implementation(libs.koin.compose)
                 }
+                commonTest.dependencies {
+                    module(ModulePath.TEST)
+                    implementation(libs.kotlin.test)
+                    implementation(libs.ktor.clientMock)
+                    implementation(libs.kotlinx.coroutines.test)
+                }
             }
         }
-
-        configureAndroidLibraryBase(ModuleName.CORE_PRESENTATION.mName)
     }
 }

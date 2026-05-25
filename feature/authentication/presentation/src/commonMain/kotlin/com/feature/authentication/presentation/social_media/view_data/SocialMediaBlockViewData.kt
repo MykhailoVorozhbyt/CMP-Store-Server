@@ -4,10 +4,9 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class SocialMediaBlockViewData(
-    val google: GoogleButtonViewData = GoogleButtonViewData()
+    val google: SocialMediaButtonViewData = SocialMediaButtonViewData()
 )
 
-data class GoogleButtonViewData(
-    val startGoogleSignFlow: Boolean = false,
+data class SocialMediaButtonViewData(
     val isLoading: Boolean = false
 )

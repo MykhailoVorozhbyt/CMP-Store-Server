@@ -22,8 +22,8 @@ import com.store.core.presentation.theme.StoreTheme
 import com.store.core.presentation.utils.RequestState
 import com.store.core.resources.Res
 import com.store.core.resources.drawer_healthy_lifestyle
-import com.store.core.utils.AdaptivePreview
-import org.cmp.store.navigation.Screen
+import com.store.core.presentation.utils.AdaptivePreview
+import com.store.core.presentation.navigation.Screen
 import org.jetbrains.compose.resources.stringResource
 
 @TraceRecomposition(tag = "CustomDrawer")
@@ -36,7 +36,7 @@ fun CustomDrawer(
     Column(
         modifier = Modifier
             .fillMaxHeight()
-            .fillMaxWidth(0.6f)
+            .fillMaxWidth(StoreTheme.dimens.customDrawerWidth)
             .padding(horizontal = StoreTheme.dimens.spaceBetweenItems)
     ) {
         Spacer(modifier = Modifier.height(50.dp))
