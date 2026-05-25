@@ -1,16 +1,12 @@
 package com.store.athletica_plus
 
-import androidx.compose.ui.window.application
 import com.store.athletica_plus.theme.di.athleticaPlusThemeModule
-import org.cmp.store.DesktopApp
+import org.cmp.store.desktopApp
 
 
 fun main() {
-    application {
-        DesktopApp(
-            onCloseRequest = ::exitApplication,
-            title = "Athletica Plus",
-            appModules = arrayOf(athleticaPlusThemeModule)
-        )
-    }
+    desktopApp(
+        title = "Athletica Plus",
+        appModules = arrayOf(athleticaPlusThemeModule)
+    )
 }

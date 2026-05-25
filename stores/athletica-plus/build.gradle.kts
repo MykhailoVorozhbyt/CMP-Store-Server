@@ -1,3 +1,3 @@
 plugins {
-    alias(libs.plugins.store.android.athleticaPlus)
+    alias(libs.plugins.store.android.athleticaPlus.kmp)
 }

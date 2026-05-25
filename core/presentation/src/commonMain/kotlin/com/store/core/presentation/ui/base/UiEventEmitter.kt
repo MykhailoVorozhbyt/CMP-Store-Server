@@ -8,6 +8,7 @@ import com.store.core.presentation.core.NotificationType
 import com.store.core.presentation.ui.components.StoreSnackbarHostState
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.SharedFlow
+import org.cmp.store.navigation.Screen
 
 interface UiEventEmitter {
     fun emitEvent(event: UiEvent)
@@ -17,8 +18,18 @@ interface UiEventEmitter {
     }
 
     fun showSuccess(message: String) = showMessage(message, NotificationType.SUCCESS)
-    fun showError(message: String?) = showMessage(message ?: "Unknown error", NotificationType.ERROR)
+    fun showError(message: String?) =
+        showMessage(message ?: "Unknown error", NotificationType.ERROR)
+
     fun showInfo(message: String) = showMessage(message, NotificationType.INFO)
+
+    fun navigate(screen: Screen) {
+        emitEvent(UiEvent.Navigate(screen))
+    }
+
+    fun navigateInclusive(screen: Screen) {
+        emitEvent(UiEvent.NavigateInclusive(screen))
+    }
 }
 
 interface UiEventSource {

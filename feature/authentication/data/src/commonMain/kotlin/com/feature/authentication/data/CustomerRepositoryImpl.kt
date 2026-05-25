@@ -1,21 +1,22 @@
 package com.feature.authentication.data
 
+import com.feature.authentication.domain.model.AuthUser
 import com.feature.authentication.domain.model.CreateCustomerResult
 import com.feature.authentication.domain.repository.CustomerRepository
-import dev.gitlive.firebase.Firebase
-import dev.gitlive.firebase.auth.FirebaseUser
-import dev.gitlive.firebase.auth.auth
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import org.cmp.store.domain.customer.Customer
 import org.cmp.store.network.ApiResult
 import org.cmp.store.network.NetworkError
 
-class CustomerRepositoryImpl(private val api: RemoteDataSource) : CustomerRepository {
+class CustomerRepositoryImpl(
+    private val api: RemoteDataSource,
+    private val authSessionDataSource: AuthSessionDataSource,
+) : CustomerRepository {
 
-    override fun getCurrentUserId(): String? = Firebase.auth.currentUser?.uid
+    override fun getCurrentUserId(): String? = authSessionDataSource.currentUserId()
 
-    override suspend fun createCustomer(user: FirebaseUser?): CreateCustomerResult {
+    override suspend fun createCustomer(user: AuthUser?): CreateCustomerResult {
         val nameParts = user?.displayName?.split(" ") ?: emptyList()
         val customer = Customer(
             id = user?.uid ?: return CreateCustomerResult.Failure("User ID is null!"),
@@ -34,7 +35,11 @@ class CustomerRepositoryImpl(private val api: RemoteDataSource) : CustomerReposi
     }
 
     override fun readCustomerFlow(): Flow<Result<Customer>> = flow {
-        val id = getCurrentUserId() ?: error("Not authenticated")
+        val id = getCurrentUserId()
+        if (id == null) {
+            emit(Result.failure(IllegalStateException("Not authenticated")))
+            return@flow
+        }
         when (val result = api.getCustomer(id)) {
             is ApiResult.Success -> emit(Result.success(result.data))
             is ApiResult.Error -> emit(Result.failure(Exception(result.error.message)))
@@ -48,6 +53,6 @@ class CustomerRepositoryImpl(private val api: RemoteDataSource) : CustomerReposi
         }
 
     override suspend fun signOut(): Result<Unit> = runCatching {
-        Firebase.auth.signOut()
+        authSessionDataSource.signOut()
     }
 }

@@ -14,7 +14,7 @@ fun Route.customerRoutes() {
             val customer = call.receive<Customer>()
             val userExists = CustomerDao.exists(customer.id)
             if (userExists) {
-                call.respond(HttpStatusCode.Conflict, NetworkError. USER_ALREADY_EXISTS.message)
+                call.respond(HttpStatusCode.Conflict, NetworkError.USER_ALREADY_EXISTS.message)
             } else {
                 CustomerDao.create(customer)
                 call.respond(HttpStatusCode.Created, customer)

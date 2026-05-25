@@ -2,31 +2,25 @@ package plugins
 
 import configuration.configureAndroidLibraryBase
 import configuration.configureIOS
-import extensions.applyPlugins
+import extensions.alias
+import extensions.androidRuntimeClasspath
 import extensions.composeDep
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
-import extensions.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
-import utils.enums.LibraryName
-import utils.enums.LibraryName.Companion.library
 import utils.enums.ModuleName
 import utils.enums.ModulePath
-import utils.enums.PluginName
-
 
 class ComposeAppModulePlugin : Plugin<Project> {
     override fun apply(target: Project): Unit = with(target) project@{
         println("*** ${this@ComposeAppModulePlugin} invoked ***")
-        applyPlugins {
-            listOf(
-                libs.plugin(PluginName.STORE_KOTLIN_MULTIPLATFORM.pName).pluginId,
-                libs.plugin(PluginName.STORE_COMPOSE_MULTIPLATFORM.pName).pluginId,
-                libs.plugin(PluginName.KSP.pName).pluginId,
-            )
-        }
+        pluginManager.alias(libs.plugins.store.kotlinMultiplatform)
+        pluginManager.alias(libs.plugins.store.composeMultiplatform)
+        pluginManager.alias(libs.plugins.ksp)
+
+        dependencies.androidRuntimeClasspath(libs.compose.ui.tooling)
         kotlinMultiplatformExtension {
             configureAndroidLibraryBase(ModuleName.APP.mName)
             configureIOS()
@@ -34,12 +28,9 @@ class ComposeAppModulePlugin : Plugin<Project> {
 
             sourceSets {
                 androidMain.dependencies {
-                    implementation(library(LibraryName.COMPOSE_UI_TOOLING))
-                    implementation(library(LibraryName.ANDROIDX_ACTIVITY_COMPOSE))
-                    implementation(library(LibraryName.ANDROIDX_CORE_SPLASHSCREEN))
-                    implementation(library(LibraryName.ANDROIDX_CUSTOMVIEW))
-                    implementation(library(LibraryName.ANDROIDX_CUSTOMVIEW_POOLINGCONTAINER))
-                    implementation(library(LibraryName.ANDROIDX_EMOJI_2))
+                    implementation(libs.androidx.activity.compose)
+                    implementation(libs.androidx.core.splashscreen)
+                    implementation(libs.androidx.customview.customview)
                 }
                 commonMain.dependencies {
                     implementation(project(ModulePath.DI.path))
@@ -50,29 +41,29 @@ class ComposeAppModulePlugin : Plugin<Project> {
                     implementation(project(ModulePath.CORE_NAVIGATION.path))
                     implementation(project(ModulePath.FEATURE_AUTHENTICATION_DOMAIN.path))
 
-                    implementation(library(LibraryName.COMPOSE_UI))
-                    implementation(library(LibraryName.COMPOSE_RUNTIME))
-                    implementation(library(LibraryName.COMPOSE_FOUNDATION))
-                    implementation(library(LibraryName.COMPOSE_MATERIAL_3))
-                    implementation(library(LibraryName.COMPOSE_UI_TOOLING_PREVIEW))
-                    implementation(library(LibraryName.COMPOSE_COMPONENTS_RESOURCES))
+                    implementation(libs.compose.ui)
+                    implementation(libs.compose.runtime)
+                    implementation(libs.compose.foundation)
+                    implementation(libs.compose.material3)
+                    implementation(libs.compose.ui.tooling.preview)
+                    implementation(libs.compose.components.resources)
 
-                    implementation(library(LibraryName.JETBRAINS_NAVIGATION_3_UI))
+                    implementation(libs.jetbrains.navigation3.ui)
 
-                    implementation(library(LibraryName.KOIN_CORE))
-                    implementation(library(LibraryName.KOIN_COMPOSE))
-                    implementation(library(LibraryName.KOIN_COMPOSE_VIEWMODEL))
+                    implementation(libs.koin.core)
+                    implementation(libs.koin.compose)
+                    implementation(libs.koin.compose.viewmodel)
 
-                    implementation(project.dependencies.platform(library(LibraryName.FIREBASE_BOM)))
-                    implementation(library(LibraryName.FIREBASE_APP))
-                    implementation(library(LibraryName.KMPAUTH_GOOGLE))
+                    implementation(project.dependencies.platform(libs.firebase.bom))
+                    implementation(libs.firebase.app)
+                    implementation(libs.kmpauth.google)
                 }
                 commonTest.dependencies {
-                    implementation(library(LibraryName.KOTLIN_TEST))
+                    implementation(libs.kotlin.test)
                 }
                 jvmMain.dependencies {
                     implementation(composeDep.desktop.currentOs)
-                    implementation(library(LibraryName.KOTLINX_COROUTINES_SWING))
+                    implementation(libs.kotlinx.coroutines.swing)
                 }
             }
         }

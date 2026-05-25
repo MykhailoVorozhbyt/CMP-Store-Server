@@ -11,7 +11,7 @@ class AthleticaPlusStoreThemeProvider : StoreThemeProvider {
 
 private val athleticaPlusLightColorsPalette = object : StoreColorsPalette {
     // Window / inputs
-    override val window: Color = Color(0xFF1296FF)
+    override val window: Color = Color(0xFFFFFFFF)
     override val inputLabelTxt: Color = Color(0xFF000000)
 
     // Brand
@@ -65,7 +65,7 @@ private val athleticaPlusLightColorsPalette = object : StoreColorsPalette {
 
 private val athleticaPlusDarkColorsPalette = object : StoreColorsPalette {
     // Window / inputs
-    override val window: Color = Color(0xFF1296FF)
+    override val window: Color = Color(0xFF000000)
     override val inputLabelTxt: Color = Color(0xFF000000)
 
     // Brand
@@ -86,7 +86,7 @@ private val athleticaPlusDarkColorsPalette = object : StoreColorsPalette {
     override val buttonSecondary: Color = Color(0xFFF2F2F2)
 
     // Icon
-    override val iconPrimary: Color = Color(0xFF000000)
+    override val iconPrimary: Color = Color(0xFFFFFFFF)
     override val iconSecondary: Color = Color(0xFF1296FF)
     override val iconWhite: Color = Color(0xFFFFFFFF)
 

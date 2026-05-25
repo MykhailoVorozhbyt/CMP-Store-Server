@@ -2,29 +2,22 @@ package plugins
 
 import configuration.configureAndroidLibraryBase
 import configuration.configureIOS
-import extensions.applyPlugins
+import extensions.alias
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
-import extensions.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
-import utils.enums.LibraryName
-import utils.enums.LibraryName.Companion.library
 import utils.enums.ModuleName
-import utils.enums.PluginName
 
 class SharedModulePlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         println("*** ${this@SharedModulePlugin} invoked ***")
-        applyPlugins {
-            listOf(
-                libs.plugin(PluginName.STORE_KOTLIN_MULTIPLATFORM.pName).pluginId,
-                libs.plugin(PluginName.COMPOSE_MULTIPLATFORM.pName).pluginId,
-                libs.plugin(PluginName.COMPOSE_COMPILER.pName).pluginId,
-                libs.plugin(PluginName.SERIALIZATION.pName).pluginId,
-            )
-        }
+        pluginManager.alias(libs.plugins.store.kotlinMultiplatform)
+        pluginManager.alias(libs.plugins.composeMultiplatform)
+        pluginManager.alias(libs.plugins.composeCompiler)
+        pluginManager.alias(libs.plugins.serialization)
+
         kotlinMultiplatformExtension {
             configureAndroidLibraryBase(ModuleName.SHARED.mName)
             configureIOS()
@@ -32,31 +25,31 @@ class SharedModulePlugin : Plugin<Project> {
 
             sourceSets {
                 androidMain.dependencies {
-                    implementation(library(LibraryName.ANDROIDX_ACTIVITY_COMPOSE))
-                    implementation(library(LibraryName.KTOR_CLIENT_OKHTTP))
+                    implementation(libs.androidx.activity.compose)
+                    implementation(libs.ktor.clientOkHttp)
                 }
                 commonMain.dependencies {
-                    implementation(library(LibraryName.COMPOSE_RUNTIME))
-                    implementation(library(LibraryName.COMPOSE_FOUNDATION))
-                    implementation(library(LibraryName.COMPOSE_MATERIAL_3))
-                    implementation(library(LibraryName.KOIN_CORE))
-                    implementation(library(LibraryName.KOIN_COMPOSE))
-                    implementation(library(LibraryName.JETBRAINS_NAVIGATION_3_UI))
-                    implementation(library(LibraryName.KOTLINX_SERIALIZATION_JSON))
-                    implementation(library(LibraryName.KTOR_CLIENT_CORE))
-                    implementation(library(LibraryName.KTOR_CLIENT_CONTENT_NEGOTIATION))
-                    implementation(library(LibraryName.KTOR_CLIENT_LOGGING))
-                    implementation(library(LibraryName.KTOR_SERIALIZATION_KOTLINX_JSON))
+                    implementation(libs.compose.runtime)
+                    implementation(libs.compose.foundation)
+                    implementation(libs.compose.material3)
+                    implementation(libs.koin.core)
+                    implementation(libs.koin.compose)
+                    implementation(libs.jetbrains.navigation3.ui)
+                    implementation(libs.kotlinx.serialization.json)
+                    implementation(libs.ktor.clientCore)
+                    implementation(libs.ktor.clientContentNegotiation)
+                    implementation(libs.ktor.clientLogging)
+                    implementation(libs.ktor.serializationKotlinxJson)
                 }
                 iosMain.dependencies {
-                    implementation(library(LibraryName.KTOR_CLIENT_DARWIN))
+                    implementation(libs.ktor.clientDarwin)
                 }
                 jvmMain.dependencies {
-                    implementation(library(LibraryName.KTOR_CLIENT_OKHTTP))
+                    implementation(libs.ktor.clientOkHttp)
                 }
                 commonTest.dependencies {
-                    implementation(library(LibraryName.KOTLIN_TEST))
-                    implementation(library(LibraryName.KOIN_TEST))
+                    implementation(libs.kotlin.test)
+                    implementation(libs.koin.test)
                 }
             }
         }

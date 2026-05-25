@@ -1,3 +1,6 @@
+import org.gradle.buildconfiguration.tasks.UpdateDaemonJvm
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+
 plugins {
     // this is necessary to avoid the plugins to be loaded multiple times
     // in each subproject's classloader
@@ -15,4 +18,10 @@ plugins {
     alias(libs.plugins.serialization) apply false
     alias(libs.plugins.google.services) apply false
     alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.android.lint) apply false
+    alias(libs.plugins.stability.analyzer) apply false
+}
+
+tasks.named<UpdateDaemonJvm>("updateDaemonJvm") {
+    languageVersion = JavaLanguageVersion.of(21)
 }

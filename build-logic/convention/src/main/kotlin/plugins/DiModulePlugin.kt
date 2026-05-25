@@ -2,31 +2,24 @@ package plugins
 
 import configuration.configureAndroidLibraryBase
 import configuration.configureIOS
-import extensions.applyPlugins
+import extensions.alias
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
-import extensions.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
-import utils.enums.LibraryName
-import utils.enums.LibraryName.Companion.library
 import utils.enums.ModuleName
 import utils.enums.ModulePath
-import utils.enums.PluginName
 
 class DiModulePlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         println("*** ${this@DiModulePlugin} invoked ***")
-        applyPlugins {
-            listOf(
-                libs.plugin(PluginName.STORE_KOTLIN_MULTIPLATFORM.pName).pluginId,
-                libs.plugin(PluginName.COMPOSE_MULTIPLATFORM.pName).pluginId,
-                libs.plugin(PluginName.COMPOSE_COMPILER.pName).pluginId,
-                libs.plugin(PluginName.KOIN_COMPILER.pName).pluginId,
-                libs.plugin(PluginName.KSP.pName).pluginId,
-            )
-        }
+        pluginManager.alias(libs.plugins.store.kotlinMultiplatform)
+        pluginManager.alias(libs.plugins.composeMultiplatform)
+        pluginManager.alias(libs.plugins.composeCompiler)
+        pluginManager.alias(libs.plugins.koin.compiler)
+        pluginManager.alias(libs.plugins.ksp)
+
         kotlinMultiplatformExtension {
             configureIOS()
             jvm()
@@ -39,15 +32,18 @@ class DiModulePlugin : Plugin<Project> {
                     implementation(project(ModulePath.FEATURE_AUTHENTICATION_DATA.path))
                     implementation(project(ModulePath.FEATURE_AUTHENTICATION_DOMAIN.path))
                     implementation(project(ModulePath.FEATURE_AUTHENTICATION_PRESENTATION.path))
+                    implementation(project(ModulePath.FEATURE_HOME_DATA.path))
+                    implementation(project(ModulePath.FEATURE_HOME_DOMAIN.path))
+                    implementation(project(ModulePath.FEATURE_HOME_PRESENTATION.path))
 
-                    implementation(library(LibraryName.KOIN_CORE))
-                    implementation(library(LibraryName.KOIN_COMPOSE_VIEWMODEL))
-                    implementation(library(LibraryName.KOIN_COMPOSE_NAVIGATION3))
-                    implementation(library(LibraryName.JETBRAINS_NAVIGATION_3_UI))
-                    implementation(library(LibraryName.KTOR_CLIENT_CORE))
+                    implementation(libs.koin.core)
+                    implementation(libs.koin.compose.viewmodel)
+                    implementation(libs.koin.compose.navigation3)
+                    implementation(libs.jetbrains.navigation3.ui)
+                    implementation(libs.ktor.clientCore)
                 }
                 commonTest.dependencies {
-                    implementation(library(LibraryName.KOIN_TEST))
+                    implementation(libs.koin.test)
                 }
             }
         }

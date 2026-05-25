@@ -4,6 +4,8 @@ enum class ModulePath(val path: String) {
     COMPOSE_APP(":composeApp"),
     SERVER(":server"),
     SHARED(":shared"),
+    STORES_ATHLETICA_PLUS(":stores:athletica-plus"),
+    STORES_NUTRI_SPORT(":stores:nutri-sport"),
     DI(":di"),
     CORE_PRESENTATION(":core:presentation"),
     CORE_UTILS(":core:utils"),
@@ -12,4 +14,7 @@ enum class ModulePath(val path: String) {
     FEATURE_AUTHENTICATION_DATA(":feature:authentication:data"),
     FEATURE_AUTHENTICATION_DOMAIN(":feature:authentication:domain"),
     FEATURE_AUTHENTICATION_PRESENTATION(":feature:authentication:presentation"),
+    FEATURE_HOME_DATA(":feature:home:data"),
+    FEATURE_HOME_DOMAIN(":feature:home:domain"),
+    FEATURE_HOME_PRESENTATION(":feature:home:presentation"),
 }

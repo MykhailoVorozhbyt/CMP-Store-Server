@@ -7,9 +7,12 @@ group = "com.store.buildlogic"
 dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.kotlin.multiplatform.gradlePlugin)
     compileOnly(libs.compose.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
-}
+
+    // Workaround for version catalog working inside precompiled scripts https://github.com/gradle/gradle/issues/15383
+    compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))}
 
 tasks {
     validatePlugins {
@@ -37,14 +40,23 @@ gradlePlugin {
             implementationClass = "plugins.ComposeAppModulePlugin"
         }
 
-        //Stores
+        //Stores - KMP library
         register("AndroidAthleticaPlus") {
-            id = libs.plugins.store.android.athleticaPlus.get().pluginId
+            id = libs.plugins.store.android.athleticaPlus.kmp.get().pluginId
             implementationClass = "plugins.stores.AppAthleticaPlusModulePlugin"
         }
         register("AndroidNutriSport") {
-            id = libs.plugins.store.android.nutriSport.get().pluginId
+            id = libs.plugins.store.android.nutriSport.kmp.get().pluginId
             implementationClass = "plugins.stores.AppNutriSportModulePlugin"
+        }
+        //Stores - pure Android app
+        register("AndroidAthleticaPlusApp") {
+            id = libs.plugins.store.android.athleticaPlus.androidApp.get().pluginId
+            implementationClass = "plugins.stores.AthleticaPlusAndroidAppPlugin"
+        }
+        register("AndroidNutriSportApp") {
+            id = libs.plugins.store.android.nutriSport.androidApp.get().pluginId
+            implementationClass = "plugins.stores.NutriSportAndroidAppPlugin"
         }
 
         //Core
@@ -77,6 +89,20 @@ gradlePlugin {
         register("AuthenticationPresentation") {
             id = libs.plugins.store.feature.authentication.presentation.get().pluginId
             implementationClass = "plugins.feature.FeatureAuthenticationPresentationModulePlugin"
+        }
+
+        //Feature - Home
+        register("FeatureHomeData") {
+            id = libs.plugins.store.feature.home.data.get().pluginId
+            implementationClass = "plugins.feature.FeatureHomeDataModulePlugin"
+        }
+        register("FeatureHomeDomain") {
+            id = libs.plugins.store.feature.home.domain.get().pluginId
+            implementationClass = "plugins.feature.FeatureHomeDomainModulePlugin"
+        }
+        register("FeatureHomePresentation") {
+            id = libs.plugins.store.feature.home.presentation.get().pluginId
+            implementationClass = "plugins.feature.FeatureHomePresentationModulePlugin"
         }
 
         //DI

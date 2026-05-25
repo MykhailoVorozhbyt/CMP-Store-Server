@@ -8,9 +8,9 @@ import org.cmp.store.presentation.App
 import org.koin.core.module.Module
 
 fun MainViewController(
-    vararg appModules: Module
+    vararg appModules: Module,
 ) = ComposeUIViewController(
     configure = {
-        initializeKoin(appModules =  arrayOf(*appModules, appViewModelModule))
-    }
-) { BaseTheme { App() } }
+        initializeKoin(*appModules, appViewModelModule)
+    },
+) {  App() }

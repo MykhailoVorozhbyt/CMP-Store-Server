@@ -7,9 +7,9 @@ import org.gradle.api.Project
  */
 fun Project.getAndroidSdkVersions(): AndroidSdkVersions {
     return AndroidSdkVersions(
-        compileSdk = libs.version("android-compileSdk").requiredVersion.toInt(),
-        minSdk = libs.version("android-minSdk").requiredVersion.toInt(),
-        targetSdk = libs.version("android-targetSdk").requiredVersion.toInt(),
+        compileSdk = libs.versions.android.compileSdk.get().toInt(),
+        minSdk = libs.versions.android.minSdk.get().toInt(),
+        targetSdk = libs.versions.android.targetSdk.get().toInt(),
         versionCode = getVersionCode(),
         versionName = getDefaultVersionName(),
     )
