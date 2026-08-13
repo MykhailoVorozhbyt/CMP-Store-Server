@@ -1,5 +1,6 @@
 package com.store.core.presentation.core.coroutines
 
+import com.store.core.presentation.core.viewmodel.BaseActionHandleViewModel.Companion.DEFAULT_TIME_PROVIDER
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.StateFlow
@@ -7,7 +8,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlin.jvm.JvmField
 import kotlin.reflect.KClass
-import kotlin.time.Clock
 
 
 /**
@@ -20,7 +20,7 @@ import kotlin.time.Clock
 @Suppress("UNCHECKED_CAST")
 fun <T> Flow<T>.distinctUntilChangedDebounced(
     debounceTimeMillis: Long,
-    timeProvided: () -> Long = { Clock.System.now().epochSeconds },
+    timeProvided: () -> Long = DEFAULT_TIME_PROVIDER,
     areEquivalent: (old: T, new: T) -> Boolean = defaultAreEquivalent
 ): Flow<T> = when {
     debounceTimeMillis < 1 -> distinctUntilChanged(areEquivalent)
@@ -43,7 +43,7 @@ fun <T> Flow<T>.distinctUntilChangedDebounced(
  */
 fun <T> Flow<T>.distinctUntilChangedDebouncedBy(
     debounceTimeMillis: Long,
-    timeProvided: () -> Long = { Clock.System.now().epochSeconds },
+    timeProvided: () -> Long = DEFAULT_TIME_PROVIDER,
     keySelector: (T) -> Any? = defaultKeySelector
 ): Flow<T> = when {
     debounceTimeMillis < 1 -> distinctUntilChangedBy(keySelector)
@@ -69,7 +69,7 @@ fun <T> Flow<T>.distinctUntilChangedDebouncedBy(
 fun <T> Flow<T>.distinctUntilChangedDebouncedByType(
     debounceTimeMillis: Long,
     type: KClass<*>,
-    timeProvided: () -> Long = { Clock.System.now().epochSeconds }
+    timeProvided: () -> Long = DEFAULT_TIME_PROVIDER
 ): Flow<T> = when {
     debounceTimeMillis < 1 -> distinctUntilChanged()
     this is StateFlow<*> -> this
@@ -96,7 +96,7 @@ private class DistinctFlowImpl<T>(
     @JvmField val areEquivalent: (old: Any?, new: Any?) -> Boolean,
     @JvmField val debounceTimeMillis: Long,
     @JvmField val type: KClass<*>? = null,
-    @JvmField val timeProvided: () -> Long = { Clock.System.now().epochSeconds }
+    @JvmField val timeProvided: () -> Long = DEFAULT_TIME_PROVIDER
 ) : Flow<T> {
     override suspend fun collect(collector: FlowCollector<T>) {
         var previousKey: Any? = NULL

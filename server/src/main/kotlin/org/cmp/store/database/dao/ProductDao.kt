@@ -3,15 +3,24 @@ package org.cmp.store.database.dao
 import org.cmp.store.database.tables.ProductTable
 import org.cmp.store.domain.product.Product
 import org.cmp.store.domain.product.ProductCategory
+import org.cmp.store.utils.dbQuery
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.core.inList
 import org.jetbrains.exposed.v1.jdbc.insertIgnore
 import org.jetbrains.exposed.v1.jdbc.selectAll
-import org.jetbrains.exposed.v1.jdbc.transactions.suspendTransaction
 
-object ProductDao {
+interface ProductDao {
+    suspend fun seed(products: List<Product>)
+    suspend fun readDiscounted(): List<Product>
+    suspend fun readNew(limit: Int): List<Product>
+    suspend fun readById(id: String): Product?
+    suspend fun readByIds(ids: List<String>): List<Product>
+    suspend fun readByCategory(category: ProductCategory): List<Product>
+}
 
-    suspend fun seed(products: List<Product>) = suspendTransaction {
+class ProductDaoImpl : ProductDao {
+
+    override suspend fun seed(products: List<Product>) = dbQuery {
         products.forEach { product ->
             ProductTable.insertIgnore {
                 it[id] = product.id
@@ -32,14 +41,14 @@ object ProductDao {
         }
     }
 
-    suspend fun readDiscounted(): List<Product> = suspendTransaction {
+    override suspend fun readDiscounted(): List<Product> = dbQuery {
         ProductTable
             .selectAll()
             .where { ProductTable.isDiscounted eq true }
             .map(::toProduct)
     }
 
-    suspend fun readNew(limit: Int): List<Product> = suspendTransaction {
+    override suspend fun readNew(limit: Int): List<Product> = dbQuery {
         ProductTable
             .selectAll()
             .where { ProductTable.isNew eq true }
@@ -47,7 +56,7 @@ object ProductDao {
             .map(::toProduct)
     }
 
-    suspend fun readById(id: String): Product? = suspendTransaction {
+    override suspend fun readById(id: String): Product? = dbQuery {
         ProductTable
             .selectAll()
             .where { ProductTable.id eq id }
@@ -55,15 +64,15 @@ object ProductDao {
             ?.let(::toProduct)
     }
 
-    suspend fun readByIds(ids: List<String>): List<Product> = suspendTransaction {
-        if (ids.isEmpty()) return@suspendTransaction emptyList()
+    override suspend fun readByIds(ids: List<String>): List<Product> = dbQuery {
+        if (ids.isEmpty()) return@dbQuery emptyList()
         ProductTable
             .selectAll()
             .where { ProductTable.id inList ids }
             .map(::toProduct)
     }
 
-    suspend fun readByCategory(category: ProductCategory): List<Product> = suspendTransaction {
+    override suspend fun readByCategory(category: ProductCategory): List<Product> = dbQuery {
         ProductTable
             .selectAll()
             .where { ProductTable.categoryId eq category.id }

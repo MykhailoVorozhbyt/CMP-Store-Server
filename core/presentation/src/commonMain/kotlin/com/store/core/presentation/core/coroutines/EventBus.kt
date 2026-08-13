@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.withTimeout
+import kotlin.time.Duration.Companion.milliseconds
 
 
 /**
@@ -144,7 +145,7 @@ interface SuspendEventBus : EventBus {
             val completion = CompletableDeferred<Unit>()
             val wrap = CompletionWrap(event, completion)
             try {
-                withTimeout(timeout) {
+                withTimeout(timeout.milliseconds) {
                     channel.send(wrap)
                     completion.await()
                 }

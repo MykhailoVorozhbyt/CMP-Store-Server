@@ -8,7 +8,7 @@ import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDe
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.store.core.navigation.di.rememberKoinNavBackStack
-import org.cmp.store.navigation.Screen
+import com.store.core.presentation.navigation.Screen
 import org.koin.compose.navigation3.koinEntryProvider
 import org.koin.core.annotation.KoinExperimentalAPI
 

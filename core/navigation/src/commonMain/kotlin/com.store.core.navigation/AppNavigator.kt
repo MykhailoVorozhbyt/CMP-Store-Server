@@ -2,7 +2,7 @@ package com.store.core.navigation
 
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
-import org.cmp.store.navigation.Screen
+import com.store.core.presentation.navigation.Screen
 
 class AppNavigator(
     private val backStack: NavBackStack<NavKey>,

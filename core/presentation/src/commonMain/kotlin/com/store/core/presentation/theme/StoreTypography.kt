@@ -29,7 +29,7 @@ class StoreTypography(
 ) {
     companion object {
         @Composable
-        fun init(): StoreTypography = StoreTypography(dimens = rememberDimens(), defaultFontFamily = AppFontFamily)
+        fun init(dimens: StoreDimens): StoreTypography = StoreTypography(dimens = dimens, defaultFontFamily = AppFontFamily)
     }
 }
 

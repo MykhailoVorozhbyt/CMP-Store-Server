@@ -1,22 +1,13 @@
 package com.store.di.modules
 
-import com.feature.authentication.presentation.AuthenticationScreen
-import com.feature.home.presentation.HomeGraphScreen
 import com.feature.home.presentation.NavigationPlaceholderScreen
-import com.store.core.navigation.LocalAppNavigator
 import com.store.core.navigation.di.navEntry
-import org.cmp.store.navigation.Screen
+import com.store.core.presentation.navigation.Screen
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.dsl.module
 
 @OptIn(KoinExperimentalAPI::class)
 val appNavigationModule = module {
-    navEntry(Screen.Auth.serializer()) {
-        AuthenticationScreen()
-    }
-    navEntry(Screen.HomeGraph.serializer()) {
-        HomeGraphScreen(welcomeMessage = it.welcomeMessage)
-    }
     navEntry(Screen.ContactUs.serializer()) {
         NavigationPlaceholderScreen("Products overview")
     }

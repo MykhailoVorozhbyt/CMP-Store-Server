@@ -4,8 +4,11 @@ import configuration.configureAndroidLibraryBase
 import configuration.configureIOS
 import extensions.alias
 import extensions.androidRuntimeClasspath
+import extensions.composeDep
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
+import extensions.module
+import extensions.sourceSet
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
@@ -18,13 +21,17 @@ class FeatureAuthenticationDataModulePlugin : FeatureAuthenticationModulePlugin(
 
     override fun apply(target: Project): Unit = with(target) project@{
         super.apply(target)
+        pluginManager.alias(libs.plugins.serialization)
         kotlinMultiplatformExtension {
             sourceSets {
                 commonMain.dependencies {
-                    implementation(project(ModulePath.FEATURE_AUTHENTICATION_DOMAIN.path))
+                    module(ModulePath.FEATURE_AUTHENTICATION_DOMAIN)
+                    module(ModulePath.CORE_UTILS)
+                    module(ModulePath.CORE_SECURITY)
                     implementation(libs.ktor.clientCore)
                     implementation(libs.ktor.clientContentNegotiation)
                     implementation(libs.ktor.serializationKotlinxJson)
+                    implementation(libs.koin.core)
                 }
                 androidMain.dependencies {
                     implementation(libs.ktor.clientOkHttp)
@@ -36,8 +43,10 @@ class FeatureAuthenticationDataModulePlugin : FeatureAuthenticationModulePlugin(
                     implementation(libs.ktor.clientOkHttp)
                 }
                 commonTest.dependencies {
+                    module(ModulePath.TEST)
                     implementation(libs.kotlin.test)
                     implementation(libs.ktor.clientMock)
+                    implementation(libs.kotlinx.coroutines.test)
                 }
             }
         }
@@ -47,6 +56,20 @@ class FeatureAuthenticationDataModulePlugin : FeatureAuthenticationModulePlugin(
 class FeatureAuthenticationDomainModulePlugin : FeatureAuthenticationModulePlugin() {
     override val moduleName: ModuleName
         get() = ModuleName.AUTHENTICATION_DOMAIN
+
+    override fun apply(target: Project): Unit = with(target) project@{
+        pluginManager.alias(libs.plugins.serialization)
+        super.apply(target)
+        kotlinMultiplatformExtension {
+            sourceSets {
+                commonTest.dependencies {
+                    module(ModulePath.TEST)
+                    implementation(libs.kotlin.test)
+                    implementation(libs.kotlinx.coroutines.test)
+                }
+            }
+        }
+    }
 }
 
 class FeatureAuthenticationPresentationModulePlugin : FeatureAuthenticationModulePlugin() {
@@ -60,11 +83,11 @@ class FeatureAuthenticationPresentationModulePlugin : FeatureAuthenticationModul
         kotlinMultiplatformExtension {
             sourceSets {
                 commonMain.dependencies {
-                    implementation(project(ModulePath.CORE_NAVIGATION.path))
-                    implementation(project(ModulePath.CORE_RESOURCES.path))
-                    implementation(project(ModulePath.CORE_PRESENTATION.path))
-                    implementation(project(ModulePath.CORE_UTILS.path))
-                    implementation(project(ModulePath.FEATURE_AUTHENTICATION_DOMAIN.path))
+                    module(ModulePath.CORE_NAVIGATION)
+                    module(ModulePath.CORE_RESOURCES)
+                    module(ModulePath.CORE_PRESENTATION)
+                    module(ModulePath.CORE_UTILS)
+                    module(ModulePath.FEATURE_AUTHENTICATION_DOMAIN)
 
                     implementation(libs.androidx.lifecycle.viewmodelCompose)
                     implementation(libs.androidx.lifecycle.runtimeCompose)
@@ -82,6 +105,25 @@ class FeatureAuthenticationPresentationModulePlugin : FeatureAuthenticationModul
                     implementation(libs.koin.compose.viewmodel)
 
                     implementation(libs.kmpauth.google)
+                }
+                commonTest.dependencies {
+                    module(ModulePath.TEST)
+                    implementation(libs.compose.ui.test)
+                }
+
+                /**
+                 * The Compose UI test lives in src/uiTest (NOT commonTest): commonTest also flows into
+                 * androidHostTest, where runComposeUiTest has no actual and NPEs. Sharing the same
+                 * src/uiTest via kotlin.srcDir keeps it on exactly the two targets with a real runner —
+                 * jvmTest (headless skiko) and androidDeviceTest (emulator) — and off androidHostTest.
+                 * */
+                sourceSet("androidDeviceTest", srcDir = "src/uiTest/kotlin") {
+                    implementation(libs.androidx.test.runner)
+                    implementation(libs.compose.ui.test.manifest)
+                }
+                sourceSet("jvmTest", srcDir = "src/uiTest/kotlin") {
+                    implementation(libs.junit.ui.test)
+                    implementation(composeDep.desktop.currentOs)
                 }
             }
         }
@@ -101,7 +143,9 @@ abstract class FeatureAuthenticationModulePlugin : Plugin<Project> {
 
             sourceSets {
                 commonMain.dependencies {
-                    implementation(project(ModulePath.SHARED.path))
+                    module(ModulePath.SHARED)
+                    module(ModulePath.CORE_NETWORK)
+                    module(ModulePath.CORE_DOMAIN)
 
                     implementation(libs.kotlinx.coroutines.core)
 

@@ -6,6 +6,7 @@ import extensions.alias
 import extensions.androidRuntimeClasspath
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
+import extensions.module
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
@@ -21,10 +22,11 @@ class FeatureHomeDataModulePlugin : FeatureHomeModulePlugin() {
         kotlinMultiplatformExtension {
             sourceSets {
                 commonMain.dependencies {
-                    implementation(project(ModulePath.FEATURE_HOME_DOMAIN.path))
+                    module(ModulePath.FEATURE_HOME_DOMAIN)
                     implementation(libs.ktor.clientCore)
                     implementation(libs.ktor.clientContentNegotiation)
                     implementation(libs.ktor.serializationKotlinxJson)
+                    implementation(libs.koin.core)
                 }
                 androidMain.dependencies {
                     implementation(libs.ktor.clientOkHttp)
@@ -38,6 +40,7 @@ class FeatureHomeDataModulePlugin : FeatureHomeModulePlugin() {
                 commonTest.dependencies {
                     implementation(libs.kotlin.test)
                     implementation(libs.ktor.clientMock)
+                    implementation(libs.kotlinx.coroutines.test)
                 }
             }
         }
@@ -60,12 +63,12 @@ class FeatureHomePresentationModulePlugin : FeatureHomeModulePlugin() {
         kotlinMultiplatformExtension {
             sourceSets {
                 commonMain.dependencies {
-                    implementation(project(ModulePath.CORE_NAVIGATION.path))
-                    implementation(project(ModulePath.CORE_RESOURCES.path))
-                    implementation(project(ModulePath.CORE_PRESENTATION.path))
-                    implementation(project(ModulePath.CORE_UTILS.path))
-                    implementation(project(ModulePath.FEATURE_HOME_DOMAIN.path))
-                    implementation(project(ModulePath.FEATURE_AUTHENTICATION_DOMAIN.path))
+                    module(ModulePath.CORE_NAVIGATION)
+                    module(ModulePath.CORE_RESOURCES)
+                    module(ModulePath.CORE_PRESENTATION)
+                    module(ModulePath.CORE_UTILS)
+                    module(ModulePath.FEATURE_HOME_DOMAIN)
+                    module(ModulePath.FEATURE_AUTHENTICATION_DOMAIN)
 
                     implementation(libs.androidx.lifecycle.viewmodelCompose)
                     implementation(libs.androidx.lifecycle.runtimeCompose)
@@ -104,7 +107,9 @@ abstract class FeatureHomeModulePlugin : Plugin<Project> {
 
             sourceSets {
                 commonMain.dependencies {
-                    implementation(project(ModulePath.SHARED.path))
+                    module(ModulePath.SHARED)
+                    module(ModulePath.CORE_NETWORK)
+                    module(ModulePath.CORE_DOMAIN)
                     implementation(libs.kotlinx.coroutines.core)
                 }
             }

@@ -8,7 +8,7 @@ import com.store.core.presentation.core.NotificationType
 import com.store.core.presentation.ui.components.StoreSnackbarHostState
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.SharedFlow
-import org.cmp.store.navigation.Screen
+import com.store.core.presentation.navigation.Screen
 
 interface UiEventEmitter {
     fun emitEvent(event: UiEvent)

@@ -18,12 +18,6 @@ class CoreUtilsModulePlugin : Plugin<Project> {
         kotlinMultiplatformExtension {
             configureIOS()
             jvm()
-
-            sourceSets {
-                commonMain.dependencies {
-                    implementation(libs.compose.ui.tooling.preview)
-                }
-            }
         }
 
         configureAndroidLibraryBase(ModuleName.CORE_UTILS.mName)

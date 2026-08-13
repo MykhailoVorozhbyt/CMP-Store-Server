@@ -1,6 +1,6 @@
 package com.store.core.presentation.ui.base
 
-import org.cmp.store.navigation.Screen
+import com.store.core.presentation.navigation.Screen
 
 interface UiEvent {
     interface ShowMessageExtendable : UiEvent {

@@ -5,6 +5,7 @@ import configuration.configureIOS
 import extensions.alias
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
+import extensions.module
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
@@ -25,8 +26,8 @@ class CoreNavigationModulePlugin : Plugin<Project> {
             jvm()
             sourceSets {
                 commonMain.dependencies {
-                    implementation(project(ModulePath.SHARED.path))
-                    implementation(project(ModulePath.CORE_PRESENTATION.path))
+                    module(ModulePath.SHARED)
+                    module(ModulePath.CORE_PRESENTATION)
                     implementation(libs.jetbrains.navigation3.ui)
                     implementation(libs.koin.compose.navigation3)
                     implementation(libs.jetbrains.material3.adaptiveNavigation3)

@@ -5,6 +5,7 @@ import configuration.configureIOS
 import extensions.alias
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
+import extensions.module
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
@@ -21,20 +22,28 @@ class DiModulePlugin : Plugin<Project> {
         pluginManager.alias(libs.plugins.ksp)
 
         kotlinMultiplatformExtension {
+            configureAndroidLibraryBase(ModuleName.DI.mName)
             configureIOS()
             jvm()
 
+            compilerOptions {
+                freeCompilerArgs.add("-Xexpect-actual-classes")
+            }
+
             sourceSets {
                 commonMain.dependencies {
-                    implementation(project(ModulePath.SHARED.path))
-                    implementation(project(ModulePath.CORE_PRESENTATION.path))
-                    implementation(project(ModulePath.CORE_NAVIGATION.path))
-                    implementation(project(ModulePath.FEATURE_AUTHENTICATION_DATA.path))
-                    implementation(project(ModulePath.FEATURE_AUTHENTICATION_DOMAIN.path))
-                    implementation(project(ModulePath.FEATURE_AUTHENTICATION_PRESENTATION.path))
-                    implementation(project(ModulePath.FEATURE_HOME_DATA.path))
-                    implementation(project(ModulePath.FEATURE_HOME_DOMAIN.path))
-                    implementation(project(ModulePath.FEATURE_HOME_PRESENTATION.path))
+                    module(ModulePath.SHARED)
+                    module(ModulePath.CORE_NETWORK)
+                    module(ModulePath.CORE_PRESENTATION)
+                    module(ModulePath.CORE_NAVIGATION)
+                    module(ModulePath.CORE_DOMAIN)
+                    module(ModulePath.CORE_SECURITY)
+                    module(ModulePath.FEATURE_AUTHENTICATION_DATA)
+                    module(ModulePath.FEATURE_AUTHENTICATION_DOMAIN)
+                    module(ModulePath.FEATURE_AUTHENTICATION_PRESENTATION)
+                    module(ModulePath.FEATURE_HOME_DATA)
+                    module(ModulePath.FEATURE_HOME_DOMAIN)
+                    module(ModulePath.FEATURE_HOME_PRESENTATION)
 
                     implementation(libs.koin.core)
                     implementation(libs.koin.compose.viewmodel)
@@ -47,7 +56,5 @@ class DiModulePlugin : Plugin<Project> {
                 }
             }
         }
-
-        configureAndroidLibraryBase(ModuleName.DI.mName)
     }
 }

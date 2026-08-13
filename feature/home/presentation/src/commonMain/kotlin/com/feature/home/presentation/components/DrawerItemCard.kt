@@ -13,7 +13,7 @@ import com.feature.home.presentation.utils.DrawerItem
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.store.core.presentation.theme.PreviewTheme
 import com.store.core.presentation.theme.StoreTheme
-import com.store.core.utils.AdaptivePreview
+import com.store.core.presentation.utils.AdaptivePreview
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -42,7 +42,7 @@ fun DrawerItemCard(
         icon = {
             Icon(
                 painter = painterResource(drawerItem.icon),
-                contentDescription = "Drawer item icon",
+                contentDescription = null,
                 tint = StoreTheme.color.iconPrimary
             )
         }

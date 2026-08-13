@@ -14,7 +14,8 @@ fun desktopApp(
     initializeKoin(*appModules, appViewModelModule)
     application {
         Window(
-            onCloseRequest = ::exitApplication, title = title
+            onCloseRequest = ::exitApplication,
+            title = title
         ) {
             App()
         }
