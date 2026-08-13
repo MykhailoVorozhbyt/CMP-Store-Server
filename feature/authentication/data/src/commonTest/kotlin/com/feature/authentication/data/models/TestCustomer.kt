@@ -1,10 +1,18 @@
 package com.feature.authentication.data.models
 
+import com.feature.authentication.data.model.CustomerDto
 import org.cmp.store.domain.customer.Customer
 
 internal val testCustomer = Customer(
-    id = "id",
-    firstName = "firstName",
-    lastName = "lastName",
-    email = "email",
+    id = "customer-id",
+    firstName = "First",
+    lastName = "Last",
+    email = "user@example.com"
+)
+
+internal val testCustomerDto = CustomerDto(
+    id = "customer-id",
+    firstName = "First",
+    lastName = "Last",
+    email = "user@example.com"
 )

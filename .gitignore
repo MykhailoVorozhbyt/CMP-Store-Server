@@ -5,6 +5,7 @@
 xcuserdata
 !src/**/build/
 local.properties
+secrets.properties
 .idea
 .DS_Store
 captures
@@ -19,3 +20,7 @@ captures
 node_modules/
 .agents
 .claude
+graphify-out/*
+!graphify-out/graph.json
+!graphify-out/GRAPH_REPORT.md
+server/store.db

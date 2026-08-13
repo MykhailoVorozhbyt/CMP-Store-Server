@@ -1,6 +1,7 @@
 package com.feature.home.presentation.view_data
 
 import androidx.compose.runtime.Immutable
+import com.feature.home.presentation.utils.CustomDrawerState
 import com.store.core.presentation.utils.RequestState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -8,6 +9,7 @@ import kotlinx.collections.immutable.persistentListOf
 @Immutable
 data class HomeGraphViewData(
     val isLoading: Boolean = false,
+    val drawerState: CustomDrawerState = CustomDrawerState.Closed,
     val customer: RequestState<CustomerViewData> = RequestState.Loading,
     val totalAmountFlow: RequestState<Double> = RequestState.Loading
 )

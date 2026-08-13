@@ -25,7 +25,7 @@ import com.feature.home.presentation.view_data.CustomerViewData
 import com.store.core.presentation.theme.PreviewTheme
 import com.store.core.presentation.theme.StoreTheme
 import com.store.core.presentation.utils.RequestState
-import com.store.core.utils.AdaptivePreview
+import com.store.core.presentation.utils.AdaptivePreview
 import com.store.core.utils.Alpha
 import org.jetbrains.compose.resources.painterResource
 
@@ -83,7 +83,7 @@ private fun BottomBarItem(
                 content = {
                     Icon(
                         painter = painterResource(destination.icon),
-                        contentDescription = "Bottom Bar destination icon",
+                        contentDescription = null,
                     )
                 }
             )

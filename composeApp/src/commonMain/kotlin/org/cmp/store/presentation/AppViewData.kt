@@ -1,6 +1,6 @@
 package org.cmp.store.presentation
 
-import org.cmp.store.navigation.Screen
+import com.store.core.presentation.navigation.Screen
 
 data class AppViewData(
     val appReady: Boolean = false,

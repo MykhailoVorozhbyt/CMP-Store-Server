@@ -7,6 +7,7 @@ import extensions.androidRuntimeClasspath
 import extensions.composeDep
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
+import extensions.module
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
@@ -33,13 +34,13 @@ class ComposeAppModulePlugin : Plugin<Project> {
                     implementation(libs.androidx.customview.customview)
                 }
                 commonMain.dependencies {
-                    implementation(project(ModulePath.DI.path))
-                    implementation(project(ModulePath.SHARED.path))
-                    implementation(project(ModulePath.CORE_PRESENTATION.path))
-                    implementation(project(ModulePath.CORE_UTILS.path))
-                    implementation(project(ModulePath.CORE_RESOURCES.path))
-                    implementation(project(ModulePath.CORE_NAVIGATION.path))
-                    implementation(project(ModulePath.FEATURE_AUTHENTICATION_DOMAIN.path))
+                    module(ModulePath.DI)
+                    module(ModulePath.SHARED)
+                    module(ModulePath.CORE_PRESENTATION)
+                    module(ModulePath.CORE_UTILS)
+                    module(ModulePath.CORE_RESOURCES)
+                    module(ModulePath.CORE_NAVIGATION)
+                    module(ModulePath.FEATURE_AUTHENTICATION_DOMAIN)
 
                     implementation(libs.compose.ui)
                     implementation(libs.compose.runtime)
@@ -60,6 +61,7 @@ class ComposeAppModulePlugin : Plugin<Project> {
                 }
                 commonTest.dependencies {
                     implementation(libs.kotlin.test)
+                    module(ModulePath.TEST)
                 }
                 jvmMain.dependencies {
                     implementation(composeDep.desktop.currentOs)
@@ -69,3 +71,4 @@ class ComposeAppModulePlugin : Plugin<Project> {
         }
     }
 }
+

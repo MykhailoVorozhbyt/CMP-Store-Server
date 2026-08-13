@@ -2,15 +2,15 @@ This is a Compose Multiplatform project targeting Android, iOS, Desktop (JVM), S
 
 ## Description
 
-This repository is based on the course **Multi-Modular Ecommerce App for Android & iOS**  
-https://www.udemy.com/course/multi-modular-ecommerce-app-for-android-ios-kmp/
+This is a modular **Kotlin Multiplatform** e-commerce project built with **Compose Multiplatform**
+and targeting **Android**, **iOS**, **Desktop (JVM)**, and **Server**.
 
-As part of this project, I am learning how to work with **Compose Multiplatform**, as well as
-implementing individual solutions based on my own ideas, rather than completely replicating the
-implementation from the course.
+The codebase is organized around shared business logic, feature modules, core modules, dependency
+injection, and store-specific branding. Two store variants — **AthleticaPlus** and
+**NutriSport** — reuse the same application logic while providing their own theme and resources.
 
-The project will have its own server implemented on **Ktor**. Unlike the course, which uses
-**Firebase**, a separate server solution is used here.
+The backend is implemented with **Ktor** and is being developed as a dedicated server-side
+solution for customer-related operations, replacing reliance on Firebase-only backend behavior.
 
 ### Build and Run Android Application
 

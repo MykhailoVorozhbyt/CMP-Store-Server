@@ -4,7 +4,16 @@
       "Bash(xargs grep *)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "Bash(rm -rf \"C:/Users/misha/StudioProjects/CMP-Store-Server/stores/nutri-sport/src/androidMain\")",
-      "Bash(rm -rf \"C:/Users/misha/StudioProjects/CMP-Store-Server/stores/athletica-plus/src/androidMain\")"
+      "Bash(rm -rf \"C:/Users/misha/StudioProjects/CMP-Store-Server/stores/athletica-plus/src/androidMain\")",
+      "WebFetch(domain:insert-koin.io)",
+      "Bash(gh api *)",
+      "WebFetch(domain:github.com)",
+      "Bash(unzip -l \"C:\\\\Users\\\\misha/.gradle/caches/modules-2/files-2.1/io.insert-koin/koin-test-jvm/4.2.1\"/*/koin-test-jvm-4.2.1.jar)",
+      "Bash(xargs -I{} echo {})",
+      "Read(//c/Users/misha/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-client-auth-jvm/3.5.0/930870283cf500e3cea18f37b6c32b00b78133a8/**)",
+      "Bash(unzip -p ktor-client-auth-jvm-3.5.0-sources.jar commonMain/io/ktor/client/plugins/auth/Auth.kt)",
+      "Bash(unzip -p ktor-client-auth-jvm-3.5.0-sources.jar commonMain/io/ktor/client/plugins/auth/providers/BearerAuthProvider.kt)",
+      "Bash(awk '{print $NF}')"
     ]
   },
   "outputStyle": "Learning"

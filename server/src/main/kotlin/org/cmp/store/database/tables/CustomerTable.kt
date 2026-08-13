@@ -6,7 +6,7 @@ object CustomerTable : Table("customers") {
     val id = varchar("id", 128)
     val firstName = varchar("first_name", 128)
     val lastName = varchar("last_name", 128)
-    val email = varchar("email", 255)
+    val email = varchar("email", 255).uniqueIndex()
     val city = varchar("city", 128).nullable()
     val postalCode = integer("postal_code").nullable()
     val address = varchar("address", 255).nullable()

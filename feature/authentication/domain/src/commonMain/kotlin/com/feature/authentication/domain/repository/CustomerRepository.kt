@@ -1,14 +1,14 @@
 package com.feature.authentication.domain.repository
 
-import com.feature.authentication.domain.model.AuthUser
-import com.feature.authentication.domain.model.CreateCustomerResult
 import kotlinx.coroutines.flow.Flow
 import org.cmp.store.domain.customer.Customer
+import com.store.core.domain.ApiResult
+import com.store.core.domain.EmptyResult
+import org.cmp.store.network.NetworkError
 
 interface CustomerRepository {
-    fun getCurrentUserId(): String?
-    suspend fun createCustomer(user: AuthUser?): CreateCustomerResult
-    fun readCustomerFlow(): Flow<Result<Customer>>
-    suspend fun updateCustomer(customer: Customer): Result<Unit>
-    suspend fun signOut(): Result<Unit>
+    suspend fun getCurrentUserId(): String?
+    suspend fun getCurrentAccessToken(): String?
+    fun readCustomerFlow(): Flow<ApiResult<Customer, NetworkError>>
+    suspend fun updateCustomer(customer: Customer): EmptyResult<NetworkError>
 }

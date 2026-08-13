@@ -6,68 +6,64 @@ import org.cmp.store.database.tables.PhoneNumberTable
 import org.cmp.store.domain.customer.CartItem
 import org.cmp.store.domain.customer.Customer
 import org.cmp.store.domain.customer.PhoneNumber
+import org.cmp.store.utils.dbQuery
+import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.core.statements.UpdateBuilder
 import org.jetbrains.exposed.v1.jdbc.deleteWhere
 import org.jetbrains.exposed.v1.jdbc.insert
 import org.jetbrains.exposed.v1.jdbc.selectAll
-import org.jetbrains.exposed.v1.jdbc.transactions.suspendTransaction
 import org.jetbrains.exposed.v1.jdbc.update
 
-object CustomerDao {
+interface CustomerDao {
+    suspend fun exists(id: String): Boolean
+    suspend fun create(customer: Customer)
+    /**
+     * Inserts a customer and its relations using the caller's existing transaction.
+     * Use this to compose a customer insert atomically with other writes.
+     */
+    fun insertWithinTransaction(customer: Customer)
+    suspend fun read(id: String): Customer?
+    suspend fun findByEmail(email: String): Customer?
+    suspend fun update(customer: Customer): Boolean
+}
 
-    suspend fun exists(id: String): Boolean = suspendTransaction {
+class CustomerDaoImpl : CustomerDao {
+
+    override suspend fun exists(id: String): Boolean = dbQuery {
         CustomerTable
             .selectAll()
             .where { CustomerTable.id eq id }
             .empty().not()
     }
 
-    suspend fun create(customer: Customer) = suspendTransaction {
+    override suspend fun create(customer: Customer) = dbQuery {
         insertCustomer(customer)
         insertRelations(customer)
     }
 
-    suspend fun read(id: String): Customer? = suspendTransaction {
-        val customerRow = CustomerTable
-            .selectAll()
-            .where { CustomerTable.id eq id }
-            .singleOrNull() ?: return@suspendTransaction null
-
-        val phoneRow = PhoneNumberTable
-            .selectAll()
-            .where { PhoneNumberTable.customerId eq id }
-            .singleOrNull()
-
-        val cartRows = CartItemTable
-            .selectAll()
-            .where { CartItemTable.customerId eq id }
-            .toList()
-
-        Customer(
-            id = customerRow[CustomerTable.id],
-            firstName = customerRow[CustomerTable.firstName],
-            lastName = customerRow[CustomerTable.lastName],
-            email = customerRow[CustomerTable.email],
-            city = customerRow[CustomerTable.city],
-            postalCode = customerRow[CustomerTable.postalCode],
-            address = customerRow[CustomerTable.address],
-            isAdmin = customerRow[CustomerTable.isAdmin],
-            phoneNumber = phoneRow?.let {
-                PhoneNumber(it[PhoneNumberTable.dialCode], it[PhoneNumberTable.number])
-            },
-            cart = cartRows.map {
-                CartItem(
-                    it[CartItemTable.id],
-                    it[CartItemTable.productId],
-                    it[CartItemTable.flavor],
-                    it[CartItemTable.quantity]
-                )
-            }
-        )
+    override fun insertWithinTransaction(customer: Customer) {
+        insertCustomer(customer)
+        insertRelations(customer)
     }
 
-    suspend fun update(customer: Customer): Boolean = suspendTransaction {
+    override suspend fun read(id: String): Customer? = dbQuery {
+        CustomerTable
+            .selectAll()
+            .where { CustomerTable.id eq id }
+            .singleOrNull()
+            ?.toCustomer()
+    }
+
+    override suspend fun findByEmail(email: String): Customer? = dbQuery {
+        CustomerTable
+            .selectAll()
+            .where { CustomerTable.email eq email }
+            .singleOrNull()
+            ?.toCustomer()
+    }
+
+    override suspend fun update(customer: Customer): Boolean = dbQuery {
         val updated = CustomerTable.update({ CustomerTable.id eq customer.id }) {
             it.mapFrom(customer)
         }
@@ -105,7 +101,7 @@ object CustomerDao {
     }
 
     /**
-     * Extension function to map Customer properties to Table Update/Insert statements
+     * Extension function to map Customer properties to Table Update/Insert statements.
      */
     private fun UpdateBuilder<*>.mapFrom(customer: Customer) {
         this[CustomerTable.id] = customer.id
@@ -115,6 +111,40 @@ object CustomerDao {
         this[CustomerTable.city] = customer.city
         this[CustomerTable.postalCode] = customer.postalCode
         this[CustomerTable.address] = customer.address
-        this[CustomerTable.isAdmin] = customer.isAdmin
+    }
+
+    private fun ResultRow.toCustomer(): Customer {
+        val customerId = this[CustomerTable.id]
+        val phoneRow = PhoneNumberTable
+            .selectAll()
+            .where { PhoneNumberTable.customerId eq customerId }
+            .singleOrNull()
+
+        val cartRows = CartItemTable
+            .selectAll()
+            .where { CartItemTable.customerId eq customerId }
+            .toList()
+
+        return Customer(
+            id = customerId,
+            firstName = this[CustomerTable.firstName],
+            lastName = this[CustomerTable.lastName],
+            email = this[CustomerTable.email],
+            city = this[CustomerTable.city],
+            postalCode = this[CustomerTable.postalCode],
+            address = this[CustomerTable.address],
+            isAdmin = this[CustomerTable.isAdmin],
+            phoneNumber = phoneRow?.let {
+                PhoneNumber(it[PhoneNumberTable.dialCode], it[PhoneNumberTable.number])
+            },
+            cart = cartRows.map {
+                CartItem(
+                    id = it[CartItemTable.id],
+                    productId = it[CartItemTable.productId],
+                    flavor = it[CartItemTable.flavor],
+                    quantity = it[CartItemTable.quantity]
+                )
+            }
+        )
     }
 }

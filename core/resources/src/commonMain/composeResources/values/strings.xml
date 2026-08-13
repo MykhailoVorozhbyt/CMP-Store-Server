@@ -7,14 +7,38 @@
     <string name="common_error_product_read">Failed to read products.</string>
     <string name="common_error_sign_out">Failed to sign out.</string>
     <string name="common_error_calculating">Error while calculating total amount: %s</string>
+    <string name="common_or">or</string>
+    <string name="common_required_field">This field is required</string>
+    <string name="common_field_max_limit">Maximum: %s symbols</string>
+    <string name="common_field_min_limit">Minimum: %s symbols</string>
+    <string name="common_empty" />
+    <string name="common_password_error_mix_lenght">Password must be at least %s characters</string>
+    <string name="common_password_error_max_lenght">Password must be at most %s characters</string>
 
     <!-- Auth -->
     <string name="app_name">App</string>
+    <string name="auth_sign_in">Sign in</string>
     <string name="auth_title">Sign in to continue</string>
     <string name="auth_btn_google">Sign in with Google</string>
     <string name="auth_success">Authentication successful!</string>
     <string name="auth_success_already_registered">You already have an account. Please log in.</string>
-    <string name="auth_error_canceled">Sign in canceled.</string>
+    <string name="auth_error_canceled">Sign in canceled</string>
+    <string name="auth_error_invalid_credentials">Invalid credentials</string>
+    <string name="auth_error_account_has_no_password">This account has no password. Sign in with Google</string>
+    <string name="auth_lable_enter_email">Email</string>
+    <string name="auth_hint_enter_email">Enter email</string>
+    <string name="auth_lable_enter_password">Enter password</string>
+    <string name="auth_hint_enter_password">Password</string>
+    <string name="auth_error_incorrect_email_address_format">Invalid email address format</string>
+    <string name="auth_validation_domain">Please check the email for accuracy</string>
+    <string name="auth_google_signin_error_denied">Google sign-in was denied.</string>
+    <string name="auth_google_signin_error_missing_code">Google sign-in failed: authorization code is missing.</string>
+    <string name="auth_google_signin_error_token_exchange">Google token exchange failed with HTTP</string>
+    <string name="auth_google_signin_error_server">Failed to start local callback server.</string>
+    <string name="auth_google_signin_error_invalid_state">Google sign-in failed: invalid state.</string>
+    <string name="auth_google_signin_error_nonce_mismatch">Google sign-in failed: nonce mismatch.</string>
+    <string name="auth_google_signin_error_unsupported">Desktop Google sign-in is not supported on this platform.</string>
+    <string name="auth_google_signin_error_invalid_id_token">Invalid ID token</string>
 
     <!--Drawer-->
     <string name="drawer_healthy_lifestyle">Healthy Lifestyle</string>
@@ -24,6 +48,13 @@
     <string name="drawer_item_contact_us">Contact us</string>
     <string name="drawer_item_sign_out">Sign Out</string>
     <string name="drawer_item_admin_panel">Admin Panel</string>
+
+    <!--Accessibility (content descriptions)-->
+    <string name="checkout_icon_description">Checkout</string>
+    <string name="open_menu_description">Open menu</string>
+    <string name="close_menu_description">Close menu</string>
+    <string name="show_password_description">Show password</string>
+    <string name="hide_password_description">Hide password</string>
 
     <!--Currency-->
     <string name="currency_uah">UAH</string>

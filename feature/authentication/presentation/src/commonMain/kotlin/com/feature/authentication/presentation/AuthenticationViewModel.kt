@@ -1,86 +1,140 @@
 package com.feature.authentication.presentation
 
-import androidx.lifecycle.viewModelScope
-import com.feature.authentication.domain.model.AuthUser
-import com.feature.authentication.domain.model.onFailure
-import com.feature.authentication.domain.model.onSuccess
-import com.feature.authentication.domain.model.onUserAlreadyExists
-import com.feature.authentication.domain.usecases.CreateCustomerUseCase
+import com.feature.authentication.domain.model.GoogleSignInError
+import com.feature.authentication.domain.model.SignInResult
+import com.feature.authentication.domain.model.request.AuthUserRequest
+import com.feature.authentication.domain.repository.GoogleSignInService
+import com.feature.authentication.domain.usecases.SignInUseCase
+import com.feature.authentication.presentation.handler.SignInFailureHandler
 import com.feature.authentication.presentation.social_media.SocialMediaViewAction
+import com.feature.authentication.presentation.validator.AuthenticationValidator
+import com.feature.authentication.presentation.view_data.AuthenticationInitializer
 import com.feature.authentication.presentation.view_data.AuthenticationUiEvent
+import com.feature.authentication.presentation.view_data.AuthenticationViewAction
 import com.feature.authentication.presentation.view_data.AuthenticationViewData
-import com.store.core.presentation.core.di.coroutines.IoDispatcher
-import com.store.core.presentation.core.di.coroutines.MainDispatcher
+import com.store.core.domain.onError
+import com.store.core.domain.onSuccess
+import com.store.core.presentation.core.di.coroutines.AppDispatchers
 import com.store.core.presentation.core.viewmodel.BaseActionHandleViewModel
 import com.store.core.presentation.ui.ViewAction
+import com.store.core.presentation.ui.base.InputFieldChanged
+import com.store.core.presentation.ui.base.scopeFor
+import com.store.core.presentation.utils.UiText
 import com.store.core.resources.Res
-import com.store.core.resources.auth_error_canceled
 import com.store.core.resources.auth_success
 import com.store.core.resources.auth_success_already_registered
-import com.store.core.resources.common_error_no_internet
+import com.store.core.resources.common_error_unknown
 import com.store.core.utils.Logger
 import com.store.core.utils.i
-import kotlinx.coroutines.CoroutineDispatcher
+import dev.gitlive.firebase.auth.FirebaseUser
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
+import org.cmp.store.getPlatform
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.getString
 
 class AuthenticationViewModel(
-    private val useCase: CreateCustomerUseCase,
-    @MainDispatcher mainDispatcher: CoroutineDispatcher,
-    @IoDispatcher ioDispatcher: CoroutineDispatcher,
-) : BaseActionHandleViewModel<AuthenticationViewData>(
-    mainDispatcher, ioDispatcher
-) {
+    private val signInUseCase: SignInUseCase,
+    private val googleSignInService: GoogleSignInService,
+    private val validator: AuthenticationValidator,
+    private val signInFailureHandler: SignInFailureHandler,
+    dispatchers: AppDispatchers
+) : BaseActionHandleViewModel<AuthenticationViewData>(dispatchers) {
     override val _viewData = MutableStateFlow(AuthenticationViewData())
+
+    private val initializer = AuthenticationInitializer()
+    private val actionHandleScope = scopeFor(_viewData)
+
+    init {
+        initializer.initialize(_viewData)
+    }
 
     override suspend fun handleViewAction(action: ViewAction) {
         when (action) {
-            SocialMediaViewAction.OnGoogleClick -> handleGoogleClick()
-            is SocialMediaViewAction.OnGoogleSignInFailure -> handleGoogleSignInFailure(action)
-            is SocialMediaViewAction.OnGoogleSignInSuccess -> handleGoogleSignInSuccess(action)
+            is InputFieldChanged -> validator.validateAdvanced(action, actionHandleScope)
+            is AuthenticationViewAction.OnSignInClick -> handleManualSignIn()
+            is SocialMediaViewAction.OnGoogleClick -> handleGoogleClick()
+            is SocialMediaViewAction.OnSignInFailure -> handleGoogleSignInFailure(action.exception)
+            is SocialMediaViewAction.OnSignInSuccess -> handleAuthenticatedUser(action.user)
+        }
+    }
+
+    private fun handleManualSignIn() {
+        launchIo {
+            setManualLoading(true)
+            val manual = _viewData.value.manual
+            handleAuthorizeResult(
+                result = signInUseCase(
+                    email = manual.email.input,
+                    password = manual.password.input
+                )
+            )
         }
     }
 
     private fun handleGoogleClick() {
-        viewModelScope.launch {
+        launchIo {
             setGoogleLoading(true)
+            if (getPlatform().isDesktop) {
+                googleSignIn()
+            }
         }
     }
 
-    private fun handleGoogleSignInSuccess(action: SocialMediaViewAction.OnGoogleSignInSuccess) {
-        viewModelScope.launch {
-            useCase.invoke(
-                AuthUser(
-                    uid = action.user?.uid,
-                    displayName = action.user?.displayName,
-                    email = action.user?.email,
+    suspend fun googleSignIn() {
+        googleSignInService.signIn()
+            .onSuccess { handleAuthenticatedUser(it) }
+            .onError { handleGoogleSignInFailure(it) }
+    }
+
+    private suspend fun handleGoogleSignInFailure(error: GoogleSignInError) {
+        Logger.i("OnGoogleSignInFailure: $error")
+        clearLoading()
+        showError(signInFailureHandler.handle(error))
+    }
+
+    private suspend fun handleAuthenticatedUser(user: FirebaseUser?) {
+        if (user == null) {
+            clearLoading()
+            showError(getString(Res.string.common_error_unknown))
+        } else {
+            handleAuthenticatedUser(
+                AuthUserRequest(
+                    uid = user.googleUid(),
+                    displayName = user.displayName,
+                    email = user.email,
                 )
             )
-                .onSuccess {
-                    emitEvent(AuthenticationUiEvent.ToMainScreen(getString(Res.string.auth_success)))
-                }
-                .onUserAlreadyExists {
-                    emitEvent(AuthenticationUiEvent.ToMainScreen(getString(Res.string.auth_success_already_registered)))
-                }
-                .onFailure {
-                    showError(it.errorCode)
-                }.also {
-                    setGoogleLoading(false)
-                }
         }
     }
 
-    private suspend fun handleGoogleSignInFailure(action: SocialMediaViewAction.OnGoogleSignInFailure) {
-        val message = action.exception.message
-        Logger.i("OnGoogleSignInFailure: ${action.exception}")
-        setGoogleLoading(false)
-        when {
-            message?.contains(A_NETWORK_ERROR) == true -> showError(getString(Res.string.common_error_no_internet))
-            message?.contains(ID_TOKEN_IS_NULL) == true -> showError(getString(Res.string.auth_error_canceled))
-            else -> showError(message)
+    private fun FirebaseUser.googleUid(): String? =
+        providerData.firstOrNull { it.providerId == GOOGLE_PROVIDER_ID }?.uid
+
+    private suspend fun handleAuthenticatedUser(user: AuthUserRequest?) {
+        handleAuthorizeResult(signInUseCase(user))
+    }
+
+    private suspend fun handleAuthorizeResult(result: SignInResult) {
+        clearLoading()
+        when (result) {
+            is SignInResult.Success -> emitEvent(
+                AuthenticationUiEvent.ToMain(
+                    UiText.Resource(getAuthSuccessResource(result))
+                )
+            )
+
+            is SignInResult.Failure -> showError(signInFailureHandler.handle(result.error))
         }
+    }
+
+    private fun getAuthSuccessResource(result: SignInResult.Success): StringResource =
+        if (result.isNewReg) Res.string.auth_success
+        else Res.string.auth_success_already_registered
+
+    private fun clearLoading() {
+        setManualLoading(false)
+        setGoogleLoading(false)
     }
 
     private fun setGoogleLoading(isLoading: Boolean) {
@@ -93,9 +147,19 @@ class AuthenticationViewModel(
         }
     }
 
-    companion object {
-        private const val A_NETWORK_ERROR = "A network error"
-        private const val ID_TOKEN_IS_NULL = "Idtoken is null"
+    private fun setManualLoading(isLoading: Boolean) {
+        _viewData.update {
+            it.copy(
+                isLoading = isLoading,
+                manual = it.manual.copy(
+                    email = it.manual.email.copy(enabled = !isLoading),
+                    password = it.manual.password.copy(enabled = !isLoading),
+                )
+            )
+        }
     }
 
+    companion object {
+        private const val GOOGLE_PROVIDER_ID = "google.com"
+    }
 }

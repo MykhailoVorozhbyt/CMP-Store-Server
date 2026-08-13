@@ -1,6 +1,7 @@
 package com.store.core.presentation.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.runtime.Composable
@@ -55,15 +56,19 @@ fun BaseTheme(
             backgroundColor = Color.Transparent
         )
     }
-    CompositionLocalProvider(
-        LocalStoreColors provides colors,
-        LocalStoreTypography provides StoreTypography.init(),
-        LocalStoreWindowType provides rememberWindowType(),
-        LocalStoreDimens provides rememberDimens(),
-        LocalTextSelectionColors provides selectionColors,
-        LocalStoreStrings provides stringsProvider,
-        content = content
-    )
+    BoxWithConstraints {
+        val windowType = windowTypeFromWidth(maxWidth.value)
+        val dimens = dimensFor(windowType)
+        CompositionLocalProvider(
+            LocalStoreColors provides colors,
+            LocalStoreTypography provides StoreTypography.init(dimens),
+            LocalStoreWindowType provides windowType,
+            LocalStoreDimens provides dimens,
+            LocalTextSelectionColors provides selectionColors,
+            LocalStoreStrings provides stringsProvider,
+            content = content
+        )
+    }
 }
 
 /**
@@ -76,12 +81,16 @@ fun PreviewTheme(
     val theme = StoreThemeProviderPreviewApi()
     val colors = if (isSystemInDarkTheme()) theme.darkPalette else theme.lightPalette
     val stringsProvider = object : AppStrings {}
-    CompositionLocalProvider(
-        LocalStoreColors provides colors,
-        LocalStoreTypography provides StoreTypography.init(),
-        LocalStoreWindowType provides rememberWindowType(),
-        LocalStoreDimens provides rememberDimens(),
-        LocalStoreStrings provides stringsProvider,
-        content = content
-    )
+    BoxWithConstraints {
+        val windowType = windowTypeFromWidth(maxWidth.value)
+        val dimens = dimensFor(windowType)
+        CompositionLocalProvider(
+            LocalStoreColors provides colors,
+            LocalStoreTypography provides StoreTypography.init(dimens),
+            LocalStoreWindowType provides windowType,
+            LocalStoreDimens provides dimens,
+            LocalStoreStrings provides stringsProvider,
+            content = content
+        )
+    }
 }
