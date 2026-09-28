@@ -1,32 +1,20 @@
 package com.store.test.fakes
 
-import com.feature.authentication.domain.repository.CustomerRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-import org.cmp.store.domain.customer.Customer
+import com.store.component.customer.domain_api.CustomerRepository
+import com.store.component.customer.model.CustomerError
 import com.store.core.domain.ApiResult
+import com.store.core.domain.DataError
 import com.store.core.domain.EmptyResult
-import org.cmp.store.network.NetworkError
+import org.cmp.store.domain.customer.Customer
 
-/**
- * Shared test double for [CustomerRepository]. All behaviour is driven by mutable properties so a
- * test can configure only what it needs and leave the rest as inert defaults.
- */
 class FakeCustomerRepository : CustomerRepository {
-    var currentUserId: String? = null
-    var currentAccessToken: String? = null
-    var customerFlow: Flow<ApiResult<Customer, NetworkError>> =
-        flowOf(ApiResult.Error(NetworkError.UNKNOWN))
-    var updateResult: EmptyResult<NetworkError> = ApiResult.Success(Unit)
+    var customerResult: ApiResult<Customer, CustomerError> = ApiResult.Error(CustomerError.Common(DataError.Unknown))
+    var updateResult: EmptyResult<CustomerError> = ApiResult.Success(Unit)
     var lastUpdatedCustomer: Customer? = null
 
-    override suspend fun getCurrentUserId(): String? = currentUserId
+    override suspend fun readCustomer(): ApiResult<Customer, CustomerError> = customerResult
 
-    override suspend fun getCurrentAccessToken(): String? = currentAccessToken
-
-    override fun readCustomerFlow(): Flow<ApiResult<Customer, NetworkError>> = customerFlow
-
-    override suspend fun updateCustomer(customer: Customer): EmptyResult<NetworkError> {
+    override suspend fun updateCustomer(customer: Customer): EmptyResult<CustomerError> {
         lastUpdatedCustomer = customer
         return updateResult
     }

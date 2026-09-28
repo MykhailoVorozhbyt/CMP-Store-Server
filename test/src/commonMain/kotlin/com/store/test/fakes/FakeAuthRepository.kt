@@ -1,12 +1,13 @@
 package com.store.test.fakes
 
-import com.feature.authentication.domain.repository.AuthRepository
+import com.store.component.auth.domain_api.AuthRepository
+import com.store.component.auth.model.AuthError
+import com.store.core.domain.ApiResult
+import com.store.core.domain.DataError
+import com.store.core.domain.EmptyResult
 import kotlinx.coroutines.CompletableDeferred
 import org.cmp.store.domain.auth.request.AuthRequest
 import org.cmp.store.domain.auth.response.AuthResponse
-import com.store.core.domain.ApiResult
-import com.store.core.domain.EmptyResult
-import org.cmp.store.network.NetworkError
 
 /**
  * Shared test double for [AuthRepository].
@@ -17,16 +18,19 @@ import org.cmp.store.network.NetworkError
  *   so a test can observe the in-flight `isLoading = true` state before the result is delivered.
  */
 class FakeAuthRepository : AuthRepository {
-    var authorizeResult: ApiResult<AuthResponse, NetworkError> =
-        ApiResult.Error(NetworkError.UNKNOWN)
+    var authorizeResult: ApiResult<AuthResponse, AuthError> =
+        ApiResult.Error(AuthError.Common(DataError.Unknown))
     var lastAuthorizeRequest: AuthRequest? = null
     var gate: CompletableDeferred<Unit>? = null
+    var currentUserId: String? = null
 
-    override suspend fun authorize(request: AuthRequest): ApiResult<AuthResponse, NetworkError> {
+    override suspend fun authorize(request: AuthRequest): ApiResult<AuthResponse, AuthError> {
         lastAuthorizeRequest = request
         gate?.await()
         return authorizeResult
     }
 
-    override suspend fun signOut(): EmptyResult<NetworkError> = ApiResult.Success(Unit)
+    override suspend fun signOut(): EmptyResult<AuthError> = ApiResult.Success(Unit)
+
+    override suspend fun currentUserId(): String? = currentUserId
 }

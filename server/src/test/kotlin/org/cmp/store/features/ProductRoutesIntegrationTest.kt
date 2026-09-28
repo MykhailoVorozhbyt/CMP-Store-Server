@@ -7,6 +7,7 @@ import org.cmp.store.database.dao.ProductDaoImpl
 import org.cmp.store.utils.decodeJson
 import org.cmp.store.domain.product.Product
 import org.cmp.store.domain.product.ProductCategory
+import org.cmp.store.network.NetworkError
 import org.cmp.store.utils.testServerApplication
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -108,7 +109,7 @@ class ProductRoutesIntegrationTest {
         val response = client.get("/product/by-category/999")
 
         assertEquals(HttpStatusCode.BadRequest, response.status)
-        assertEquals("Unknown category: 999", response.bodyAsText())
+        assertEquals(NetworkError.INVALID_PRODUCT_CATEGORY.name, response.bodyAsText())
     }
 
     @Test
@@ -128,7 +129,7 @@ class ProductRoutesIntegrationTest {
         val response = client.get("/product/missing-product")
 
         assertEquals(HttpStatusCode.NotFound, response.status)
-        assertEquals("Product not found", response.bodyAsText())
+        assertEquals(NetworkError.PRODUCT_NOT_FOUND.name, response.bodyAsText())
     }
 
     private suspend fun seedProducts(vararg products: Product) {

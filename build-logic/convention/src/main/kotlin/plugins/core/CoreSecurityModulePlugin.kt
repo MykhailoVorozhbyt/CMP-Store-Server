@@ -21,8 +21,12 @@ class CoreSecurityModulePlugin : Plugin<Project> {
             jvm()
 
             sourceSets {
+                commonMain.dependencies {
+                    implementation(libs.koin.core)
+                }
                 androidMain.dependencies {
                     implementation(libs.kotlinx.coroutines.core)
+                    implementation(libs.koin.android)
                 }
                 jvmMain.dependencies {
                     implementation(libs.kotlinx.coroutines.core)

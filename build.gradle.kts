@@ -20,6 +20,7 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.android.lint) apply false
     alias(libs.plugins.stability.analyzer) apply false
+    alias(libs.plugins.store.architecture)
 }
 
 tasks.named<UpdateDaemonJvm>("updateDaemonJvm") {
