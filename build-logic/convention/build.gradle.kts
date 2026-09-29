@@ -37,9 +37,9 @@ gradlePlugin {
             id = libs.plugins.store.shared.get().pluginId
             implementationClass = "plugins.SharedModulePlugin"
         }
-        register("ComposeApp") {
-            id = libs.plugins.store.composeApp.get().pluginId
-            implementationClass = "plugins.ComposeAppModulePlugin"
+        register("AppShared") {
+            id = libs.plugins.store.app.shared.get().pluginId
+            implementationClass = "plugins.app.AppSharedModulePlugin"
         }
         register("Test") {
             id = libs.plugins.store.test.get().pluginId
@@ -50,23 +50,32 @@ gradlePlugin {
             implementationClass = "plugins.ServerModulePlugin"
         }
 
-        //Stores - KMP library
-        register("AndroidAthleticaPlus") {
-            id = libs.plugins.store.android.athleticaPlus.kmp.get().pluginId
-            implementationClass = "plugins.stores.AppAthleticaPlusModulePlugin"
+        //App - store KMP library
+        register("AppAthleticaPlusLibrary") {
+            id = libs.plugins.store.app.athleticaPlus.library.get().pluginId
+            implementationClass = "plugins.app.AthleticaPlusModulePlugin"
         }
-        register("AndroidNutriSport") {
-            id = libs.plugins.store.android.nutriSport.kmp.get().pluginId
-            implementationClass = "plugins.stores.AppNutriSportModulePlugin"
+        register("AppNutriSportLibrary") {
+            id = libs.plugins.store.app.nutriSport.library.get().pluginId
+            implementationClass = "plugins.app.NutriSportModulePlugin"
         }
-        //Stores - pure Android app
-        register("AndroidAthleticaPlusApp") {
-            id = libs.plugins.store.android.athleticaPlus.androidApp.get().pluginId
-            implementationClass = "plugins.stores.AthleticaPlusAndroidAppPlugin"
+        //App - store Android app
+        register("AppAthleticaPlusAndroidApp") {
+            id = libs.plugins.store.app.athleticaPlus.androidApp.get().pluginId
+            implementationClass = "plugins.app.AthleticaPlusAndroidAppPlugin"
         }
-        register("AndroidNutriSportApp") {
-            id = libs.plugins.store.android.nutriSport.androidApp.get().pluginId
-            implementationClass = "plugins.stores.NutriSportAndroidAppPlugin"
+        register("AppNutriSportAndroidApp") {
+            id = libs.plugins.store.app.nutriSport.androidApp.get().pluginId
+            implementationClass = "plugins.app.NutriSportAndroidAppPlugin"
+        }
+        //App - store desktop app
+        register("AppAthleticaPlusDesktopApp") {
+            id = libs.plugins.store.app.athleticaPlus.desktopApp.get().pluginId
+            implementationClass = "plugins.app.AthleticaPlusDesktopAppPlugin"
+        }
+        register("AppNutriSportDesktopApp") {
+            id = libs.plugins.store.app.nutriSport.desktopApp.get().pluginId
+            implementationClass = "plugins.app.NutriSportDesktopAppPlugin"
         }
 
         //Core

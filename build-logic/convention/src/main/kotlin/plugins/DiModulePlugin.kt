@@ -29,10 +29,6 @@ class DiModulePlugin : Plugin<Project> {
             configureIOS()
             jvm()
 
-            compilerOptions {
-                freeCompilerArgs.add("-Xexpect-actual-classes")
-            }
-
             sourceSets {
                 commonMain.dependencies {
                     module(ModulePath.SHARED)

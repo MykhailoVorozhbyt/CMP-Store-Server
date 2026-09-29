@@ -22,15 +22,13 @@ All commands use the Gradle wrapper. On Windows use `.\gradlew.bat` instead of `
 ./gradlew :server:run
 ./gradlew :server:runFatJar        # preferred while a desktop client is also running
 
-# Desktop (JVM) apps
-./gradlew :stores:athletica-plus:run
-./gradlew :stores:nutri-sport:run
+# Desktop (JVM) apps — the store modules are KMP libraries; the apps live in :desktopApp / :androidApp
+./gradlew :app:athletica-plus:desktopApp:run
+./gradlew :app:nutri-sport:desktopApp:run
 
-# Android APKs — NOTE: the store modules are KMP libraries; the apps live in :androidApp
-# Athletica plus
-./gradlew :stores:athletica-plus:androidApp:assembleDebug
-# Nutri sport
-./gradlew :stores:nutri-sport:androidApp:installDebug
+# Android APKs
+./gradlew :app:athletica-plus:androidApp:assembleDebug
+./gradlew :app:nutri-sport:androidApp:installDebug
 
 # Tests — same split as CI
 ./gradlew :server:test
@@ -40,25 +38,40 @@ All commands use the Gradle wrapper. On Windows use `.\gradlew.bat` instead of `
 ./gradlew :feature:authentication:androidDeviceTest  # same UI tests on emulator
 ```
 
-For iOS: open `/iosApp` in Xcode and run from there.
+For iOS: open `app/iosApp` in Xcode and run from there. The Xcode project was moved there without being rebuilt on a
+Mac — see Known Gaps.
+
+The desktop app reads `DESKTOP_CLIENT_SECRET` at startup (env var or repo-root `secrets.properties`); without it Koin
+fails while building `GoogleSignInService`, even for manual email sign-in. A Gradle daemon started from a terminal uses
+the first `java` on `PATH` because `gradle/gradle-daemon-jvm.properties` has not been generated
+(`./gradlew updateDaemonJvm`).
 
 **Gotcha:** running a desktop store app rebuilds `shared-jvm.jar`, which clobbers the jar a live `:server:run` has loaded → `ClassNotFoundException`, usually surfacing as a `400 SERIALIZATION` response. Run the server via `runFatJar` or `installDist` when working on both sides at once.
 
 ## Module Structure
 
-32 `include`s in `settings.gradle.kts` (type-safe project accessors enabled): 3 components × 4 layers, 2 features,
-8 core modules, plus app/server/shared/stores/di/test.
+33 `include`s in `settings.gradle.kts` (type-safe project accessors enabled): 3 components × 4 layers, 2 features,
+8 core modules, 7 client-app modules under `app/`, plus server/shared/di/test.
+
+The layout follows JetBrains' default KMP structure for projects with a server: every client module lives under `app/`,
+the client↔server contract stays at the root. `:shared` plays the role the JetBrains template calls `core` (that name
+is taken by the client infrastructure modules). Each store is a small "app" of its own: a KMP library plus one module per
+entry point. `app:shared` keeps the entry-point code both stores reuse.
 
 ```
-composeApp/          # Shared Compose entry points: App.kt, StoreApp.kt (Android Application),
-                     #   main.kt (desktopApp), MainViewController.kt (iOS), AppViewModel
+app/                 # folder only, not a Gradle module
+  shared/            # :app:shared — App.kt, AppViewModel, and the entry-point bases both stores reuse:
+                     #   androidMain MainActivity + StoreApp (Application), jvmMain desktopApp(title, modules),
+                     #   iosMain MainViewController(modules). No application plugin, no packaging, no iOS framework.
+  athletica-plus/    # :app:athletica-plus — KMP library: theme (colors/strings), ThemeModule,
+                     #   AthleticaPlusMainViewController; builds the iOS framework `StoresAthletica-plus`
+    androidApp/      # com.android.application: AthleticaPlusApp : StoreApp, manifest, google-services.json, R8
+    desktopApp/      # kotlin("jvm") + compose.desktop: main.kt, appicon/, Dmg/Msi/Deb packaging
+  nutri-sport/       # same shape (iOS framework `StoresNutri-sport`)
+  iosApp/            # ONE Xcode project with two targets (AthleticaPlusApp, NutriSportApp) + common/AppDelegate.swift
 server/              # Ktor server — see "Server Architecture" below
-shared/              # Pure KMP domain: Customer, CartItem, Product, AuthProvider/AuthRequest/AuthResponse,
+shared/              # Client↔server wire contract: Customer, CartItem, Product, AuthProvider/AuthRequest/AuthResponse,
                      #   NetworkError, Platform, Constants (SERVER_PORT = 8080)
-stores/
-  athletica-plus/    # KMP library: theme (colors/strings) + iOS/JVM entry points
-    androidApp/      # Pure Android application module (applicationId, google-services.json, R8)
-  nutri-sport/       # same shape
 core/
   domain/            # ApiResult<D,E>, FieldKey, validation contracts
   data/              # EMPTY placeholder module
@@ -117,8 +130,13 @@ gradle/              # libs.versions.toml (single source of truth for all versio
   missing from `ComponentName` / `FeatureName`. Component layers get no Compose and no Android resources.
 - **Capability plugins** — stacked next to a layer plugin for extras: `store.firebase.auth`, `store.kmpauth.google`,
   `store.feature.uiTest`. They wait for KMP (`withPlugin`), so their order in `plugins { }` doesn't matter.
-- **Per-module plugins** for everything else (`core:*`, `:shared`, `composeApp`, `di`, `test`, `server`, stores) and the
-  root-only `store.architecture`.
+- **Per-module plugins** for everything else (`core:*`, `:shared`, `di`, `test`, `server`) and the root-only
+  `store.architecture`.
+- **App plugins** (`plugins/app/`) — `store.app.shared` for `:app:shared`, and per store
+  `store.app.<store>.library` / `.androidApp` / `.desktopApp` (`StoreModulePlugin`, `StoreAndroidAppPlugin`,
+  `StoreDesktopAppPlugin`, one subclass per store). Names visible to code are pinned in `StoreModulePlugin` so moving a
+  module never changes them: the iOS framework `baseName` (Swift `import StoresAthletica_plus`) and
+  `packageOfResClass` (`com.store.<store>.resources`). Left to defaults, both are derived from the Gradle path.
 
 **Adding a component** (e.g. `basket`):
 1. Add `BASKET("basket")` to `utils/enums/ComponentName.kt`.
@@ -141,8 +159,9 @@ gradle/              # libs.versions.toml (single source of truth for all versio
 **Enums** in `build-logic/convention/src/main/kotlin/utils/enums/` — never raw strings in plugins:
 - `ComponentName`, `ComponentLayer`, `FeatureName` — see above; `component(name, layer)` builds a typed path
   (`module(component(...))` / `apiModule(component(...))`).
-- `ModulePath` — Gradle paths of non-component modules. The two `:androidApp` submodules have no entries.
-- `ModuleName` — only namespaces that do NOT follow the path rule (`:shared`, `composeApp`, stores, core modules).
+- `ModulePath` — Gradle paths of non-component modules. The `:androidApp` / `:desktopApp` submodules have no entries.
+- `ModuleName` — only namespaces that do NOT follow the path rule (`:shared`, `:app:shared` = `org.cmp.store`, stores,
+  core modules).
   Component and feature namespaces are derived (`extensions/NamespaceExtensions.kt`).
 - `BuildTypeName` — `debug` / `release`.
 
@@ -151,8 +170,9 @@ Dependency aliases and plugin IDs come from the version catalog through the acce
 Shared helpers live alongside the plugins:
 - `configuration/AndroidBase.kt` — `configureAndroidLibraryBase(namespace, enableAndroidResources = true)` (SDK levels, host/device test trees)
 - `configuration/PureKmp.kt` — `configurePureKmpLibrary()` for component layers (android + iOS + jvm, no Compose/resources)
-- `configuration/IOS.kt` — `configureIOS()` → iosArm64 + iosSimulatorArm64 static framework
-- `configuration/ComposeDesktopApplication.kt` — Dmg/Msi/Deb packaging
+- `configuration/IOS.kt` — `configureIOS(frameworkName = null)` → iosArm64 + iosSimulatorArm64; a static framework
+  only when a name is passed (just the two store libraries — Xcode links nothing else)
+- `configuration/ComposeDesktopApplication.kt` — Dmg/Msi/Deb packaging, applied by `StoreDesktopAppPlugin`
 - `extensions/DependencyExtensions.kt` — `module(ModulePath.X)`, `implementation`, `testImplementation`
 - `extensions/ComponentExtensions.kt` — `component()`, `module()/apiModule(ComponentModule)`, `owningComponent()`
 - `extensions/SourceSetExtensions.kt` — `sourceSet(name, srcDir)`
@@ -421,6 +441,11 @@ Covered today: `BaseActionHandleViewModel`, string utils, `HttpClientFactory` + 
 - Without a connectivity service, `ConnectException` (e.g. the dev server is down) is reported as `NO_INTERNET`.
 - `safeApiCall`'s status fallback still maps a bare 409 to the auth-specific `USER_ALREADY_EXISTS`.
 - The iOS actual `PlatformNetworkError.ios.kt` is only compiled by an Xcode / macOS build — `allTests` on Windows skips it.
+- `app/iosApp/iosApp.xcodeproj/project.pbxproj` was edited on Windows during the move to `app/` and has not been built
+  since: the build-phase scripts (`cd "$SRCROOT/../.."`, `:app:<store>:embedAndSignAppleFrameworkForXcode`) and
+  `FRAMEWORK_SEARCH_PATHS` (`$(SRCROOT)/../<store>/build/xcode-frameworks/…`) need a first run in Xcode. The AthleticaPlus
+  framework phase has `buildActionMask = 12` (NutriSport: `2147483647`), and NutriSport has an empty `ShellScript` phase.
+- iOS bundle IDs (`org.cmp.store.<store>`) do not follow the Android `applicationId` scheme (`com.store.<store>`).
 - `Screen.ManageProduct` and `Screen.PaymentCompleted` have no `navEntry` — navigating to them fails.
 - `Screen.ContactUs`'s placeholder is mislabelled `"Products overview"` in `di/modules/AppNavigationModule.kt`.
 - Server has no CORS and no CallLogging; SQLite is a single dev file with no migrations (schema is recreated, not migrated).

@@ -1,11 +1,11 @@
 package utils.enums
 
 enum class ModulePath(val path: String) {
-    COMPOSE_APP(":composeApp"),
+    APP_SHARED(":app:shared"),
     SERVER(":server"),
     SHARED(":shared"),
-    STORES_ATHLETICA_PLUS(":stores:athletica-plus"),
-    STORES_NUTRI_SPORT(":stores:nutri-sport"),
+    APP_ATHLETICA_PLUS(":app:athletica-plus"),
+    APP_NUTRI_SPORT(":app:nutri-sport"),
     DI(":di"),
     CORE_PRESENTATION(":core:presentation"),
     CORE_UTILS(":core:utils"),
