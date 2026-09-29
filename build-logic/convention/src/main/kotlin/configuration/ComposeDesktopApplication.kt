@@ -14,6 +14,7 @@ fun Project.configureDesktopApplication(
     desktopExtension {
         application {
             this.mainClass = mainClass
+            jvmArgs += "--enable-native-access=ALL-UNNAMED"
 
             nativeDistributions {
                 targetFormats(*targetFormats.toTypedArray())
@@ -21,21 +22,20 @@ fun Project.configureDesktopApplication(
                 this.packageVersion = version
 
                 macOS {
-//                    iconFile.set(project.file("src/commonMain/composeResources/drawable/app_icon.ico"))
                     iconFile.set(project.file("appicon/MacOsIc.icns"))
                     infoPlist {
                         extraKeysRawXml = macOsExtraKeysRawXml()
                     }
                 }
                 windows {
-//                    iconFile.set(project.file("../media/appicon/icon_512.ico"))
+                    iconFile.set(project.file("appicon/WindowsIc.ico"))
                     msiPackageVersion = version
                     shortcut = true
                     dirChooser = true
                     menu = true
                 }
                 linux {
-//                    iconFile.set(project.file("../media/appicon/icon_512.png"))
+                    iconFile.set(project.file("appicon/LinuxIc.png"))
                     shortcut = true
                 }
             }

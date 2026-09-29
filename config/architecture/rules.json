@@ -68,7 +68,7 @@
     {
       "name": "shared is the server contract and cannot depend on client modules",
       "source": "^:shared$",
-      "forbiddenDependency": "^:(core|component|feature|di|composeApp|test|stores)(:.*)?$"
+      "forbiddenDependency": "^:(core|component|feature|di|app|test)(:.*)?$"
     }
   ],
   "exceptions": []

@@ -6,11 +6,11 @@ This file adds only the facts those miss.
 
 ## Commands
 
-- **Run Athletica-Plus Desktop (JVM) app:** `./gradlew :stores:athletica-plus:run`.
-- **Run Nutri-Sport Desktop (JVM) app:** `./gradlew :stores:nutri-sport:run`.
-- **Run Athletica-Plus Android app:** `./gradlew :stores:athletica-plus:androidApp:assembleDebug`.
-- **Run Nutri-Sport Android app:** `./gradlew :stores:nutri-sport:androidApp:assembleDebug`.
-- **Run server:** `./gradlew :server:test`.
+- **Run Athletica-Plus Desktop (JVM) app:** `./gradlew :app:athletica-plus:desktopApp:run`.
+- **Run Nutri-Sport Desktop (JVM) app:** `./gradlew :app:nutri-sport:desktopApp:run`.
+- **Run Athletica-Plus Android app:** `./gradlew :app:athletica-plus:androidApp:assembleDebug`.
+- **Run Nutri-Sport Android app:** `./gradlew :app:nutri-sport:androidApp:assembleDebug`.
+- **Run server:** `./gradlew :server:run`; **test server:** `./gradlew :server:test`.
 
 ## Architecture
 

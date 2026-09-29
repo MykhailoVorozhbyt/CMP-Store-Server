@@ -8,7 +8,6 @@ import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.plugins.PluginManager
 import org.gradle.api.provider.Provider
 import org.gradle.api.provider.ProviderConvertible
-import org.gradle.internal.extensions.stdlib.capitalized
 import org.gradle.kotlin.dsl.accessors.runtime.extensionOf
 import org.gradle.kotlin.dsl.configure
 import org.gradle.plugin.use.PluginDependency
@@ -37,18 +36,6 @@ inline fun Project.kotlinMultiplatformExtension(
 inline fun Project.applicationExtension(
     crossinline configure: ApplicationExtension.() -> Unit
 ) = extensions.configure<ApplicationExtension> { configure() }
-
-val Project.moduleName
-    get() = path
-        .split(":")
-        .filter { it.isNotBlank() }
-        .joinToString("") { it.capitalized() }
-
-val Project.modulePackageName
-    get() = path
-        .split(":")
-        .filter { it.isNotBlank() }
-        .joinToString(".") { it.lowercase() }
 
 fun PluginManager.alias(notation: Provider<PluginDependency>) {
     apply(notation.get().pluginId)

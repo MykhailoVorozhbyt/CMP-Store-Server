@@ -32,13 +32,15 @@ dependencyResolutionManagement {
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
-include(":composeApp")
+include(":app:shared")
 include(":server")
 include(":shared")
-include(":stores:athletica-plus")
-include(":stores:athletica-plus:androidApp")
-include(":stores:nutri-sport")
-include(":stores:nutri-sport:androidApp")
+include(":app:athletica-plus")
+include(":app:athletica-plus:androidApp")
+include(":app:athletica-plus:desktopApp")
+include(":app:nutri-sport")
+include(":app:nutri-sport:androidApp")
+include(":app:nutri-sport:desktopApp")
 include(":di")
 include(":core:data")
 include(":core:domain")

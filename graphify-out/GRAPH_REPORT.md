@@ -1,16 +1,16 @@
 # Graph Report - CMP-Store-Server  (2026-09-29)
 
 ## Corpus Check
-- 464 files · ~68,596 words
+- 465 files · ~66,085 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2392 nodes · 3297 edges · 440 communities (208 shown, 232 thin omitted)
-- Extraction: 82% EXTRACTED · 18% INFERRED · 0% AMBIGUOUS · INFERRED: 590 edges (avg confidence: 0.8)
+- 2364 nodes · 3390 edges · 400 communities (195 shown, 205 thin omitted)
+- Extraction: 81% EXTRACTED · 19% INFERRED · 0% AMBIGUOUS · INFERRED: 647 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `3896b2e0`
+- Built from commit: `bd7184d7`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -130,6 +130,7 @@
 - .invoke
 - .invoke
 - .apply
+- jsonHeaders
 - .invoke
 - gradlew
 - .invoke
@@ -153,8 +154,6 @@
 - CustomerDao
 - App
 - Flavors.kt
-- BaseTheme
-- AppNavigator
 - PasswordFieldValidator.kt
 - .apply
 - AppModule.kt
@@ -168,13 +167,10 @@
 - Regex.kt
 - resources/build.gradle.kts
 - security/build.gradle.kts
-- utils/build.gradle.kts
-- SessionTokenFactory
 - KoinModule.android.kt
 - SecureStorageModule.android.kt
 - AppFeatureModule.kt
 - CoreModule.kt
-- CustomDrawer
 - KoinModule.ios.kt
 - SecureStorageModule.ios.kt
 - KoinModule.jvm.kt
@@ -185,10 +181,6 @@
 - GoogleAuthConfig.kt
 - authentication/presentation/build.gradle.kts
 - AuthenticationPresentationModule.kt
-- home/data/build.gradle.kts
-- HomeDataModule.kt
-- home/domain/build.gradle.kts
-- home/presentation/build.gradle.kts
 - .apply
 - shared/build.gradle.kts
 - Constants.kt
@@ -203,7 +195,6 @@
 - .apply
 - SuspendFieldValidator
 - toDto
-- MainViewController
 - RefreshResult
 - LocalCallbackServer
 - RefreshOutcome
@@ -212,14 +203,9 @@
 - Project
 - customer/mappers/CustomerMappers.kt
 - Plugin
-- UiText
-- GoogleSignInService
 - desktopApp
 - WindowType
-- FeatureName
 - RateLimitGroup
-- E
-- R
 - FakeCustomerDataSource
 - installRateLimit
 - LocalAppNavigator.kt
@@ -311,41 +297,14 @@
 - ByteArray
 - SecretKey
 - R
-- koinNavConfigProvider
 - Module
-- EmailPatternValidator
-- IndicatorLineWrap
 - RefreshOutcome
-- .callFailingWith
-- Plugin
-- AppViewModel
-- AuthenticationFields
-- HomeGraphViewAction
-- AuthenticationUiEvent
-- AppViewModel
-- AuthenticationViewAction
 - .apply
 - DiModulePlugin
-- initializeKoin
-- StoreDimens.kt
-- PasswordField
 - TextDividerPrev
-- EmailFieldValidator
-- KtorCustomerDataSource
-- StringResource
 - Resources
-- MutableStateFlow
-- AuthResponseDto.kt
-- .authorize
-- MockHttpClient.kt
 - ViewAction.kt
 - AuthRequestDto
-- Context
-- Scene
-- UIViewController
-- Context
-- Scene
-- UIViewController
 - ApplicationPlugin
 - KoinKtorApplication
 - Table
@@ -371,7 +330,7 @@
 - T
 
 ## God Nodes (most connected - your core abstractions)
-1. `ApiResult` - 67 edges
+1. `ApiResult` - 69 edges
 2. `NetworkError` - 65 edges
 3. `testDaoDatabase()` - 62 edges
 4. `testServerApplication()` - 44 edges
@@ -387,12 +346,12 @@
   CLAUDE.md → .github/actions/gradle-setup/action.yml
 - `Build & run instructions (Android/Desktop/Server/iOS)` --semantically_similar_to--> `CI workflow`  [INFERRED] [semantically similar]
   README.md → .github/workflows/ci.yml
+- `App()` --calls--> `BaseTheme()`  [INFERRED]
+  app/shared/src/commonMain/kotlin/org/cmp/store/presentation/App.kt → core/presentation/src/commonMain/kotlin/com/store/core/presentation/theme/StoreTheme.kt
 - `toAuthResponse()` --references--> `AuthResponse`  [EXTRACTED]
   component/auth/data/src/commonMain/kotlin/com/store/component/auth/data/mappers/AuthMappers.kt → shared/src/commonMain/kotlin/org/cmp/store/domain/auth/response/AuthResponse.kt
-- `App()` --calls--> `SetupNavGraph()`  [INFERRED]
-  composeApp/src/commonMain/kotlin/org/cmp/store/presentation/App.kt → core/navigation/src/commonMain/kotlin/com.store.core.navigation/NavGraph.kt
-- `App()` --calls--> `BaseTheme()`  [INFERRED]
-  composeApp/src/commonMain/kotlin/org/cmp/store/presentation/App.kt → core/presentation/src/commonMain/kotlin/com/store/core/presentation/theme/StoreTheme.kt
+- `HomeGraphScreen()` --calls--> `rememberNavigationState()`  [INFERRED]
+  feature/home/src/commonMain/kotlin/com/store/feature/home/HomeGraphScreen.kt → core/navigation/src/commonMain/kotlin/com.store.core.navigation/NavigationState.kt
 
 ## Import Cycles
 - None detected.
@@ -402,23 +361,23 @@
 - **MVI-style unidirectional flow in BaseActionHandleViewModel** — claude_baseactionhandleviewmodel, claude_viewaction, claude_uievent, claude_koin_di [EXTRACTED 1.00]
 - **Customer persistence stack: repository, Ktor server, in-memory storage, Firebase replacement intent** — claude_customerrepositoryimpl, claude_ktor_server, claude_customerstorage, readme_firebase_replacement_rationale [INFERRED 0.85]
 
-## Communities (440 total, 232 thin omitted)
+## Communities (400 total, 205 thin omitted)
 
 ### Community 0 - "AuthProvider"
-Cohesion: 0.14
-Nodes (7): BaseActionHandleViewModelTest, TestMessageEventData, TestPageEvent, TestViewAction, TestViewData, BaseViewModelTest, AppViewModelTest
+Cohesion: 0.06
+Nodes (17): AppViewModelTest, EmailDomainValidationConfig, EmailDomainValidator, Impl, EmailFieldValidator, EmailPatternValidator, EmailValidator, MaxLengthValidator (+9 more)
 
 ### Community 1 - ".renderAuth"
 Cohesion: 0.06
 Nodes (15): Base, error(), info(), invoke(), MessageEventData, success(), DesktopClientSecretResolver, GoogleTokenResponse (+7 more)
 
 ### Community 2 - ".runVmTest"
-Cohesion: 0.18
-Nodes (7): ComponentDomainApiPlugin, ComponentLayerPlugin, Plugin, Project, ComponentModelPlugin, Project, ComponentUseCasePlugin
+Cohesion: 0.15
+Nodes (8): ComponentDataPlugin, ComponentDomainApiPlugin, ComponentLayerPlugin, Plugin, Project, ComponentModelPlugin, Project, ComponentUseCasePlugin
 
 ### Community 3 - "JvmGoogleSignInServiceTest"
-Cohesion: 0.11
-Nodes (19): apiModule(), component(), ComponentModule, module(), owningComponent(), ComponentDataPlugin, Project, Project (+11 more)
+Cohesion: 0.12
+Nodes (18): apiModule(), component(), ComponentModule, module(), owningComponent(), Project, Project, Project (+10 more)
 
 ### Community 5 - "AuthSessionServiceImpl"
 Cohesion: 0.20
@@ -434,27 +393,27 @@ Nodes (5): ReadDiscountedProductsUseCase, ReadNewProductsUseCase, ReadProductByI
 
 ### Community 8 - "iOSAthleticaPlusApp.swift"
 Cohesion: 0.07
-Nodes (24): Any, App, Bool, ComposeView, ContentView, iOSAthleticaPlusApp, AppDelegate, ComposeView (+16 more)
+Nodes (30): Any, App, ComposeView, ContentView, iOSAthleticaPlusApp, Context, Scene, UIViewController (+22 more)
 
 ### Community 9 - "ModuleName"
 Cohesion: 0.23
 Nodes (4): CustomerDaoTest, customerFixture(), CartItem, PhoneNumber
 
 ### Community 10 - "NetworkError"
-Cohesion: 0.25
-Nodes (5): respondJson(), KtorProductDataSourceTest, HttpClient, MockEngine, testHttpClient()
+Cohesion: 0.18
+Nodes (7): SessionRefreshCall, configureStore(), createHttpClient(), HttpClientFactoryTest, respondJson(), tokensJson(), HttpClientEngine
 
 ### Community 11 - "testServerApplication"
-Cohesion: 0.39
-Nodes (3): init(), StoreTypography, AndroidSecureStorage
+Cohesion: 0.20
+Nodes (5): StoreTheme, init(), StoreTypography, AndroidSecureStorage, JvmSecureStorage
 
 ### Community 12 - "ApiResult"
-Cohesion: 0.16
-Nodes (13): RefreshRequestDto, SessionTokensDto, Error, E, R, T, mapError(), mapSuccess() (+5 more)
+Cohesion: 0.14
+Nodes (14): RefreshRequestDto, SessionTokensDto, Error, E, R, T, mapError(), mapSuccess() (+6 more)
 
 ### Community 13 - "SingleJobLaunch"
 Cohesion: 0.23
-Nodes (7): ActionHandlerScope, CartItem, Customer, HomeGraphInitializer, RequestState, ViewDataInitializer, HomeGraphViewData
+Nodes (3): ProductDataSource, FakeProductDataSource, ApiResult
 
 ### Community 14 - "testHttpClient"
 Cohesion: 0.10
@@ -469,24 +428,16 @@ Cohesion: 0.13
 Nodes (9): CapabilityPlugin, Plugin, Project, FeatureUiTestCapabilityPlugin, Project, FirebaseAuthCapabilityPlugin, Project, KmpAuthGoogleCapabilityPlugin (+1 more)
 
 ### Community 18 - "PreviewTheme"
-Cohesion: 0.16
-Nodes (5): AuthSessionDto, RefreshTokenDto, SessionCleanupJob, SessionCleanupJobTest, ThrowingAuthSessionDao
+Cohesion: 0.13
+Nodes (7): runCatchingCancellable(), AuthSessionDto, RefreshTokenDto, SessionCleanupJob, SessionCleanupJobTest, ThrowingAuthSessionDao, Result
 
 ### Community 20 - "E"
 Cohesion: 0.19
 Nodes (10): Base, CompletionWrap, Consumer, EventBus, Full, MultiConsumer, Producer, SingleConsumer (+2 more)
 
-### Community 21 - "ActionHandlerScope"
-Cohesion: 0.09
-Nodes (10): ScopeProvider, BaseActionHandleViewModel, ActionHandlerContext, collectEvents(), collectEventsWithDefaultProcessing(), UiEventEmitter, UiEventSource, Launcher (+2 more)
-
-### Community 23 - "testDaoDatabase"
-Cohesion: 0.16
-Nodes (5): AuthServiceTest, RacingCredentialDao, RacingCustomerDao, uniqueViolation(), AuthRequest
-
 ### Community 24 - "NotificationType"
-Cohesion: 0.22
-Nodes (4): runCatchingCancellable(), DefaultAuthRepository, EmptyResult, Result
+Cohesion: 0.50
+Nodes (3): AuthRequestDto, toAuthResponse(), toDto()
 
 ### Community 25 - "StoreTextField"
 Cohesion: 0.26
@@ -505,52 +456,56 @@ Cohesion: 0.14
 Nodes (19): ActionHandlerChildScopeImpl, ActionHandlerReadOnlyScope, ActionHandlerReadOnlyScopeImpl, ActionHandlerScope, ActionHandlerScopeImpl, ActionHandlerScopeNoLensImpl, childScope(), DefaultScoped (+11 more)
 
 ### Community 29 - "Validator"
-Cohesion: 0.20
-Nodes (5): AuthResponseDto, RefreshRequestDto, SessionTokensDto, Session, SessionRoutesIntegrationTest
+Cohesion: 0.23
+Nodes (4): AuthDataSource, KtorAuthDataSource, AuthRequestDto, KtorAuthDataSourceTest
 
 ### Community 30 - "KtorProductDataSource"
 Cohesion: 0.05
-Nodes (30): EmptyResult, ProductDataSource, platformNetworkError(), platformNetworkError(), platformNetworkError(), ApiError, NetworkError, ACCOUNT_HAS_NO_PASSWORD (+22 more)
+Nodes (35): AuthRequestDto, AuthResponseDto, EmptyResult, platformNetworkError(), platformNetworkError(), T, safeApiCall(), toNetworkError() (+27 more)
 
 ### Community 31 - "AuthDataSource"
 Cohesion: 0.44
 Nodes (8): DecorationBoxWithIcons(), DecorationBoxWithTrailingIcon(), DecorationBoxWithUnitHint(), DefaultDecorationBox(), textFieldPadding(), textFieldSurface(), textFieldSurfaceWithPadding(), innerTextField
 
 ### Community 32 - "InputFieldChanged"
-Cohesion: 0.32
-Nodes (3): HomeGraphViewModel, BaseActionHandleViewModel, ViewAction
+Cohesion: 0.30
+Nodes (5): KtorProductDataSource, KtorProductDataSourceTest, HttpClient, MockEngine, testHttpClient()
 
 ### Community 33 - "ViewAction"
-Cohesion: 0.18
-Nodes (5): Error, Idle, Loading, RequestState, Success
+Cohesion: 0.14
+Nodes (7): Error, Idle, Loading, RequestState, Success, HomeGraphInitializer, HomeGraphViewData
 
 ### Community 34 - "rememberNavigationState"
-Cohesion: 0.20
-Nodes (9): configureDesktopApplication(), macOsExtraKeysRawXml(), alias(), composeExtension(), desktopExtension(), PluginDependency, Provider, ProviderConvertible (+1 more)
+Cohesion: 0.50
+Nodes (4): alias(), PluginDependency, Provider, ProviderConvertible
 
 ### Community 35 - "sanitizeString"
-Cohesion: 0.19
-Nodes (8): AuthenticationViewModel, AuthUserRequest, BaseActionHandleViewModel, GoogleSignInError, ViewAction, FirebaseUser, SignInResult, StringResource
+Cohesion: 0.28
+Nodes (3): AuthenticationViewModel, StringResource, FirebaseUser
 
 ### Community 36 - "AuthenticationViewData"
-Cohesion: 0.25
-Nodes (7): DrawerItem, Admin, Blog, Contact, Locations, Profile, SignOut
+Cohesion: 0.16
+Nodes (11): CustomDrawer(), CustomDrawerPreview(), DrawerItemCard(), DrawerItemCardPreview(), DrawerItem, Admin, Blog, Contact (+3 more)
 
 ### Community 37 - "customerFixture"
 Cohesion: 0.17
 Nodes (7): main(), module(), installForwardedHeaders(), installKoin(), installSerialization(), installSessionCleanup(), installStatusPages()
 
 ### Community 39 - "safeApiCall"
-Cohesion: 0.08
-Nodes (16): AuthenticationMockPreview, AuthenticationContent(), AuthenticationScreen(), AuthenticationScreenPreview(), ManualEmail(), AuthenticationValidator, AuthenticationInitializer, ViewDataInitializer (+8 more)
+Cohesion: 0.06
+Nodes (28): FieldKey, DebouncedSingleJobLaunch, copy(), Field, Impl, InputFieldChanged, invoke(), KeyedField (+20 more)
 
 ### Community 40 - "kotlinMultiplatformExtension"
 Cohesion: 0.17
 Nodes (12): Auth, Authorize, ByCategory, ByIds, Customers, Discounted, Id, Logout (+4 more)
 
 ### Community 42 - "AuthRepository"
-Cohesion: 0.33
+Cohesion: 0.29
 Nodes (5): implementation(), module(), safeAdd(), testImplementation(), ServerModulePlugin
+
+### Community 43 - "AuthRequest"
+Cohesion: 0.33
+Nodes (3): bareTestClient(), jsonHeaders(), SafeApiCallTest
 
 ### Community 44 - "FakeAuthRepository"
 Cohesion: 0.38
@@ -561,40 +516,36 @@ Cohesion: 0.24
 Nodes (5): FieldError, of(), AbstractInputFieldValidator, BlankStringValidator, InputFieldValidator
 
 ### Community 46 - "GoogleSignInError"
-Cohesion: 0.23
-Nodes (6): HomeGraphMockPreview, RequestState, toViewData(), CartItemViewData, CustomerViewData, PhoneNumberViewData
+Cohesion: 0.25
+Nodes (4): HomeGraphMockPreview, toViewData(), CartItemViewData, PhoneNumberViewData
 
 ### Community 47 - "HomeGraphContent"
-Cohesion: 0.40
-Nodes (8): HomeGraphContent(), HomeGraphContentDrawerOpenedPreview(), HomeGraphNavDisplay(), HomeGraphScreen(), HomeTopBar(), RequestState, NavigationState, StoreSnackbarHostState
+Cohesion: 0.10
+Nodes (24): StoreSnackbar(), StoreSnackbarHostState, Icon, BottomBar(), BottomBarItem(), BottomBarPreview(), Modifier, HomeGraphContent() (+16 more)
 
 ### Community 48 - "SessionCleanupJobTest"
 Cohesion: 0.24
 Nodes (10): d(), e(), i(), Logger, LogLevel, DEBUG, ERROR, INFO (+2 more)
 
 ### Community 49 - "FirebaseLocalAuthSessionDataSource"
-Cohesion: 0.13
-Nodes (5): PlatformRepositoryProvider, PlatformRepositoryProvider, AuthRepository, EmptyResult, GoogleSignInService
+Cohesion: 0.17
+Nodes (5): DefaultAuthRepository, EmptyResult, PlatformRepositoryProvider, AuthRepository, EmptyResult
 
 ### Community 50 - "AuthServiceImpl"
-Cohesion: 0.09
-Nodes (15): ApiResult, AuthProvider, BaseViewModelTest, CompletableDeferred, AuthError, GoogleSignInError, SignInFailureHandler, SignInFailureHandlerImpl (+7 more)
+Cohesion: 0.28
+Nodes (3): SignInFailureHandler, SignInFailureHandlerImpl, FakeSignInFailureHandler
 
 ### Community 51 - "AuthenticationViewModel"
-Cohesion: 0.05
-Nodes (27): FieldKey, DebouncedSingleJobLaunch, Launcher, LauncherIO, SingleLauncher, CancelPolicy, All, OnlyDefault (+19 more)
+Cohesion: 0.13
+Nodes (9): Launcher, LauncherIO, SingleLauncher, CancelPolicy, All, OnlyDefault, Delegate, SingleJobLaunch (+1 more)
 
 ### Community 53 - "runCatchingCancellable"
 Cohesion: 0.06
-Nodes (22): AuthorizationDenied, DesktopNotSupported, GoogleSignInError, InvalidIdToken, InvalidState, MissingAuthorizationCode, MissingIdToken, NonceMismatch (+14 more)
+Nodes (24): AuthorizationDenied, DesktopNotSupported, GoogleSignInError, InvalidIdToken, InvalidState, MissingAuthorizationCode, MissingIdToken, NonceMismatch (+16 more)
 
 ### Community 54 - "ProductCategory"
 Cohesion: 0.11
-Nodes (20): AppAthleticaPlusModulePlugin, AppNutriSportModulePlugin, Plugin, Project, StoreModulePlugin, ModuleName, APP, ATHLETICA_PLUS_KMP (+12 more)
-
-### Community 55 - ".bearerTokenFor"
-Cohesion: 0.40
-Nodes (4): CustomDrawerState, Closed, Opened, opposite()
+Nodes (20): AthleticaPlusModulePlugin, Plugin, Project, NutriSportModulePlugin, StoreModulePlugin, ModuleName, APP, ATHLETICA_PLUS_KMP (+12 more)
 
 ### Community 58 - "navKey"
 Cohesion: 0.28
@@ -606,19 +557,15 @@ Nodes (4): InPlace, Scoped, StateProduce, ViewDataInitializer
 
 ### Community 60 - "DefaultCustomerRepositoryTest"
 Cohesion: 0.15
-Nodes (10): Product, DefaultProductRepository, FakeProductDataSource, ProductRepository, Common, InvalidCategory, NotFound, ProductError (+2 more)
-
-### Community 61 - "LocalOAuthCallbackServer"
-Cohesion: 0.24
-Nodes (9): BottomBar(), BottomBarItem(), BottomBarPreview(), Modifier, RequestState, BottomBarDestination, Cart, Categories (+1 more)
+Nodes (8): Product, DefaultProductRepository, ProductRepository, Common, InvalidCategory, NotFound, ProductError, FakeProductRepository
 
 ### Community 62 - "DefaultAuthRepositoryTest"
 Cohesion: 0.05
 Nodes (27): Customer, toAuthError(), DefaultCustomerRepository, EmptyResult, toCustomerError(), CustomerRepository, EmptyResult, Common (+19 more)
 
 ### Community 63 - "Products"
-Cohesion: 0.25
-Nodes (8): ClearFocus, HideKeyboard, Navigate, NavigateInclusive, ShowKeyboard, ShowMessage, ShowMessageExtendable, UiEvent
+Cohesion: 0.18
+Nodes (10): ClearFocus, HideKeyboard, Navigate, NavigateInclusive, ShowKeyboard, ShowMessage, ShowMessageExtendable, UiEvent (+2 more)
 
 ### Community 64 - "SessionTokenFactoryTest"
 Cohesion: 0.22
@@ -637,28 +584,28 @@ Cohesion: 0.28
 Nodes (3): BlockingFieldValidator, FieldStateValidator, FieldValidator
 
 ### Community 68 - "UiEventEmitter"
-Cohesion: 0.50
-Nodes (3): AuthRequestDto, toAuthResponse(), toDto()
+Cohesion: 0.53
+Nodes (3): FakeCustomerDataSource, CustomerDto, EmptyResult
 
 ### Community 69 - "LocalAuthSessionDataSource"
 Cohesion: 0.17
 Nodes (10): ArchitectureException, ArchitectureRule, ArchitectureRules, ArchitectureViolation, decode(), ModuleDependency, parse(), ArchitectureConventionPlugin (+2 more)
 
 ### Community 70 - "WindowType"
-Cohesion: 0.20
-Nodes (12): dimensFor(), BaseTheme(), PreviewTheme(), StoreTheme, windowTypeFromWidth(), StoreOutlinedButton(), StoreOutlinedLoadingPreview(), StoreOutlinedPreview() (+4 more)
+Cohesion: 0.18
+Nodes (12): dimensFor(), StoreDimens, BaseTheme(), PreviewTheme(), windowTypeFromWidth(), StoreOutlinedButton(), StoreOutlinedLoadingPreview(), StoreOutlinedPreview() (+4 more)
 
 ### Community 72 - ".apply"
 Cohesion: 0.25
 Nodes (6): getPlatform(), Platform, PlatformType, ANDROID, IOS, JVM
 
 ### Community 73 - "FakeAuthDataSource"
-Cohesion: 0.38
-Nodes (4): FeaturePresentationPlugin, Plugin, Project, FeatureName
+Cohesion: 0.24
+Nodes (7): FeaturePresentationPlugin, Plugin, Project, FeatureName, AUTHENTICATION, HOME, fromDirName()
 
 ### Community 76 - "Measurement"
-Cohesion: 0.07
-Nodes (29): Action, ApplicationExtension, ModulePath, COMPOSE_APP, CORE_DATA, CORE_DOMAIN, CORE_NAVIGATION, CORE_NETWORK (+21 more)
+Cohesion: 0.05
+Nodes (39): Action, ApplicationExtension, android(), AthleticaPlusAndroidAppPlugin, Plugin, Project, NutriSportAndroidAppPlugin, StoreAndroidAppPlugin (+31 more)
 
 ### Community 78 - "SignInFailureHandler"
 Cohesion: 0.25
@@ -677,16 +624,16 @@ Cohesion: 0.33
 Nodes (4): toCFDictionary(), toNSData(), CFDictionaryRef, NSData
 
 ### Community 88 - "DatabaseFactory"
-Cohesion: 0.23
-Nodes (3): AuthRequestDto, AuthRoutesIntegrationTest, testServerApplication()
+Cohesion: 0.08
+Nodes (11): AuthRequestDto, AuthResponseDto, RefreshRequestDto, SessionTokensDto, toDto(), AuthRoutesIntegrationTest, Session, SessionRoutesIntegrationTest (+3 more)
 
 ### Community 90 - "Currency"
 Cohesion: 0.33
 Nodes (4): authRoutes(), customerRoutes(), requireOwnCustomer(), configureRouting()
 
 ### Community 91 - "SecureStorage"
-Cohesion: 0.20
-Nodes (6): CustomerDataSource, CustomerDto, EmptyResult, FakeCustomerDataSource, CustomerDto, EmptyResult
+Cohesion: 0.21
+Nodes (5): CustomerDataSource, CustomerDto, EmptyResult, KtorCustomerDataSource, KtorCustomerDataSourceTest
 
 ### Community 92 - "CustomerRepository"
 Cohesion: 0.32
@@ -701,8 +648,8 @@ Cohesion: 0.32
 Nodes (7): CartItemDto, CustomerDto, PhoneNumberDto, toCartItem(), toCustomer(), toDto(), toPhoneNumber()
 
 ### Community 95 - "AbstractInputFieldValidator"
-Cohesion: 0.47
-Nodes (4): BaseDarkStoreColorsPalette, BaseLightStoreColorsPalette, StoreColorsPalette, StoreThemeProvider
+Cohesion: 0.29
+Nodes (6): AthleticaPlusStoreThemeProvider, NutriSportStoreThemeProvider, BaseDarkStoreColorsPalette, BaseLightStoreColorsPalette, StoreColorsPalette, StoreThemeProvider
 
 ### Community 96 - "SignInResult"
 Cohesion: 0.12
@@ -713,32 +660,32 @@ Cohesion: 0.47
 Nodes (5): Done, Impl, invoke(), KeyboardAction, Next
 
 ### Community 102 - "FakeProductRepository"
-Cohesion: 0.15
-Nodes (5): SecureStorage, PlatformRepositoryProvider, provideAuthSessionDataSource(), FirebaseLocalAuthSessionDataSource, provideAuthSessionDataSource()
+Cohesion: 0.22
+Nodes (3): PlatformRepositoryProvider, provideAuthSessionDataSource(), GoogleSignInService
+
+### Community 103 - ".apply"
+Cohesion: 0.12
+Nodes (5): LocalAuthSessionDataSource, PlatformRepositoryProvider, provideAuthSessionDataSource(), FirebaseLocalAuthSessionDataSource, provideAuthSessionDataSource()
 
 ### Community 105 - "UiEventEmitter.kt"
 Cohesion: 0.40
 Nodes (4): NotificationType, ERROR, INFO, SUCCESS
 
 ### Community 106 - "ComposeMultiplatformConventionPlugin"
-Cohesion: 0.19
-Nodes (5): ApplicationConfig, Config, DatabaseFactory, grantAdmin(), isolatedDatabaseConfig()
-
-### Community 108 - "safeApiCall"
-Cohesion: 0.23
-Nodes (6): KtorProductDataSource, platformNetworkError(), T, safeApiCall(), toNetworkError(), toTransportNetworkError()
+Cohesion: 0.43
+Nodes (3): ApplicationConfig, Config, DatabaseFactory
 
 ### Community 109 - "KtorAuthDataSource"
 Cohesion: 0.36
 Nodes (4): FakeAuthDataSource, AuthRequestDto, AuthResponseDto, EmptyResult
 
 ### Community 110 - "configureAndroidLibraryBase"
-Cohesion: 0.10
-Nodes (12): configureAndroidLibraryBase(), configurePureKmpLibrary(), configureIOS(), androidLibrary(), kotlinMultiplatformExtension(), CoreDataModulePlugin, CoreDomainModulePlugin, CoreNavigationModulePlugin (+4 more)
+Cohesion: 0.09
+Nodes (14): configureAndroidLibraryBase(), configureIOS(), configurePureKmpLibrary(), composeExtension(), desktopExtension(), kotlinMultiplatformExtension(), androidLibrary(), CoreDataModulePlugin (+6 more)
 
 ### Community 113 - "BuildTypeName"
-Cohesion: 0.32
-Nodes (6): toCartItem(), toCustomer(), toDto(), toPhoneNumber(), customerDtoFixture(), PhoneNumberDto
+Cohesion: 0.16
+Nodes (8): toCartItem(), toCustomer(), toDto(), toPhoneNumber(), customerDtoFixture(), grantAdmin(), isolatedDatabaseConfig(), PhoneNumberDto
 
 ### Community 115 - ".invoke"
 Cohesion: 0.40
@@ -752,17 +699,21 @@ Nodes (6): AuthProvider, FACEBOOK, GOOGLE, MANUAL, DefaultAuthRepositoryTest, Au
 Cohesion: 0.50
 Nodes (3): BuildTypeName, DEBUG, RELEASE
 
+### Community 119 - "jsonHeaders"
+Cohesion: 0.50
+Nodes (3): AppSharedModulePlugin, Plugin, Project
+
 ### Community 120 - ".invoke"
-Cohesion: 0.33
-Nodes (4): createJvmGoogleOAuthHttpClient(), HttpClient, PlatformRepositoryProvider, provideAuthSessionDataSource()
+Cohesion: 0.18
+Nodes (5): SecureStorage, createJvmGoogleOAuthHttpClient(), HttpClient, PlatformRepositoryProvider, provideAuthSessionDataSource()
 
 ### Community 121 - "gradlew"
-Cohesion: 0.50
-Nodes (3): ComposeAppModulePlugin, Plugin, Project
+Cohesion: 0.67
+Nodes (3): collectEvents(), collectEventsWithDefaultProcessing(), UiEventSource
 
 ### Community 125 - "EmailDomainValidator"
-Cohesion: 0.36
-Nodes (3): EmailDomainValidationConfig, EmailDomainValidator, Impl
+Cohesion: 0.67
+Nodes (3): jsonHeaders(), T, respondJson()
 
 ### Community 126 - "BottomBar"
 Cohesion: 0.83
@@ -772,17 +723,17 @@ Nodes (3): gradlew script, die(), warn()
 Cohesion: 0.33
 Nodes (4): ValidateArchitectureDependenciesTask, DefaultTask, ListProperty, RegularFileProperty
 
-### Community 145 - "App"
-Cohesion: 0.29
-Nodes (4): Bundle, MainActivity, App(), ComponentActivity
+### Community 144 - "CustomerDao"
+Cohesion: 0.17
+Nodes (4): CustomerDao, RacingCredentialDao, RacingCustomerDao, uniqueViolation()
 
-### Community 148 - "BaseTheme"
-Cohesion: 0.21
-Nodes (5): AuthDataSource, KtorAuthDataSource, AuthRequestDto, AuthResponseDto, KtorAuthDataSourceTest
+### Community 145 - "App"
+Cohesion: 0.05
+Nodes (24): AthleticaPlusApp, main(), AthleticaPlusMainViewController(), NutriSportApp, main(), NutriSportMainViewController(), MainActivity, StoreApp (+16 more)
 
 ### Community 150 - "PasswordFieldValidator.kt"
-Cohesion: 0.29
-Nodes (3): MaxLengthValidator, MinLengthValidator, PasswordFieldValidator
+Cohesion: 0.33
+Nodes (4): ScopeProvider, ActionHandlerContext, Launcher, LauncherIO
 
 ### Community 151 - ".apply"
 Cohesion: 0.50
@@ -793,32 +744,20 @@ Cohesion: 0.50
 Nodes (3): Plugin, Project, TestModulePlugin
 
 ### Community 154 - "core/data/build.gradle.kts"
-Cohesion: 0.27
+Cohesion: 0.24
 Nodes (9): NavigationState, rememberMap(), rememberNavigationState(), toEntries(), ImmutableList, K, NavEntry, SnapshotStateList (+1 more)
 
 ### Community 155 - "TestModulePlugin"
 Cohesion: 0.50
 Nodes (3): CartItemDto, CustomerDto, PhoneNumberDto
 
-### Community 180 - "CustomDrawer"
-Cohesion: 0.38
-Nodes (5): CustomDrawer(), CustomDrawerPreview(), RequestState, DrawerItemCard(), DrawerItemCardPreview()
-
-### Community 222 - "MainViewController"
+### Community 171 - "SecureStorageModule.android.kt"
 Cohesion: 0.33
-Nodes (3): MainViewController(), AthleticaPlusMainViewController(), NutriSportMainViewController()
-
-### Community 234 - "desktopApp"
-Cohesion: 0.33
-Nodes (3): desktopApp(), main(), main()
+Nodes (3): AthleticaPlusStrings, NutriSportStrings, AppStrings
 
 ### Community 236 - "WindowType"
 Cohesion: 0.33
 Nodes (6): WindowType, Compact, Expanded, ExtraLarge, Large, Medium
-
-### Community 241 - "FeatureName"
-Cohesion: 0.50
-Nodes (4): FeatureName, AUTHENTICATION, HOME, fromDirName()
 
 ### Community 243 - "RateLimitGroup"
 Cohesion: 0.38
@@ -832,41 +771,9 @@ Nodes (3): ApplicationCall, authorizeRateLimitKey(), installRateLimit()
 Cohesion: 0.25
 Nodes (3): AuthServiceImpl, ApiException, RuntimeException
 
-### Community 359 - "koinNavConfigProvider"
-Cohesion: 0.50
-Nodes (4): koinNavConfigProvider(), rememberKoinNavBackStack(), SavedStateConfiguration, Scope
-
-### Community 364 - "IndicatorLineWrap"
-Cohesion: 0.22
-Nodes (5): configureStore(), createHttpClient(), HttpClientFactoryTest, tokensJson(), HttpClientEngine
-
 ### Community 367 - "RefreshOutcome"
 Cohesion: 0.40
 Nodes (4): RefreshOutcome, REJECT, REVOKE_FAMILY, ROTATE
-
-### Community 372 - "Plugin"
-Cohesion: 0.30
-Nodes (3): bareTestClient(), jsonHeaders(), SafeApiCallTest
-
-### Community 374 - "AuthenticationFields"
-Cohesion: 0.40
-Nodes (4): AuthenticationFields, Email, Password, Field
-
-### Community 375 - "HomeGraphViewAction"
-Cohesion: 0.40
-Nodes (4): CheckoutClicked, HomeGraphViewAction, ViewAction, SignOutClicked
-
-### Community 376 - "AuthenticationUiEvent"
-Cohesion: 0.50
-Nodes (3): AuthenticationUiEvent, ToMain, UiEvent
-
-### Community 380 - "AppViewModel"
-Cohesion: 0.25
-Nodes (3): AppViewData, ViewAction, AppViewModel
-
-### Community 382 - "AuthenticationViewAction"
-Cohesion: 0.50
-Nodes (3): AuthenticationViewAction, ViewAction, OnSignInClick
 
 ### Community 383 - ".apply"
 Cohesion: 0.50
@@ -876,41 +783,37 @@ Nodes (3): CoreNetworkModulePlugin, Plugin, Project
 Cohesion: 0.50
 Nodes (3): DiModulePlugin, Plugin, Project
 
-### Community 385 - "initializeKoin"
-Cohesion: 0.29
-Nodes (4): Application, StoreApp, initializeKoin(), KoinApplication
+### Community 388 - "TextDividerPrev"
+Cohesion: 0.27
+Nodes (8): PasswordField(), PasswordFieldDisablePreview(), TextDivider(), TextDividerPrev(), AuthenticationContent(), AuthenticationScreen(), AuthenticationScreenPreview(), ManualEmail()
 
 ### Community 392 - "Resources"
-Cohesion: 0.18
-Nodes (9): StoreSnackbar(), StoreSnackbarHostState, Flag, Font, Icon, Image, Resources, SnackbarDuration (+1 more)
-
-### Community 396 - "MockHttpClient.kt"
-Cohesion: 0.67
-Nodes (3): jsonHeaders(), T, respondJson()
+Cohesion: 0.40
+Nodes (4): Flag, Font, Image, Resources
 
 ### Community 397 - "ViewAction.kt"
-Cohesion: 0.33
-Nodes (5): ViewAction, OnGoogleClick, OnSignInFailure, OnSignInSuccess, SocialMediaViewAction
+Cohesion: 0.14
+Nodes (10): ViewAction, OnGoogleClick, OnSignInFailure, OnSignInSuccess, SocialMediaViewAction, AuthenticationViewAction, OnSignInClick, CheckoutClicked (+2 more)
 
 ## Knowledge Gaps
-- **264 isolated node(s):** `COMPOSE_APP`, `SERVER`, `SHARED`, `STORES_ATHLETICA_PLUS`, `STORES_NUTRI_SPORT` (+259 more)
+- **260 isolated node(s):** `UIKit`, `StoresAthletica_plus`, `StoresNutri_sport`, `Firebase`, `FirebaseCore` (+255 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **232 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **205 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `FakeAuthRepository` connect `SignInResult` to `AuthProvider`, `FirebaseLocalAuthSessionDataSource`, `DefaultCustomerRepositoryTest`, `testDaoDatabase`?**
-  _High betweenness centrality (0.072) - this node is a cross-community bridge._
-- **Why does `ApiResult` connect `DefaultCustomerRepositoryTest` to `SignInResult`, `.renderAuth`, `RefreshTokenDto`, `.authorize`, `safeApiCall`, `KtorAuthDataSource`, `ApiResult`, `.launch`, `FirebaseLocalAuthSessionDataSource`, `.callFailingWith`, `Plugin`, `runCatchingCancellable`, `KtorProductDataSource`, `NotificationType`, `SecureStorage`, `DefaultAuthRepositoryTest`?**
-  _High betweenness centrality (0.072) - this node is a cross-community bridge._
-- **Why does `AppViewModel` connect `AppViewModel` to `AuthProvider`, `ActionHandlerScope`?**
-  _High betweenness centrality (0.064) - this node is a cross-community bridge._
+- **Why does `ApiResult` connect `SingleJobLaunch` to `SignInResult`, `.renderAuth`, `UiEventEmitter`, `FakeProductRepository`, `RefreshTokenDto`, `AuthRequest`, `ApiResult`, `KtorAuthDataSource`, `safeApiCall`, `.launch`, `runCatchingCancellable`, `DefaultAuthRepositoryTest`, `SecureStorage`, `DefaultCustomerRepositoryTest`, `KtorProductDataSource`?**
+  _High betweenness centrality (0.119) - this node is a cross-community bridge._
+- **Why does `AuthRequest` connect `testDaoDatabase` to `SignInResult`, `runCatchingCancellable`, `.invoke`?**
+  _High betweenness centrality (0.062) - this node is a cross-community bridge._
+- **Why does `FakeAuthRepository` connect `SignInResult` to `AuthProvider`, `FirebaseLocalAuthSessionDataSource`, `SingleJobLaunch`, `testDaoDatabase`?**
+  _High betweenness centrality (0.059) - this node is a cross-community bridge._
 - **Are the 60 inferred relationships involving `testDaoDatabase()` (e.g. with `.create_persists_all_fields()` and `.find_by_provider_and_email_works()`) actually correct?**
   _`testDaoDatabase()` has 60 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 42 inferred relationships involving `testServerApplication()` (e.g. with `.testRoot()` and `.blank_email_returns_400()`) actually correct?**
   _`testServerApplication()` has 42 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `COMPOSE_APP`, `SERVER`, `SHARED` to the rest of the system?**
-  _264 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **What connects `UIKit`, `StoresAthletica_plus`, `StoresNutri_sport` to the rest of the system?**
+  _260 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `AuthProvider` be split into smaller, more focused modules?**
-  _Cohesion score 0.14126984126984127 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.059154929577464786 - nodes in this community are weakly interconnected._
