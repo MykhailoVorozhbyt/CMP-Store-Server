@@ -6,7 +6,10 @@ import extensions.kotlinMultiplatformExtension
 import org.gradle.api.Project
 import utils.currentJvmTarget
 
-fun Project.configureAndroidLibraryBase(namespace: String) = this.kotlinMultiplatformExtension {
+fun Project.configureAndroidLibraryBase(
+    namespace: String,
+    enableAndroidResources: Boolean = true,
+) = this.kotlinMultiplatformExtension {
     androidLibrary {
         val sdk = getAndroidSdkVersions()
         this.namespace = namespace
@@ -17,7 +20,7 @@ fun Project.configureAndroidLibraryBase(namespace: String) = this.kotlinMultipla
             jvmTarget.set(currentJvmTarget)
         }
         androidResources {
-            enable = true
+            enable = enableAndroidResources
         }
         withJava()
         withHostTestBuilder {}.configure {

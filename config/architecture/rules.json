@@ -1,0 +1,75 @@
+{
+  "rules": [
+    {
+      "name": "feature cannot depend on component data",
+      "source": "^:feature:.*$",
+      "forbiddenDependency": "^:component:[^:]+:data$"
+    },
+    {
+      "name": "feature cannot depend on component domain-api",
+      "source": "^:feature:.*$",
+      "forbiddenDependency": "^:component:[^:]+:domain-api$"
+    },
+    {
+      "name": "feature cannot depend on another feature",
+      "source": "^:feature:.*$",
+      "forbiddenDependency": "^:feature:(?!{owner}:).*$"
+    },
+    {
+      "name": "component cannot depend on feature",
+      "source": "^:component:.*$",
+      "forbiddenDependency": "^:feature:.*$"
+    },
+    {
+      "name": "model cannot depend on other layers",
+      "source": "^:component:[^:]+:model$",
+      "forbiddenDependency": "^:component:[^:]+:(domain-api|usecase|data)$"
+    },
+    {
+      "name": "domain-api cannot depend on usecase or data",
+      "source": "^:component:[^:]+:domain-api$",
+      "forbiddenDependency": "^:component:[^:]+:(usecase|data)$"
+    },
+    {
+      "name": "domain-api cannot depend on another component's domain-api",
+      "source": "^:component:[^:]+:domain-api$",
+      "forbiddenDependency": "^:component:(?!{owner}:)[^:]+:domain-api$"
+    },
+    {
+      "name": "usecase cannot depend on data",
+      "source": "^:component:[^:]+:usecase$",
+      "forbiddenDependency": "^:component:[^:]+:data$"
+    },
+    {
+      "name": "usecase cannot depend on another component's usecase",
+      "source": "^:component:[^:]+:usecase$",
+      "forbiddenDependency": "^:component:(?!{owner}:)[^:]+:usecase$"
+    },
+    {
+      "name": "entity usecase cannot depend on another component's domain-api (only process components may read it)",
+      "source": "^:component:(?!(basket|order|payment):)[^:]+:usecase$",
+      "forbiddenDependency": "^:component:(?!{owner}:)[^:]+:domain-api$"
+    },
+    {
+      "name": "data cannot depend on usecase",
+      "source": "^:component:[^:]+:data$",
+      "forbiddenDependency": "^:component:[^:]+:usecase$"
+    },
+    {
+      "name": "data cannot depend on another component's domain-api or data",
+      "source": "^:component:[^:]+:data$",
+      "forbiddenDependency": "^:component:(?!{owner}:)[^:]+:(domain-api|data)$"
+    },
+    {
+      "name": "core cannot depend on component or feature",
+      "source": "^:core:.*$",
+      "forbiddenDependency": "^:(component|feature):.*$"
+    },
+    {
+      "name": "shared is the server contract and cannot depend on client modules",
+      "source": "^:shared$",
+      "forbiddenDependency": "^:(core|component|feature|di|composeApp|test|stores)(:.*)?$"
+    }
+  ],
+  "exceptions": []
+}

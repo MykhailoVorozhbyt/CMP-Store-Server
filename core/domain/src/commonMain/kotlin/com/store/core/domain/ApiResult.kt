@@ -22,3 +22,9 @@ inline fun <T, R, E : Any> ApiResult<T, E>.mapSuccess(transform: (T) -> R): ApiR
         is ApiResult.Success -> ApiResult.Success(transform(data))
         is ApiResult.Error -> this
     }
+
+inline fun <T, E : Any, F : Any> ApiResult<T, E>.mapError(transform: (E) -> F): ApiResult<T, F> =
+    when (this) {
+        is ApiResult.Success -> this
+        is ApiResult.Error -> ApiResult.Error(transform(error))
+    }

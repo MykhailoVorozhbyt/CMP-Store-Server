@@ -4,6 +4,7 @@ import configuration.configureAndroidLibraryBase
 import configuration.configureIOS
 import extensions.alias
 import extensions.androidRuntimeClasspath
+import extensions.component
 import extensions.composeDep
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
@@ -11,6 +12,8 @@ import extensions.module
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
+import utils.enums.ComponentLayer
+import utils.enums.ComponentName
 import utils.enums.ModuleName
 import utils.enums.ModulePath
 
@@ -40,7 +43,8 @@ class ComposeAppModulePlugin : Plugin<Project> {
                     module(ModulePath.CORE_UTILS)
                     module(ModulePath.CORE_RESOURCES)
                     module(ModulePath.CORE_NAVIGATION)
-                    module(ModulePath.FEATURE_AUTHENTICATION_DOMAIN)
+                    module(component(ComponentName.AUTH, ComponentLayer.USECASE))
+                    module(component(ComponentName.AUTH, ComponentLayer.MODEL))
 
                     implementation(libs.compose.ui)
                     implementation(libs.compose.runtime)
@@ -57,7 +61,6 @@ class ComposeAppModulePlugin : Plugin<Project> {
 
                     implementation(project.dependencies.platform(libs.firebase.bom))
                     implementation(libs.firebase.app)
-                    implementation(libs.kmpauth.google)
                 }
                 commonTest.dependencies {
                     implementation(libs.kotlin.test)

@@ -14,6 +14,28 @@ env:
   GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4096M -Dorg.gradle.daemon=false -Dorg.gradle.parallel=true -Dorg.gradle.caching=true"
 
 jobs:
+  architecture:
+    name: Architecture rules
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Gradle setup
+        uses: ./.github/actions/gradle-setup
+
+      - name: Validate module dependencies
+        run: ./gradlew validateArchitectureDependencies
+
+      - name: Upload architecture report
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: architecture-report
+          path: build/reports/architecture/**
+          retention-days: 7
+          if-no-files-found: warn
+
   test-app:
     name: App tests
     runs-on: ubuntu-latest

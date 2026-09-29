@@ -1,7 +1,7 @@
 package org.cmp.store.presentation
 
-import com.feature.authentication.domain.model.WEB_CLIENT_ID
-import com.feature.authentication.domain.usecases.GetCurrentUserIdUseCase
+import com.store.component.auth.model.WEB_CLIENT_ID
+import com.store.component.auth.usecase.GetCurrentUserIdUseCase
 import com.mmk.kmpauth.google.GoogleAuthCredentials
 import com.mmk.kmpauth.google.GoogleAuthProvider
 import com.store.core.presentation.core.di.coroutines.AppDispatchers

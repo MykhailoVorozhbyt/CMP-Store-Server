@@ -6,6 +6,8 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import org.cmp.store.database.dao.ProductDao
 import org.cmp.store.domain.product.ProductCategory
+import org.cmp.store.network.NetworkError
+import org.cmp.store.utils.ApiException
 import org.cmp.store.utils.Products
 import org.koin.ktor.ext.inject
 
@@ -25,15 +27,12 @@ fun Route.productRoutes() {
     }
     get<Products.ByCategory> { resource ->
         val category = ProductCategory.entries.firstOrNull { it.id == resource.categoryId }
-            ?: return@get call.respond(
-                HttpStatusCode.BadRequest,
-                "Unknown category: ${resource.categoryId}"
-            )
+            ?: throw ApiException(HttpStatusCode.BadRequest, NetworkError.INVALID_PRODUCT_CATEGORY)
         call.respond(productDao.readByCategory(category))
     }
     get<Products.Id> { resource ->
         val product = productDao.readById(resource.id)
-            ?: return@get call.respond(HttpStatusCode.NotFound, "Product not found")
+            ?: throw ApiException(HttpStatusCode.NotFound, NetworkError.PRODUCT_NOT_FOUND)
         call.respond(product)
     }
 }

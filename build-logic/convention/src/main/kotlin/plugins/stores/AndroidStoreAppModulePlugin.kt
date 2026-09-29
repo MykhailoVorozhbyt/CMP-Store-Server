@@ -58,7 +58,6 @@ abstract class StoreModulePlugin : Plugin<Project> {
                     implementation(libs.koin.core)
                     implementation(libs.koin.compose)
                     implementation(libs.firebase.app)
-                    implementation(libs.kmpauth.google)
                 }
                 androidMain.dependencies {
                     implementation(project.dependencies.platform(libs.firebase.bom))

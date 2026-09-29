@@ -28,6 +28,7 @@ class CoreNetworkModulePlugin : Plugin<Project> {
                     module(ModulePath.SHARED)
                     module(ModulePath.CORE_DOMAIN)
                     module(ModulePath.CORE_SECURITY)
+                    module(ModulePath.CORE_UTILS)
                     implementation(libs.ktor.clientCore)
                     implementation(libs.ktor.clientContentNegotiation)
                     implementation(libs.ktor.clientLogging)

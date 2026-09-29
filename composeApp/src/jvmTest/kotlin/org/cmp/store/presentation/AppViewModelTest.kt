@@ -1,8 +1,8 @@
 package org.cmp.store.presentation
 
-import com.feature.authentication.domain.usecases.GetCurrentUserIdUseCase
+import com.store.component.auth.usecase.GetCurrentUserIdUseCase
 import com.store.test.BaseViewModelTest
-import com.store.test.fakes.FakeCustomerRepository
+import com.store.test.fakes.FakeAuthRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import com.store.core.presentation.navigation.Screen
@@ -42,10 +42,10 @@ class AppViewModelTest : BaseViewModelTest() {
     }
 
     private fun buildViewModel(currentUserId: String?): AppViewModel {
-        val customerRepository = FakeCustomerRepository()
-        customerRepository.currentUserId = currentUserId
+        val authRepository = FakeAuthRepository()
+        authRepository.currentUserId = currentUserId
         return AppViewModel(
-            getCurrentUserIdUseCase = GetCurrentUserIdUseCase(customerRepository),
+            getCurrentUserIdUseCase = GetCurrentUserIdUseCase(authRepository),
             dispatchers = dispatchers,
         )
     }

@@ -3,12 +3,15 @@ package plugins
 import configuration.configureAndroidLibraryBase
 import configuration.configureIOS
 import extensions.alias
+import extensions.component
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
 import extensions.module
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
+import utils.enums.ComponentLayer
+import utils.enums.ComponentName
 import utils.enums.ModuleName
 import utils.enums.ModulePath
 
@@ -38,12 +41,14 @@ class DiModulePlugin : Plugin<Project> {
                     module(ModulePath.CORE_NAVIGATION)
                     module(ModulePath.CORE_DOMAIN)
                     module(ModulePath.CORE_SECURITY)
-                    module(ModulePath.FEATURE_AUTHENTICATION_DATA)
-                    module(ModulePath.FEATURE_AUTHENTICATION_DOMAIN)
-                    module(ModulePath.FEATURE_AUTHENTICATION_PRESENTATION)
-                    module(ModulePath.FEATURE_HOME_DATA)
-                    module(ModulePath.FEATURE_HOME_DOMAIN)
-                    module(ModulePath.FEATURE_HOME_PRESENTATION)
+                    module(ModulePath.FEATURE_AUTHENTICATION)
+                    module(component(ComponentName.AUTH, ComponentLayer.DATA))
+                    module(component(ComponentName.AUTH, ComponentLayer.USECASE))
+                    module(ModulePath.FEATURE_HOME)
+                    module(component(ComponentName.CUSTOMER, ComponentLayer.DATA))
+                    module(component(ComponentName.CUSTOMER, ComponentLayer.USECASE))
+                    module(component(ComponentName.PRODUCT, ComponentLayer.DATA))
+                    module(component(ComponentName.PRODUCT, ComponentLayer.USECASE))
 
                     implementation(libs.koin.core)
                     implementation(libs.koin.compose.viewmodel)
@@ -52,6 +57,7 @@ class DiModulePlugin : Plugin<Project> {
                     implementation(libs.ktor.clientCore)
                 }
                 commonTest.dependencies {
+                    implementation(libs.kotlin.test)
                     implementation(libs.koin.test)
                 }
             }

@@ -103,32 +103,48 @@ gradlePlugin {
             implementationClass = "plugins.core.CoreNetworkModulePlugin"
         }
 
-        //Futures
-        register("FeatureAuthenticationData") {
-            id = libs.plugins.store.feature.authentication.data.get().pluginId
-            implementationClass = "plugins.feature.FeatureAuthenticationDataModulePlugin"
+        //Component layers
+        register("ComponentModel") {
+            id = libs.plugins.store.component.model.get().pluginId
+            implementationClass = "plugins.component.ComponentModelPlugin"
         }
-        register("FeatureAuthenticationDomain") {
-            id = libs.plugins.store.feature.authentication.domain.get().pluginId
-            implementationClass = "plugins.feature.FeatureAuthenticationDomainModulePlugin"
+        register("ComponentDomainApi") {
+            id = libs.plugins.store.component.domainApi.get().pluginId
+            implementationClass = "plugins.component.ComponentDomainApiPlugin"
         }
-        register("AuthenticationPresentation") {
-            id = libs.plugins.store.feature.authentication.presentation.get().pluginId
-            implementationClass = "plugins.feature.FeatureAuthenticationPresentationModulePlugin"
+        register("ComponentUseCase") {
+            id = libs.plugins.store.component.usecase.get().pluginId
+            implementationClass = "plugins.component.ComponentUseCasePlugin"
+        }
+        register("ComponentData") {
+            id = libs.plugins.store.component.data.get().pluginId
+            implementationClass = "plugins.component.ComponentDataPlugin"
         }
 
-        //Feature - Home
-        register("FeatureHomeData") {
-            id = libs.plugins.store.feature.home.data.get().pluginId
-            implementationClass = "plugins.feature.FeatureHomeDataModulePlugin"
+        //Feature - presentation
+        register("FeaturePresentation") {
+            id = libs.plugins.store.feature.presentation.get().pluginId
+            implementationClass = "plugins.feature.FeaturePresentationPlugin"
         }
-        register("FeatureHomeDomain") {
-            id = libs.plugins.store.feature.home.domain.get().pluginId
-            implementationClass = "plugins.feature.FeatureHomeDomainModulePlugin"
+
+        //Capabilities
+        register("FeatureUiTest") {
+            id = libs.plugins.store.feature.uiTest.get().pluginId
+            implementationClass = "plugins.capability.FeatureUiTestCapabilityPlugin"
         }
-        register("FeatureHomePresentation") {
-            id = libs.plugins.store.feature.home.presentation.get().pluginId
-            implementationClass = "plugins.feature.FeatureHomePresentationModulePlugin"
+        register("FirebaseAuth") {
+            id = libs.plugins.store.firebase.auth.get().pluginId
+            implementationClass = "plugins.capability.FirebaseAuthCapabilityPlugin"
+        }
+        register("KmpAuthGoogle") {
+            id = libs.plugins.store.kmpauth.google.get().pluginId
+            implementationClass = "plugins.capability.KmpAuthGoogleCapabilityPlugin"
+        }
+
+        //Architecture
+        register("Architecture") {
+            id = libs.plugins.store.architecture.get().pluginId
+            implementationClass = "plugins.ArchitectureConventionPlugin"
         }
 
         //DI

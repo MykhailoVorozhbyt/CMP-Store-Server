@@ -1,6 +1,6 @@
 package com.store.di.modules
 
-import com.feature.home.presentation.NavigationPlaceholderScreen
+import com.store.feature.home.NavigationPlaceholderScreen
 import com.store.core.navigation.di.navEntry
 import com.store.core.presentation.navigation.Screen
 import org.koin.core.annotation.KoinExperimentalAPI

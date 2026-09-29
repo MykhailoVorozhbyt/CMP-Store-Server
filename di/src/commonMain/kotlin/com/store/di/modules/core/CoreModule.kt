@@ -1,5 +1,6 @@
 package com.store.di.modules.core
 
+import com.store.core.security.di.secureStorageModule
 import com.store.di.platformModule
 import org.koin.dsl.module
 
