@@ -1,0 +1,62 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./secrets.properties)",
+      "Edit(./secrets.properties)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/block-git-push.js\"",
+            "statusMessage": "\uD83D\uDD35 Git push guard"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit|NotebookEdit|Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/protect-files.js\"",
+            "statusMessage": "🟡 Protect files"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit|Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/no-android-in-common.js\"",
+            "statusMessage": "\uD83D\uDFE2 No android in common"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash|Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:/Users/misha/.local/bin/graphify.EXE hook-guard search",
+            "statusMessage": "🔴 Graphify search guard"
+          }
+        ]
+      },
+      {
+        "matcher": "Read|Glob",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:/Users/misha/.local/bin/graphify.EXE hook-guard read",
+            "statusMessage": "🔴 Graphify read guard"
+          }
+        ]
+      }
+    ]
+  }
+}
