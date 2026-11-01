@@ -55,7 +55,7 @@ class KtorProductDataSourceTest {
     }
 
     @Test
-    fun readDiscountedProducts_maps_error_body_to_network_error() = runTest {
+    fun readDiscountedProducts_maps_no_internet_body_to_no_internet_result() = runTest {
         val dataSource = KtorProductDataSource(
             client = testHttpClient(
                 MockEngine {
@@ -70,7 +70,7 @@ class KtorProductDataSourceTest {
 
         val result = dataSource.readDiscountedProducts()
 
-        assertEquals(ApiResult.Error(NetworkError.NO_INTERNET), result)
+        assertEquals(ApiResult.NoInternet, result)
     }
 
     @Test

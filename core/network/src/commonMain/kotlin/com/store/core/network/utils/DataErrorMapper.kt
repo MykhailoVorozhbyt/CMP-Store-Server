@@ -4,7 +4,6 @@ import com.store.core.domain.DataError
 import org.cmp.store.network.NetworkError
 
 fun NetworkError.toDataError(): DataError = when (this) {
-    NetworkError.NO_INTERNET -> DataError.NoInternet
     NetworkError.REQUEST_TIMEOUT -> DataError.Timeout
     NetworkError.UNAUTHORIZED,
     NetworkError.INVALID_REFRESH_TOKEN,
@@ -14,6 +13,7 @@ fun NetworkError.toDataError(): DataError = when (this) {
     NetworkError.SERVER_ERROR -> DataError.Server
     NetworkError.SERIALIZATION -> DataError.Serialization
     NetworkError.UNKNOWN,
+    NetworkError.NO_INTERNET,
     NetworkError.PAYLOAD_TOO_LARGE,
     NetworkError.USER_ALREADY_EXISTS,
     NetworkError.MISSING_CUSTOMER_ID,

@@ -3,6 +3,7 @@ package plugins.feature
 import configuration.configureAndroidLibraryBase
 import configuration.configureIOS
 import extensions.alias
+import extensions.composeExtension
 import extensions.androidRuntimeClasspath
 import extensions.component
 import extensions.derivedNamespace
@@ -12,7 +13,9 @@ import extensions.module
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.invoke
+import org.jetbrains.compose.resources.ResourcesExtension
 import utils.enums.ComponentLayer
 import utils.enums.FeatureName
 import utils.enums.ModulePath
@@ -70,6 +73,11 @@ class FeaturePresentationPlugin : Plugin<Project> {
                     module(ModulePath.TEST)
                     implementation(libs.compose.ui.test)
                 }
+            }
+        }
+        composeExtension {
+            extensions.configure<ResourcesExtension> {
+                packageOfResClass = "$derivedNamespace.resources"
             }
         }
         dependencies.androidRuntimeClasspath(libs.compose.ui.tooling)

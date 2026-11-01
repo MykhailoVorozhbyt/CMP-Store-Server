@@ -10,10 +10,12 @@ import com.store.core.presentation.core.viewmodel.BaseActionHandleViewModel
 import com.store.core.presentation.ui.ViewAction
 import com.store.core.resources.Res
 import com.store.core.resources.common_error_calculating
+import com.store.core.resources.common_error_no_internet
 import com.store.core.resources.common_error_sign_out
 import kotlinx.coroutines.flow.MutableStateFlow
 import com.store.core.presentation.navigation.Screen
 import com.store.core.domain.onError
+import com.store.core.domain.onNoInternet
 import com.store.core.domain.onSuccess
 import org.jetbrains.compose.resources.getString
 
@@ -41,6 +43,7 @@ class HomeGraphViewModel(
             signOutUseCase()
                 .onSuccess { navigateInclusive(Screen.Auth) }
                 .onError { showError(getString(Res.string.common_error_sign_out)) }
+                .onNoInternet { showError(getString(Res.string.common_error_no_internet)) }
         }
     }
 

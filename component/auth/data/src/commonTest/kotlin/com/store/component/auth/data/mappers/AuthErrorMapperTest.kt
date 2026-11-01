@@ -21,7 +21,7 @@ class AuthErrorMapperTest {
 
     @Test
     fun every_other_code_is_delegated_to_the_common_data_error() {
-        assertEquals(AuthError.Common(DataError.NoInternet), NetworkError.NO_INTERNET.toAuthError())
+        assertEquals(AuthError.Common(DataError.Timeout), NetworkError.REQUEST_TIMEOUT.toAuthError())
         assertEquals(AuthError.Common(DataError.Unauthorized), NetworkError.TOKEN_REUSE_DETECTED.toAuthError())
         assertEquals(AuthError.Common(DataError.Server), NetworkError.SERVER_ERROR.toAuthError())
     }

@@ -27,17 +27,23 @@ suspend inline fun <reified T> safeApiCall(
         val result = execute()
         ApiResult.Success(result.body())
     } catch (e: ClientRequestException) {
-        ApiResult.Error(e.response.toNetworkError())
+        e.response.toNetworkError().toApiResult()
     } catch (e: ServerResponseException) {
-        ApiResult.Error(e.response.toNetworkError())
+        e.response.toNetworkError().toApiResult()
+    } catch (e: ServerResponseException) {
+        e.response.toNetworkError().toApiResult()
     } catch (e: HttpRequestTimeoutException) {
-        ApiResult.Error(e.toTransportNetworkError())
+        e.toTransportNetworkError().toApiResult()
     } catch (e: CancellationException) {
         throw e
     } catch (e: Exception) {
-        ApiResult.Error(e.toTransportNetworkError())
+        e.toTransportNetworkError().toApiResult()
     }
 }
+
+@PublishedApi
+internal fun NetworkError.toApiResult(): ApiResult<Nothing, NetworkError> =
+    if (this == NetworkError.NO_INTERNET) ApiResult.NoInternet else ApiResult.Error(this)
 
 @PublishedApi
 internal fun Throwable.toTransportNetworkError(): NetworkError {

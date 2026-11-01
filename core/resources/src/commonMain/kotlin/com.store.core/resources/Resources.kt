@@ -41,6 +41,7 @@ object Resources {
 
     object Flag {
         val Usa = Res.drawable.usa
+        val Ukraine = Res.drawable.ukraine
     }
 
     object Font {

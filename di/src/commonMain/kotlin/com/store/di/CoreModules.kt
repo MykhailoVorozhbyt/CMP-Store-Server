@@ -6,6 +6,7 @@ import com.store.di.modules.auth.authFeatureModule
 import com.store.di.modules.core.coreModule
 import com.store.di.modules.customer.customerComponentModule
 import com.store.di.modules.home.homeFeatureModule
+import com.store.di.modules.profile.profileFeatureModule
 import com.store.di.modules.product.productComponentModule
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -24,6 +25,7 @@ val featureModules = module {
     includes(
         authFeatureModule,
         homeFeatureModule,
+        profileFeatureModule,
         appFeatureModule,
     )
 }

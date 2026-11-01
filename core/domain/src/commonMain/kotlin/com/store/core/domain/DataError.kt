@@ -1,7 +1,6 @@
 package com.store.core.domain
 
 sealed interface DataError {
-    data object NoInternet : DataError
     data object Timeout : DataError
     data object Unauthorized : DataError
     data object Forbidden : DataError

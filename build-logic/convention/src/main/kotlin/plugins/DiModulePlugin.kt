@@ -41,6 +41,7 @@ class DiModulePlugin : Plugin<Project> {
                     module(component(ComponentName.AUTH, ComponentLayer.DATA))
                     module(component(ComponentName.AUTH, ComponentLayer.USECASE))
                     module(ModulePath.FEATURE_HOME)
+                    module(ModulePath.FEATURE_PROFILE)
                     module(component(ComponentName.CUSTOMER, ComponentLayer.DATA))
                     module(component(ComponentName.CUSTOMER, ComponentLayer.USECASE))
                     module(component(ComponentName.PRODUCT, ComponentLayer.DATA))

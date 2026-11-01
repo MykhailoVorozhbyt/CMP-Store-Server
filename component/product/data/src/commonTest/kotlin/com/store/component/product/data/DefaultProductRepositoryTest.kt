@@ -2,7 +2,6 @@ package com.store.component.product.data
 
 import com.store.component.product.model.ProductError
 import com.store.core.domain.ApiResult
-import com.store.core.domain.DataError
 import kotlinx.coroutines.test.runTest
 import org.cmp.store.domain.product.Product
 import org.cmp.store.domain.product.ProductCategory
@@ -50,12 +49,12 @@ class DefaultProductRepositoryTest {
     }
 
     @Test
-    fun readProductsByIds_mapsTransportFailureToCommonError() = runTest {
-        fakeApi.listResult = ApiResult.Error(NetworkError.NO_INTERNET)
+    fun readProductsByIds_passesNoInternetThrough() = runTest {
+        fakeApi.listResult = ApiResult.NoInternet
 
         val result = repository.readProductsByIds(listOf("a", "b"))
 
-        assertEquals(ApiResult.Error(ProductError.Common(DataError.NoInternet)), result)
+        assertEquals(ApiResult.NoInternet, result)
         assertEquals(listOf("a", "b"), fakeApi.lastRequestedIds)
     }
 }

@@ -23,6 +23,7 @@ import com.store.core.presentation.utils.UiText
 import com.store.core.resources.Res
 import com.store.core.resources.auth_success
 import com.store.core.resources.auth_success_already_registered
+import com.store.core.resources.common_error_no_internet
 import com.store.core.resources.common_error_unknown
 import com.store.core.utils.Logger
 import com.store.core.utils.i
@@ -125,6 +126,7 @@ class AuthenticationViewModel(
             )
 
             is SignInResult.Failure -> showError(signInFailureHandler.handle(result.error))
+            SignInResult.NoInternet -> showError(getString(Res.string.common_error_no_internet))
         }
     }
 

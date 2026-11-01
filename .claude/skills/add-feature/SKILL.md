@@ -30,7 +30,8 @@ Examples to mirror: `feature/home` (screen that loads data) and `feature/authent
 ```
 ProfileScreen.kt
 ProfileViewModel.kt
-ProfileMockPreview.kt            previews use PreviewTheme {}, never BaseTheme
+ProfilePreviewProvider.kt    PreviewProvider<ProfileViewData> — one NamedPreviewParameter per screen state;
+                                 the preview takes it via @PreviewParameter and wraps it in PreviewTheme {}, never BaseTheme
 view_data/ProfileViewData.kt     @Immutable data class; defaults are the initial state; ImmutableList for lists
 view_data/ProfileViewAction.kt   sealed interface ProfileViewAction : ViewAction — data object / data class only
 view_data/ProfileInitializer.kt  ViewDataInitializer.Scoped<ProfileViewData>, when the screen loads data on open
@@ -63,7 +64,9 @@ class ProfileViewModel(
 - One dispatch point: `handleViewAction` with a `when` that calls private handlers. Never block it — use `launchIo { }`.
 - Use-case results: `.onSuccess { }` / `.onError { }` on `ApiResult`. State changes only via `updateViewData { copy(...) }`.
 - Navigation: `navigate(Screen.X)` / `navigateInclusive(Screen.X)`. Messages: `showError(...)` / `showMessage(...)`.
-- Text comes from Compose resources (`getString(Res.string.…)`, `com.store.core.resources`), never hardcoded.
+- Text comes from Compose resources, never hardcoded. Feature-only strings (`<feature>_…`) live in the feature's own
+  `src/commonMain/composeResources/values/strings.xml` → `com.store.feature.<name>.resources.Res`; generic ones
+  (`common_…`) stay in `core:resources`. A file that needs both imports `com.store.core.resources.Res as CoreRes`.
 - Map the component error (`CustomerError`, `ProductError`, …) to text here, one `when` per error type, as
   `SignInFailureHandler` does. There is no shared `DataError.toUiText()` yet.
 - Form input: `is InputFieldChanged -> validator.validateAdvanced(action, scopeFor(_viewData))` (see `AuthenticationViewModel`).

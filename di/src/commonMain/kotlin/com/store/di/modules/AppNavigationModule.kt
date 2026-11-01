@@ -20,9 +20,6 @@ val appNavigationModule = module {
     navEntry(Screen.Categories.serializer()) {
         NavigationPlaceholderScreen("Categories")
     }
-    navEntry(Screen.Profile.serializer()) {
-        NavigationPlaceholderScreen("Profile")
-    }
     navEntry(Screen.AdminPanel.serializer()) {
         NavigationPlaceholderScreen("Admin panel")
     }

@@ -30,6 +30,15 @@ User interaction
 
 Behaviour is pinned by `core/presentation/src/commonTest/.../BaseActionHandleViewModelTest.kt` — update it when you touch the base class.
 
+## Previews
+
+Every `@Composable` function has at least one preview of its own, `private` and in the same file, wrapped in `PreviewTheme {}`.
+Components use `@Preview`; screen-sized content uses `@PhonePreview` (or another `AdaptivePreview` annotation) with a
+`PreviewProvider` when it has several states. A preview that needs a background sets it itself
+(`Modifier.background(StoreTheme.color.surface)`) — `PreviewTheme` draws none.
+The only exception is the Koin entry point (`XScreen(viewModel = koinViewModel())`): its `XContent` carries the previews.
+Enforced in `feature/profile` today; other modules are brought in line when touched.
+
 ## StoreTheme System
 
 `StoreTheme` is a Compose `object` exposing `color`, `typography`, `dimens`, `strings`, `windowTypography` via `CompositionLocal`.
@@ -59,5 +68,5 @@ Assembly, all in `:core:navigation`:
 
 **Adding a screen:** add the object/data class to `Screen.kt`, then `navEntry(Screen.Foo.serializer()) { FooScreen() }` inside the owning feature's presentation Koin module. A whole new feature: skill `add-feature`.
 
-Current wiring: `Screen.Auth` and `Screen.HomeGraph` are real screens. Nine more (`ProductsOverview`, `Cart`, `Categories`, `CategorySearch`, `Profile`, `AdminPanel`, `ContactUs`, `Details`, `Checkout`) are registered as `NavigationPlaceholderScreen` in `di/modules/AppNavigationModule.kt`. `ManageProduct` and `PaymentCompleted` are **not registered at all** and will fail at runtime if navigated to.
+Current wiring: `Screen.Auth`, `Screen.HomeGraph` and `Screen.Profile` are real screens. Eight more (`ProductsOverview`, `Cart`, `Categories`, `CategorySearch`, `AdminPanel`, `ContactUs`, `Details`, `Checkout`) are registered as `NavigationPlaceholderScreen` in `di/modules/AppNavigationModule.kt`. `ManageProduct` and `PaymentCompleted` are **not registered at all** and will fail at runtime if navigated to.
 

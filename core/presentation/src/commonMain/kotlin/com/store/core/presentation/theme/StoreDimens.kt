@@ -26,26 +26,21 @@ interface StoreDimens {
     // Padding
     val defaultPadding: Dp
     val spaceBetweenItems: Dp
-
+    val dialogPadding: Dp
     // Bottom Bar
     val bottomBarShape: Dp
     val bottomBarVerticalPadding: Dp
     val bottomBarHorizontalPadding: Dp
-
     // Drawer
     val drawerItemPadding: Dp
-
     // Splash Logo Size
     val splashLogoSize: Dp
-
     // Icon
     val iconSize: Dp
     val iconLSize: Dp
     val iconButonSize: Dp
-
     // CircularStrokeWidth
     val circularStrokeWidth: Dp
-
     // Button
     val buttonHeight: Dp
     val buttonTextSize: TextUnit
@@ -53,9 +48,6 @@ interface StoreDimens {
     val buttonBorder: Dp
     val buttonRounded: Dp
     val buttonRoundedFull: Dp
-
-    // Card
-
     // Text
     val textS: TextUnit
     val textM: TextUnit
@@ -67,7 +59,6 @@ interface StoreDimens {
     val textFieldHorizontalPadding: Dp get() = 8.dp
 
     val topAppBarText: TextUnit
-
     val customDrawerWidth: Float
     val customDrawerOffsetValue: Float
 }
@@ -75,6 +66,7 @@ interface StoreDimens {
 val CompactDimens = object : StoreDimens {
     override val defaultPadding: Dp get() = 20.dp
     override val spaceBetweenItems: Dp get() = 12.dp
+    override val dialogPadding: Dp get() = 22.dp
     override val bottomBarShape: Dp get() = 24.dp
     override val bottomBarVerticalPadding: Dp get() = 24.dp
     override val bottomBarHorizontalPadding: Dp get() = 36.dp
@@ -102,6 +94,7 @@ val CompactDimens = object : StoreDimens {
 val MediumDimens = object : StoreDimens {
     override val defaultPadding: Dp get() = 20.dp
     override val spaceBetweenItems: Dp get() = 12.dp
+    override val dialogPadding: Dp get() = 26.dp
     override val bottomBarShape: Dp get() = 24.dp
     override val bottomBarVerticalPadding: Dp get() = 24.dp
     override val bottomBarHorizontalPadding: Dp get() = 36.dp
@@ -130,6 +123,7 @@ val MediumDimens = object : StoreDimens {
 val ExpandedDimens = object : StoreDimens {
     override val defaultPadding: Dp get() = 20.dp
     override val spaceBetweenItems: Dp get() = 14.dp
+    override val dialogPadding: Dp get() = 30.dp
     override val bottomBarShape: Dp get() = 24.dp
     override val bottomBarVerticalPadding: Dp get() = 24.dp
     override val bottomBarHorizontalPadding: Dp get() = 36.dp

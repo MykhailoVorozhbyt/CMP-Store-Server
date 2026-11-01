@@ -42,5 +42,6 @@ class SignInUseCase(
         when (this) {
             is ApiResult.Success -> SignInResult.Success(data.isNewAccount)
             is ApiResult.Error -> SignInResult.Failure(error)
+            ApiResult.NoInternet -> SignInResult.NoInternet
         }
 }

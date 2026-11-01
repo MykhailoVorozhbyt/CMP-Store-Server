@@ -144,6 +144,21 @@ class DefaultAuthRepositoryTest {
     }
 
     @Test
+    fun signOut_keepsTheSessionWhenOffline() = runTest {
+        fakeSession.userId = "uid"
+        fakeSession.accessToken = "token"
+        fakeSession.refreshToken = "refresh"
+        fakeApi.logoutResult = ApiResult.NoInternet
+
+        val result = repository.signOut()
+
+        assertEquals(ApiResult.NoInternet, result)
+        assertFalse(fakeSession.signOutCalled)
+        assertEquals("token", fakeSession.accessToken)
+        assertEquals(0, fakeApi.clearCachedTokensCallCount)
+    }
+
+    @Test
     fun signOut_clearsTheSessionWhenTheServerSaysItIsAlreadyGone() = runTest {
         // A 401 on logout is the server confirming the session is dead, not a failure to
         // reach it. Reporting an error would leave the user unable to leave a session that

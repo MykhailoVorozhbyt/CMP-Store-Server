@@ -20,7 +20,7 @@ class CustomerErrorMapperTest {
 
     @Test
     fun every_other_code_is_delegated_to_the_common_data_error() {
-        assertEquals(CustomerError.Common(DataError.NoInternet), NetworkError.NO_INTERNET.toCustomerError())
+        assertEquals(CustomerError.Common(DataError.Timeout), NetworkError.REQUEST_TIMEOUT.toCustomerError())
         assertEquals(CustomerError.Common(DataError.Unauthorized), NetworkError.UNAUTHORIZED.toCustomerError())
         assertEquals(CustomerError.Common(DataError.Unknown), NetworkError.INVALID_CREDENTIALS.toCustomerError())
     }

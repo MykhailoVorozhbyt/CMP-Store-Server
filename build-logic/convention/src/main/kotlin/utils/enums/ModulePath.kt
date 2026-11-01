@@ -17,5 +17,6 @@ enum class ModulePath(val path: String) {
     CORE_NETWORK(":core:network"),
     FEATURE_AUTHENTICATION(":feature:authentication"),
     FEATURE_HOME(":feature:home"),
+    FEATURE_PROFILE(":feature:profile"),
     TEST(":test"),
 }

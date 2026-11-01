@@ -59,6 +59,8 @@ private fun HttpClientConfig<*>.configureStore(localAuthSessionDataSource: Local
                         null
                     }
 
+                    ApiResult.NoInternet -> null
+
                     is ApiResult.Success -> {
                         localAuthSessionDataSource.updateTokens(
                             accessToken = result.data.accessToken,

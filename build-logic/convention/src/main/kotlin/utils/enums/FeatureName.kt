@@ -8,6 +8,10 @@ enum class FeatureName(val dirName: String, val components: List<ComponentName>)
     HOME(
         dirName = "home",
         components = listOf(ComponentName.AUTH, ComponentName.CUSTOMER, ComponentName.PRODUCT),
+    ),
+    PROFILE(
+        dirName = "profile",
+        components = listOf(ComponentName.CUSTOMER),
     );
 
     companion object {

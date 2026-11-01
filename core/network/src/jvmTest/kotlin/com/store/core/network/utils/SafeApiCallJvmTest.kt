@@ -15,12 +15,12 @@ class SafeApiCallJvmTest {
 
     @Test
     fun unknown_host_is_no_internet() = runTest {
-        assertEquals(ApiResult.Error(NetworkError.NO_INTERNET), callFailingWith(UnknownHostException("store.local")))
+        assertEquals(ApiResult.NoInternet, callFailingWith(UnknownHostException("store.local")))
     }
 
     @Test
     fun refused_connection_is_no_internet() = runTest {
-        assertEquals(ApiResult.Error(NetworkError.NO_INTERNET), callFailingWith(ConnectException("Connection refused")))
+        assertEquals(ApiResult.NoInternet, callFailingWith(ConnectException("Connection refused")))
     }
 
     private suspend fun callFailingWith(throwable: Throwable): ApiResult<Map<String, String>, NetworkError> {

@@ -1,6 +1,6 @@
 ## Module Structure
 
-33 `include`s in `settings.gradle.kts` (type-safe project accessors enabled): 3 components × 4 layers, 2 features,
+34 `include`s in `settings.gradle.kts` (type-safe project accessors enabled): 3 components × 4 layers, 3 features,
 8 core modules, 7 client-app modules under `app/`, plus server/shared/di/test.
 
 The layout follows JetBrains' default KMP structure for projects with a server: every client module lives under `app/`,
@@ -61,6 +61,8 @@ feature/             # one module per feature = its presentation; package com.st
                      #   (+ store.feature.uiTest, store.firebase.auth, store.kmpauth.google)
   home/              # HomeGraphScreen/ViewModel, BottomBar, CustomDrawer, NavigationPlaceholderScreen
                      #   (uses component/auth, component/customer, component/product)
+  profile/           # ProfileScreen/ViewModel, ProfileValidator, CountryPickerDialog, feature-local Country enum
+                     #   (uses component/customer; PUT sends the loaded Customer back with only form fields changed)
 di/                  # initializeKoin + module assembly (see `.claude/conventions/di.md`) + KoinGraphTest (jvmTest)
 test/                # Shared test fixtures in commonMain — BaseViewModelTest, fakes, Ktor mock helpers
 config/architecture/ # rules.json for validateArchitectureDependencies
@@ -76,7 +78,8 @@ never apply its rules here; this section wins.
 
 **Multi-module structure:**
 - `feature/<name>` — one module per feature: ViewModel (`BaseActionHandleViewModel`), ViewData, Compose UI,
-  `navEntry` registration, feature strings. **Presentation only** — business logic lives in `component/`.
+  `navEntry` registration, feature strings (`src/commonMain/composeResources`, class `com.store.feature.<name>.resources.Res`;
+  only strings shared by several features go to `core:resources`). **Presentation only** — business logic lives in `component/`.
 - `component/<entity>/` — business logic per domain entity: `auth`, `customer`, `product`.
   Planned (not built yet): `basket`, `order`, `payment`; admin is a role, not an entity.
 - `core/` — shared infrastructure: `presentation`, `navigation`, `network`, `security`, `domain`, `utils`, `resources`.
@@ -122,7 +125,7 @@ Features depend on `usecase` + `model` only — **never** `domain-api` or `data`
    `DefaultAuthRepository.signOut`) happen **before** mapping — the mapper deliberately loses detail.
 3. Presentation maps `XError` to text. Features do it per error today (`SignInFailureHandler`, `HomeGraphInitializer`);
    a shared `DataError.toUiText()` in `core:presentation` does not exist yet — add it when a screen needs per-error texts.
-`DataError` (`core:domain`): NoInternet, Timeout, Unauthorized, Forbidden, TooManyRequests, Server, Serialization, Unknown.
+`DataError` (`core:domain`): Timeout, Unauthorized, Forbidden, TooManyRequests, Server, Serialization, Unknown.
 Component errors: `AuthError`, `CustomerError`, `ProductError` — each `sealed interface` with specific cases +
 `data class Common(val error: DataError)`.
 

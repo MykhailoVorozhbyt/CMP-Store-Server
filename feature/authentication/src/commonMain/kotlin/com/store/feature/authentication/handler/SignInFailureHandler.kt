@@ -2,7 +2,6 @@ package com.store.feature.authentication.handler
 
 import com.store.component.auth.model.AuthError
 import com.store.component.auth.model.GoogleSignInError
-import com.store.core.domain.DataError
 import com.store.core.resources.Res
 import com.store.core.resources.auth_error_account_has_no_password
 import com.store.core.resources.auth_error_canceled
@@ -38,10 +37,7 @@ class SignInFailureHandlerImpl : SignInFailureHandler {
     override suspend fun handle(error: AuthError): String = when (error) {
         AuthError.InvalidCredentials -> getString(Res.string.auth_error_invalid_credentials)
         AuthError.AccountHasNoPassword -> getString(Res.string.auth_error_account_has_no_password)
-        is AuthError.Common -> when (error.error) {
-            DataError.NoInternet -> getString(Res.string.common_error_no_internet)
-            else -> getString(Res.string.common_error_unknown)
-        }
+        is AuthError.Common -> getString(Res.string.common_error_unknown)
         AuthError.UserAlreadyExists,
         AuthError.EmailRequired,
         AuthError.PasswordRequired,

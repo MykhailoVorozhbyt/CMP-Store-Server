@@ -1,0 +1,22 @@
+<resources>
+    <string name="profile_title">My Profile</string>
+    <string name="profile_label_first_name">First Name</string>
+    <string name="profile_label_last_name">Last Name</string>
+    <string name="profile_label_email">Email</string>
+    <string name="profile_label_city">City</string>
+    <string name="profile_label_postal_code">Postal Code</string>
+    <string name="profile_label_address">Address</string>
+    <string name="profile_label_phone_number">Phone Number</string>
+    <string name="profile_update">Update</string>
+    <string name="profile_update_success">Successfully updated!</string>
+    <string name="profile_error_title">Oops!</string>
+    <string name="profile_error_description">Something went wrong.</string>
+    <string name="profile_error_customer_not_found">Customer not found.</string>
+    <string name="profile_field_length">Must be %1$s–%2$s characters</string>
+    <string name="profile_country_dialog_title">Select a Country</string>
+    <string name="profile_country_dialog_hint">Dial Code</string>
+    <string name="profile_country_not_found">Dial code not found.</string>
+    <string name="profile_country_item">+%1$s (%2$s)</string>
+    <string name="country_usa">United States</string>
+    <string name="country_ukraine">Ukraine</string>
+</resources>

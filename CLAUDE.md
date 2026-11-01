@@ -78,7 +78,7 @@ Procedures are skills in `.claude/skills/`: `add-feature` (incl. porting NutriSp
 - `Screen.ManageProduct` and `Screen.PaymentCompleted` have no `navEntry` — navigating to them fails.
 - `Screen.ContactUs`'s placeholder is mislabelled `"Products overview"` in `di/modules/AppNavigationModule.kt`.
 - Server has no CORS and no CallLogging; SQLite is a single dev file with no migrations (schema is recreated, not migrated).
-- A future authed "set password" endpoint (letting Google users add a MANUAL credential) is designed but not built — it needs a profile screen first.
+- A future authed "set password" endpoint (letting Google users add a MANUAL credential) is designed but not built — it can now hang off the profile screen.
 
 ## graphify
 

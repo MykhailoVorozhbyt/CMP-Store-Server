@@ -9,7 +9,6 @@ class DataErrorMapperTest {
 
     @Test
     fun transport_failures_keep_their_meaning() {
-        assertEquals(DataError.NoInternet, NetworkError.NO_INTERNET.toDataError())
         assertEquals(DataError.Timeout, NetworkError.REQUEST_TIMEOUT.toDataError())
         assertEquals(DataError.Server, NetworkError.SERVER_ERROR.toDataError())
         assertEquals(DataError.Serialization, NetworkError.SERIALIZATION.toDataError())

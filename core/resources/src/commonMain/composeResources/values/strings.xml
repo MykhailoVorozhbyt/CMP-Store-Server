@@ -8,6 +8,8 @@
     <string name="common_error_sign_out">Failed to sign out.</string>
     <string name="common_error_calculating">Error while calculating total amount: %s</string>
     <string name="common_or">or</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="common_confirm">Confirm</string>
     <string name="common_required_field">This field is required</string>
     <string name="common_field_max_limit">Maximum: %s symbols</string>
     <string name="common_field_min_limit">Minimum: %s symbols</string>
@@ -55,6 +57,7 @@
     <string name="close_menu_description">Close menu</string>
     <string name="show_password_description">Show password</string>
     <string name="hide_password_description">Hide password</string>
+    <string name="back_description">Back</string>
 
     <!--Currency-->
     <string name="currency_uah">UAH</string>

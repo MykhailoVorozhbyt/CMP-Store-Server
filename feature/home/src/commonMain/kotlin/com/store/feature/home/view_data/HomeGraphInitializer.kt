@@ -9,6 +9,7 @@ import com.store.core.presentation.ui.base.ViewDataInitializer
 import com.store.core.presentation.utils.RequestState
 import com.store.core.resources.Res
 import com.store.core.resources.common_error_customer_read
+import com.store.core.resources.common_error_no_internet
 import com.store.core.resources.common_error_product_read
 import org.cmp.store.domain.customer.CartItem
 import org.cmp.store.domain.customer.Customer
@@ -42,6 +43,7 @@ class HomeGraphInitializer(
         when (val result = readCustomerUseCase()) {
             is ApiResult.Success -> RequestState.Success(result.data)
             is ApiResult.Error -> RequestState.Error(getString(Res.string.common_error_customer_read))
+            ApiResult.NoInternet -> RequestState.Error(getString(Res.string.common_error_no_internet))
         }
 
     private suspend fun calculateTotalAmount(cart: List<CartItem>): RequestState<Double> {
@@ -55,6 +57,7 @@ class HomeGraphInitializer(
                 )
             }
             is ApiResult.Error -> RequestState.Error(getString(Res.string.common_error_product_read))
+            ApiResult.NoInternet -> RequestState.Error(getString(Res.string.common_error_no_internet))
         }
     }
 }

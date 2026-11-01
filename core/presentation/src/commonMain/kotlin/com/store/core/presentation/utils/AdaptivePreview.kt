@@ -19,7 +19,7 @@ annotation class CompactPreview
     apiLevel = API,
     uiMode = UI_MODE_NIGHT_YES
 )
-annotation class MediumPreview
+annotation class MediumPhoneLandscapePreview
 
 // Expanded (840–1199dp) — tablet landscape / large foldable (no reference device)
 @Preview(widthDp = 1000, heightDp = 800, name = "Expanded · Light", apiLevel = API)
@@ -48,7 +48,7 @@ annotation class LargePreview
 annotation class ExtraLargePreview
 
 @CompactPreview
-@MediumPreview
+@MediumPhoneLandscapePreview
 annotation class PhonePreview
 
 @ExpandedPreview

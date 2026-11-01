@@ -23,6 +23,7 @@ class DefaultAuthRepository(
     override suspend fun authorize(request: AuthRequest): ApiResult<AuthResponse, AuthError> {
         return when (val result = api.authorize(request.toDto())) {
             is ApiResult.Error -> ApiResult.Error(result.error.toAuthError())
+            ApiResult.NoInternet -> ApiResult.NoInternet
             is ApiResult.Success -> {
                 val response = result.data.toAuthResponse()
                 storeSession(response)
@@ -33,6 +34,7 @@ class DefaultAuthRepository(
 
     override suspend fun signOut(): EmptyResult<AuthError> {
         val serverResult = api.logout()
+        if (serverResult is ApiResult.NoInternet) return ApiResult.NoInternet
         if (serverResult is ApiResult.Error && !serverResult.error.isSessionTerminal) {
             return ApiResult.Error(serverResult.error.toAuthError())
         }
