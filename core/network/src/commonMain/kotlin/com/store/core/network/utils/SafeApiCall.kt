@@ -30,8 +30,6 @@ suspend inline fun <reified T> safeApiCall(
         e.response.toNetworkError().toApiResult()
     } catch (e: ServerResponseException) {
         e.response.toNetworkError().toApiResult()
-    } catch (e: ServerResponseException) {
-        e.response.toNetworkError().toApiResult()
     } catch (e: HttpRequestTimeoutException) {
         e.toTransportNetworkError().toApiResult()
     } catch (e: CancellationException) {

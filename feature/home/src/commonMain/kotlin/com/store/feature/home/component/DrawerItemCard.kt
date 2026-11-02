@@ -1,7 +1,8 @@
-package com.store.feature.home.components
+package com.store.feature.home.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Text
@@ -9,11 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import com.store.feature.home.utils.DrawerItem
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.store.core.presentation.theme.PreviewTheme
 import com.store.core.presentation.theme.StoreTheme
 import com.store.core.presentation.utils.AdaptivePreview
+import com.store.feature.home.utils.DrawerItem
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -28,6 +29,7 @@ fun DrawerItemCard(
             .fillMaxWidth()
             .clickable(onClick = onClick),
         selected = false,
+        shape = RoundedCornerShape(size = StoreTheme.dimens.buttonRounded),
         label = {
             Text(
                 text = stringResource(drawerItem.title),

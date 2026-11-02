@@ -12,8 +12,10 @@ import io.ktor.server.routing.RoutingContext
 import org.cmp.store.database.dao.CustomerDao
 import org.cmp.store.features.auth.models.CustomerPrincipal
 import org.cmp.store.features.customer.dto.CustomerDto
+import org.cmp.store.features.customer.dto.CustomerProfileDto
 import org.cmp.store.features.customer.mappers.toCustomer
 import org.cmp.store.features.customer.mappers.toDto
+import org.cmp.store.features.customer.mappers.toProfile
 import org.cmp.store.network.NetworkError
 import org.cmp.store.plugins.AUTH_TOKEN_PROVIDER
 import org.cmp.store.utils.ApiException
@@ -46,6 +48,17 @@ fun Route.customerRoutes() {
                     HttpStatusCode.NotFound,
                     NetworkError.CUSTOMER_NOT_FOUND.name
                 )
+            call.respond(HttpStatusCode.OK, stored.toDto())
+        }
+        put<Customers.Id.Profile> { resource ->
+            val customerId = resource.parent.id
+            requireOwnCustomer(customerId)
+            val profile = call.receive<CustomerProfileDto>().toProfile()
+            if (!customerDao.updateProfile(customerId, profile)) {
+                throw ApiException(HttpStatusCode.NotFound, NetworkError.CUSTOMER_NOT_FOUND)
+            }
+            val stored = customerDao.read(customerId)
+                ?: throw ApiException(HttpStatusCode.NotFound, NetworkError.CUSTOMER_NOT_FOUND)
             call.respond(HttpStatusCode.OK, stored.toDto())
         }
     }

@@ -1,4 +1,4 @@
-package com.store.feature.profile.components
+package com.store.feature.profile.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,7 +15,6 @@ import com.store.core.presentation.ui.ViewAction
 import com.store.core.presentation.ui.components.input.StoreTextField
 import com.store.core.presentation.utils.NamedPreviewParameter
 import com.store.core.presentation.utils.PhonePreview
-import com.store.feature.profile.ProfileContent
 import com.store.feature.profile.ProfilePreviewProvider
 import com.store.feature.profile.resources.Res
 import com.store.feature.profile.resources.profile_label_address
@@ -31,7 +30,7 @@ import com.store.feature.profile.view_data.ProfileViewData
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-internal fun ProfileForm(
+internal fun Form(
     viewData: ProfileFormViewData,
     enabled: Boolean,
     onViewAction: (ViewAction) -> Unit,
@@ -89,11 +88,11 @@ internal fun ProfileForm(
 
 @PhonePreview
 @Composable
-private fun ProfileFormPreview(
+private fun FormPreview(
     @PreviewParameter(ProfilePreviewProvider::class) parameter: NamedPreviewParameter<ProfileViewData>,
 ) {
     PreviewTheme {
-        ProfileForm(parameter.value.form, true, onViewAction = {})
+        Form(parameter.value.form, true, onViewAction = {})
     }
 }
 

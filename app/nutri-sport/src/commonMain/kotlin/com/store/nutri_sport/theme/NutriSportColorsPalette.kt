@@ -13,7 +13,7 @@ class NutriSportStoreThemeProvider : StoreThemeProvider {
 
 private val nutriSportLightColorsPalette = object : BaseLightStoreColorsPalette() {
     // Brand
-    override val brand1: Color = Color(0xFFEEFF00)
+    override val brandMain: Color = Color(0xFFEEFF00)
     override val brand2: Color = Color(0xFFF24C00)
     override val brand3: Color = Color(0xFFDD0000)
 
@@ -51,7 +51,7 @@ private val nutriSportLightColorsPalette = object : BaseLightStoreColorsPalette(
 
 private val nutriSportDarkColorsPalette = object : BaseDarkStoreColorsPalette() {
     // Brand
-    override val brand1: Color = Color(0xFFEEFF00)
+    override val brandMain: Color = Color(0xFFEEFF00)
     override val brand2: Color = Color(0xFFF24C00)
     override val brand3: Color = Color(0xFFDD0000)
 

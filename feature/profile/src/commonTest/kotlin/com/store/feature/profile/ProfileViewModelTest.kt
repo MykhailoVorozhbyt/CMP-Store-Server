@@ -2,6 +2,7 @@ package com.store.feature.profile
 
 import app.cash.turbine.test
 import com.store.component.customer.model.CustomerError
+import com.store.component.customer.model.CustomerProfileRequest
 import com.store.component.customer.usecase.ReadCustomerUseCase
 import com.store.component.customer.usecase.UpdateCustomerUseCase
 import com.store.core.domain.ApiResult
@@ -23,7 +24,9 @@ import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceUntilIdle
 import org.cmp.store.domain.customer.CartItem
 import org.cmp.store.domain.customer.Customer
@@ -60,7 +63,7 @@ class ProfileViewModelTest : BaseViewModelTest() {
     }
 
     @Test
-    fun load_with_empty_optional_fields_keeps_update_disabled() = runVmTest {
+    fun load_with_empty_fields_keeps_update_enabled_without_errors() = runVmTest {
         repository.customerResult = ApiResult.Success(
             customer.copy(city = null, postalCode = null, address = null, phoneNumber = null)
         )
@@ -69,7 +72,8 @@ class ProfileViewModelTest : BaseViewModelTest() {
 
         val state = viewModel.viewDataState.value
         assertEquals(Country.Default, state.form.phone.country)
-        assertFalse(state.updateEnabled)
+        assertTrue(state.updateEnabled)
+        assertFalse(state.form.city.error.hasError)
     }
 
     @Test
@@ -91,21 +95,26 @@ class ProfileViewModelTest : BaseViewModelTest() {
     }
 
     @Test
-    fun too_short_first_name_disables_update() = runVmTest {
+    fun update_with_too_short_first_name_shows_error_and_skips_request() = runVmTest {
         repository.customerResult = ApiResult.Success(customer)
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        viewModel.onViewAction(InputFieldChanged("St", ProfileFields.FirstName, focusLost = true))
+        viewModel.onViewAction(InputFieldChanged("St", ProfileFields.FirstName))
+        advanceUntilIdle()
+        assertTrue(viewModel.viewDataState.value.updateEnabled)
+
+        viewModel.onViewAction(ProfileViewAction.UpdateClicked)
         advanceUntilIdle()
 
         val state = viewModel.viewDataState.value
         assertTrue(state.form.firstName.error.hasError)
-        assertFalse(state.updateEnabled)
+        assertNull(repository.lastProfileRequest)
+        assertFalse(state.isUpdating)
     }
 
     @Test
-    fun update_sends_edited_customer_and_keeps_cart() = runVmTest {
+    fun update_sends_only_profile_fields() = runVmTest {
         repository.customerResult = ApiResult.Success(customer)
         val viewModel = buildViewModel()
         advanceUntilIdle()
@@ -115,13 +124,18 @@ class ProfileViewModelTest : BaseViewModelTest() {
         viewModel.onViewAction(ProfileViewAction.UpdateClicked)
         advanceUntilIdle()
 
-        val sent = repository.lastUpdatedCustomer!!
-        assertEquals("Mykhailo", sent.firstName)
-        assertEquals(customer.id, sent.id)
-        assertEquals(customer.email, sent.email)
-        assertEquals(customer.cart, sent.cart)
-        assertEquals(11000, sent.postalCode)
-        assertEquals(PhoneNumber(dialCode = 380, number = "123456789"), sent.phoneNumber)
+        assertEquals(
+            CustomerProfileRequest(
+                firstName = "Mykhailo",
+                lastName = customer.lastName,
+                city = customer.city,
+                postalCode = 11000,
+                address = customer.address,
+                phoneNumber = PhoneNumber(dialCode = 380, number = "123456789"),
+            ),
+            repository.lastProfileRequest,
+        )
+        assertNull(repository.lastUpdatedCustomer)
         assertFalse(viewModel.viewDataState.value.isUpdating)
     }
 
@@ -130,6 +144,7 @@ class ProfileViewModelTest : BaseViewModelTest() {
         repository.customerResult = ApiResult.Success(customer)
         val viewModel = buildViewModel()
         advanceUntilIdle()
+        changeFirstName(viewModel)
 
         viewModel.uiEvents.test {
             viewModel.onViewAction(ProfileViewAction.UpdateClicked)
@@ -149,6 +164,7 @@ class ProfileViewModelTest : BaseViewModelTest() {
         repository.updateResult = ApiResult.Error(CustomerError.Common(DataError.Server))
         val viewModel = buildViewModel()
         advanceUntilIdle()
+        changeFirstName(viewModel)
 
         viewModel.uiEvents.test {
             viewModel.onViewAction(ProfileViewAction.UpdateClicked)
@@ -168,6 +184,7 @@ class ProfileViewModelTest : BaseViewModelTest() {
         repository.updateResult = ApiResult.NoInternet
         val viewModel = buildViewModel()
         advanceUntilIdle()
+        changeFirstName(viewModel)
 
         viewModel.uiEvents.test {
             viewModel.onViewAction(ProfileViewAction.UpdateClicked)
@@ -183,7 +200,7 @@ class ProfileViewModelTest : BaseViewModelTest() {
     }
 
     @Test
-    fun update_is_ignored_when_form_is_invalid() = runVmTest {
+    fun update_with_empty_required_field_shows_required_error() = runVmTest {
         repository.customerResult = ApiResult.Success(customer.copy(city = null))
         val viewModel = buildViewModel()
         advanceUntilIdle()
@@ -191,7 +208,34 @@ class ProfileViewModelTest : BaseViewModelTest() {
         viewModel.onViewAction(ProfileViewAction.UpdateClicked)
         advanceUntilIdle()
 
-        assertNull(repository.lastUpdatedCustomer)
+        val form = viewModel.viewDataState.value.form
+        assertTrue(form.city.error.hasError)
+        assertFalse(form.firstName.error.hasError)
+        assertNull(repository.lastProfileRequest)
+    }
+
+    @Test
+    fun update_click_while_request_is_running_sends_one_request() = runVmTest {
+        repository.customerResult = ApiResult.Success(customer)
+        repository.updateGate = CompletableDeferred()
+        val viewModel = buildViewModel()
+        advanceUntilIdle()
+        changeFirstName(viewModel)
+
+        viewModel.onViewAction(ProfileViewAction.UpdateClicked)
+        advanceUntilIdle()
+        assertTrue(viewModel.viewDataState.value.isUpdating)
+        assertFalse(viewModel.viewDataState.value.updateEnabled)
+
+        viewModel.onViewAction(ProfileViewAction.CountryPickerDismissed)
+        viewModel.onViewAction(ProfileViewAction.UpdateClicked)
+        advanceUntilIdle()
+        assertEquals(1, repository.profileRequestCount)
+
+        repository.updateGate?.complete(Unit)
+        advanceUntilIdle()
+        assertFalse(viewModel.viewDataState.value.isUpdating)
+        assertEquals(1, repository.profileRequestCount)
     }
 
     @Test
@@ -260,6 +304,47 @@ class ProfileViewModelTest : BaseViewModelTest() {
         advanceUntilIdle()
 
         assertEquals(listOf(Country.Ukraine), viewModel.viewDataState.value.countryPicker?.countries)
+    }
+
+    @Test
+    fun update_without_changes_shows_info_and_skips_request() = runVmTest {
+        repository.customerResult = ApiResult.Success(customer)
+        val viewModel = buildViewModel()
+        advanceUntilIdle()
+
+        viewModel.uiEvents.test {
+            viewModel.onViewAction(ProfileViewAction.UpdateClicked)
+            advanceUntilIdle()
+
+            val event = awaitItem()
+            assertIs<UiEvent.ShowMessage>(event)
+            assertEquals(NotificationType.INFO, event.data.type)
+            assertEquals(FakeProfileMessageHandler.NOTHING_CHANGED, event.data.message)
+            cancelAndIgnoreRemainingEvents()
+        }
+        assertNull(repository.lastProfileRequest)
+        assertFalse(viewModel.viewDataState.value.isUpdating)
+    }
+
+    @Test
+    fun update_after_successful_save_without_new_changes_skips_request() = runVmTest {
+        repository.customerResult = ApiResult.Success(customer)
+        val viewModel = buildViewModel()
+        advanceUntilIdle()
+        changeFirstName(viewModel)
+
+        viewModel.onViewAction(ProfileViewAction.UpdateClicked)
+        advanceUntilIdle()
+        viewModel.onViewAction(ProfileViewAction.CountryPickerDismissed)
+        viewModel.onViewAction(ProfileViewAction.UpdateClicked)
+        advanceUntilIdle()
+
+        assertEquals(1, repository.profileRequestCount)
+    }
+
+    private fun TestScope.changeFirstName(viewModel: ProfileViewModel) {
+        viewModel.onViewAction(InputFieldChanged("Mykhailo", ProfileFields.FirstName))
+        advanceUntilIdle()
     }
 
     private fun buildViewModel(): ProfileViewModel {

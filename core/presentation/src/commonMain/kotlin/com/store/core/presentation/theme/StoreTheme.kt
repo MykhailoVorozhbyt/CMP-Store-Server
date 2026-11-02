@@ -28,6 +28,11 @@ object StoreTheme {
         @ReadOnlyComposable
         get() = LocalStoreDimens.current
 
+    val shapes: StoreShapes
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalStoreShapes.current
+
     val windowTypography: WindowType
         @Composable
         @ReadOnlyComposable
@@ -64,6 +69,7 @@ fun BaseTheme(
             LocalStoreTypography provides StoreTypography.init(dimens),
             LocalStoreWindowType provides windowType,
             LocalStoreDimens provides dimens,
+            LocalStoreShapes provides StoreShapes(),
             LocalTextSelectionColors provides selectionColors,
             LocalStoreStrings provides stringsProvider,
             content = content
@@ -89,6 +95,7 @@ fun PreviewTheme(
             LocalStoreTypography provides StoreTypography.init(dimens),
             LocalStoreWindowType provides windowType,
             LocalStoreDimens provides dimens,
+            LocalStoreShapes provides StoreShapes(),
             LocalStoreStrings provides stringsProvider,
             content = content
         )

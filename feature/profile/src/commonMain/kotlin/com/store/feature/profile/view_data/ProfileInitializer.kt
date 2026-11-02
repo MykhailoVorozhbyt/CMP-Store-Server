@@ -4,7 +4,9 @@ import com.store.component.customer.usecase.ReadCustomerUseCase
 import com.store.core.domain.ApiResult
 import com.store.core.presentation.ui.base.ActionHandlerScope
 import com.store.core.presentation.utils.ScreenState
+import com.store.component.customer.model.CustomerProfileRequest
 import com.store.feature.profile.mappers.toFormViewData
+import com.store.feature.profile.mappers.toProfileRequest
 import com.store.feature.profile.validator.ProfileValidator
 
 class ProfileInitializer(
@@ -12,17 +14,17 @@ class ProfileInitializer(
     private val validator: ProfileValidator,
 ) {
 
-    fun initialize(ctx: ActionHandlerScope<ProfileViewData>) {
+    fun initialize(
+        ctx: ActionHandlerScope<ProfileViewData>,
+        onProfileLoaded: (CustomerProfileRequest) -> Unit,
+    ) {
         ctx.launch {
             ctx.updateViewData { copy(screenState = ScreenState.Loading) }
             when (val result = readCustomerUseCase()) {
                 is ApiResult.Success -> {
-                    ctx.updateViewData {
-                        copy(
-                            screenState = ScreenState.Success,
-                            form = validator.validateAll(result.data.toFormViewData()),
-                        )
-                    }
+                    val form = validator.validateAll(result.data.toFormViewData())
+                    onProfileLoaded(form.toProfileRequest())
+                    ctx.updateViewData { copy(screenState = ScreenState.Success, form = form) }
                 }
 
                 is ApiResult.Error -> ctx.updateViewData { copy(screenState = ScreenState.Error) }

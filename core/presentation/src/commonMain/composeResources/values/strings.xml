@@ -1,0 +1,5 @@
+<resources>
+    <string name="generic_error_title">Oops!</string>
+    <string name="generic_error_message">Something went wrong. Please try again.</string>
+    <string name="generic_try_again_button">Try again.</string>
+</resources>

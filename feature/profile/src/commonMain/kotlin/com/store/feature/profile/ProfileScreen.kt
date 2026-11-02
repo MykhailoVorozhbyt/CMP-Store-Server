@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -27,20 +26,22 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.store.core.navigation.LocalAppNavigator
 import com.store.core.presentation.theme.PreviewTheme
 import com.store.core.presentation.theme.StoreTheme
+import com.store.core.presentation.ui.OnRetryClick
 import com.store.core.presentation.ui.ViewAction
 import com.store.core.presentation.ui.base.collectEventsWithDefaultProcessing
+import com.store.core.presentation.ui.components.StoreGenericError
 import com.store.core.presentation.ui.components.StoreSnackbar
 import com.store.core.presentation.ui.components.StoreSnackbarHostState
-import com.store.core.presentation.ui.components.button.StoreOutlinedButton
+import com.store.core.presentation.ui.components.button.StoreFilledButton
 import com.store.core.presentation.utils.NamedPreviewParameter
 import com.store.core.presentation.utils.PhonePreview
 import com.store.core.presentation.utils.ScreenState
 import com.store.core.resources.Resources
 import com.store.core.resources.back_description
 import com.store.core.resources.common_error_no_internet
-import com.store.feature.profile.components.CountryPickerDialog
-import com.store.feature.profile.components.ProfileErrorCard
-import com.store.feature.profile.components.ProfileForm
+import com.store.feature.profile.component.CountryPickerDialog
+import com.store.feature.profile.component.Form
+import com.store.feature.profile.component.Shimmer
 import com.store.feature.profile.resources.Res
 import com.store.feature.profile.resources.profile_error_description
 import com.store.feature.profile.resources.profile_title
@@ -76,7 +77,7 @@ internal fun ProfileContent(
     onViewAction: (ViewAction) -> Unit,
 ) {
     Scaffold(
-        containerColor = StoreTheme.color.window,
+        containerColor = StoreTheme.color.backgroundMain,
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
@@ -94,8 +95,8 @@ internal fun ProfileContent(
                         )
                     }
                 },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = StoreTheme.color.window,
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = StoreTheme.color.backgroundMain,
                     titleContentColor = StoreTheme.color.textPrimary,
                 ),
             )
@@ -110,9 +111,16 @@ internal fun ProfileContent(
             contentAlignment = Alignment.Center,
         ) {
             when (viewData.screenState) {
-                ScreenState.Loading -> CircularProgressIndicator(color = StoreTheme.color.textSecondary)
-                ScreenState.Error -> ProfileErrorCard(message = stringResource(Res.string.profile_error_description))
-                ScreenState.NoInternetConnection -> ProfileErrorCard(
+                ScreenState.Loading -> Shimmer()
+                ScreenState.Error -> StoreGenericError(
+                    onClick = { onViewAction(OnRetryClick) },
+                    icon = Resources.Image.Cat,
+                    message = stringResource(Res.string.profile_error_description)
+                )
+
+                ScreenState.NoInternetConnection -> StoreGenericError(
+                    onClick = { onViewAction(OnRetryClick) },
+                    icon = Resources.Image.Cat,
                     message = stringResource(
                         CoreRes.string.common_error_no_internet
                     )
@@ -136,16 +144,17 @@ private fun ProfileLoadedContent(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(StoreTheme.dimens.spaceBetweenItems),
     ) {
-        ProfileForm(
+        Form(
             modifier = Modifier.weight(1f),
             viewData = viewData.form,
             enabled = !viewData.isUpdating,
             onViewAction = onViewAction,
         )
-        StoreOutlinedButton(
+        StoreFilledButton(
             modifier = Modifier.fillMaxWidth(),
             textResource = Res.string.profile_update,
             iconResource = Resources.Icon.Checkmark,
+            buttonColor = StoreTheme.color.brandMain,
             loading = viewData.isUpdating,
             enabled = viewData.updateEnabled,
             onClick = { onViewAction(ProfileViewAction.UpdateClicked) },
@@ -168,7 +177,7 @@ private fun ProfileContentPreview(
 private fun ProfileLoadedContentPreview() {
     PreviewTheme {
         Box(
-            modifier = Modifier.background(StoreTheme.color.window)
+            modifier = Modifier.background(StoreTheme.color.backgroundMain)
                 .padding(StoreTheme.dimens.defaultPadding)
         ) {
             ProfileLoadedContent(

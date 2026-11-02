@@ -1,4 +1,4 @@
-package com.store.feature.home.components
+package com.store.feature.home.component
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Column

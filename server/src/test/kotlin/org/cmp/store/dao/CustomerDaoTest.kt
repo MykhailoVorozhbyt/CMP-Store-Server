@@ -3,6 +3,7 @@ package org.cmp.store.dao
 import org.cmp.store.database.dao.CustomerDaoImpl
 import org.cmp.store.domain.customer.CartItem
 import org.cmp.store.domain.customer.PhoneNumber
+import org.cmp.store.features.customer.models.CustomerProfile
 import org.cmp.store.utils.customerFixture
 import org.cmp.store.utils.grantAdmin
 import org.cmp.store.utils.testDaoDatabase
@@ -163,5 +164,69 @@ class CustomerDaoTest {
         assertFalse(result)
         assertNull(customerDao.read("customer-missing"))
     }
+
+    @Test
+    fun updateProfile_changes_profile_fields_and_keeps_email_cart_and_admin() = testDaoDatabase {
+        val original = customerFixture(
+            id = "customer-profile",
+            phoneNumber = PhoneNumber(380, "501112233"),
+            cart = listOf(CartItem(id = "cart-1", productId = "product-1", quantity = 2)),
+        )
+        customerDao.create(original)
+        grantAdmin(original.id)
+
+        val result = customerDao.updateProfile(original.id, profile(phoneNumber = PhoneNumber(1, "999888777")))
+
+        assertTrue(result)
+        assertEquals(
+            original.copy(
+                firstName = "Updated",
+                lastName = "Profile",
+                city = "Lviv",
+                postalCode = 79000,
+                address = "Rynok 1",
+                phoneNumber = PhoneNumber(1, "999888777"),
+                isAdmin = true,
+            ),
+            customerDao.read(original.id),
+        )
+    }
+
+    @Test
+    fun updateProfile_without_phone_removes_stored_phone() = testDaoDatabase {
+        val original = customerFixture(id = "customer-profile-no-phone", phoneNumber = PhoneNumber(380, "501112233"))
+        customerDao.create(original)
+
+        customerDao.updateProfile(original.id, profile(phoneNumber = null))
+
+        assertNull(assertNotNull(customerDao.read(original.id)).phoneNumber)
+    }
+
+    @Test
+    fun updateProfile_touches_only_its_own_phone_number() = testDaoDatabase {
+        val owner = customerFixture(id = "customer-profile-owner", phoneNumber = PhoneNumber(380, "501112233"))
+        val neighbour = customerFixture(id = "customer-profile-neighbour", phoneNumber = PhoneNumber(1, "555000111"))
+        customerDao.create(owner)
+        customerDao.create(neighbour)
+
+        customerDao.updateProfile(owner.id, profile(phoneNumber = null))
+
+        assertEquals(neighbour, customerDao.read(neighbour.id))
+    }
+
+    @Test
+    fun updateProfile_unknown_customer_returns_false() = testDaoDatabase {
+        assertFalse(customerDao.updateProfile("customer-missing", profile()))
+        assertNull(customerDao.read("customer-missing"))
+    }
+
+    private fun profile(phoneNumber: PhoneNumber? = PhoneNumber(1, "999888777")) = CustomerProfile(
+        firstName = "Updated",
+        lastName = "Profile",
+        city = "Lviv",
+        postalCode = 79000,
+        address = "Rynok 1",
+        phoneNumber = phoneNumber,
+    )
 }
 

@@ -17,6 +17,16 @@ internal data class CustomerDto(
 )
 
 @Serializable
+internal data class CustomerProfileDto(
+    val firstName: String,
+    val lastName: String,
+    val city: String? = null,
+    val postalCode: Int? = null,
+    val address: String? = null,
+    val phoneNumber: PhoneNumberDto? = null,
+)
+
+@Serializable
 internal data class PhoneNumberDto(
     val dialCode: Int,
     val number: String,

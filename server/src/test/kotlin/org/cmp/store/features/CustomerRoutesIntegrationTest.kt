@@ -19,6 +19,7 @@ import org.cmp.store.features.session.service.AuthSessionServiceImpl
 import org.cmp.store.features.session.service.RefreshGraceCache
 import org.cmp.store.features.customer.dto.CartItemDto
 import org.cmp.store.features.customer.dto.CustomerDto
+import org.cmp.store.features.customer.dto.CustomerProfileDto
 import org.cmp.store.features.customer.dto.PhoneNumberDto
 import org.cmp.store.features.customer.mappers.toDto
 import org.cmp.store.network.NetworkError
@@ -203,4 +204,82 @@ class CustomerRoutesIntegrationTest {
         assertEquals(true, response.decodeJson<CustomerDto>().isAdmin)
         assertEquals(true, assertNotNull(CustomerDaoImpl().read(created.id)).isAdmin)
     }
+
+    @Test
+    fun put_profile_updates_only_profile_fields() = testServerApplication {
+        val created = seedCustomer(
+            customerFixture(
+                id = "customer-profile",
+                cart = listOf(CartItem(id = "cart-1", productId = "product-1", quantity = 2)),
+            )
+        )
+        val token = bearerTokenFor(created.id)
+
+        val response = client.put("/customer/${created.id}/profile") {
+            contentType(ContentType.Application.Json)
+            header(HttpHeaders.Authorization, "Bearer $token")
+            setBody(profileDto.toJson())
+        }
+
+        val expected = created.toDto().copy(
+            firstName = profileDto.firstName,
+            lastName = profileDto.lastName,
+            city = profileDto.city,
+            postalCode = profileDto.postalCode,
+            address = profileDto.address,
+            phoneNumber = profileDto.phoneNumber,
+        )
+        assertEquals(HttpStatusCode.OK, response.status)
+        assertEquals(expected, response.decodeJson<CustomerDto>())
+        assertEquals(expected, assertNotNull(CustomerDaoImpl().read(created.id)).toDto())
+    }
+
+    @Test
+    fun put_profile_without_token_returns_401() = testServerApplication {
+        val response = client.put("/customer/any-customer/profile") {
+            contentType(ContentType.Application.Json)
+            setBody(profileDto.toJson())
+        }
+
+        assertEquals(HttpStatusCode.Unauthorized, response.status)
+    }
+
+    @Test
+    fun put_profile_with_another_customers_token_returns_403() = testServerApplication {
+        val created = seedCustomer(customerFixture(id = "customer-profile-guarded"))
+        val otherCustomersToken = bearerTokenFor("someone-else")
+
+        val response = client.put("/customer/${created.id}/profile") {
+            contentType(ContentType.Application.Json)
+            header(HttpHeaders.Authorization, "Bearer $otherCustomersToken")
+            setBody(profileDto.toJson())
+        }
+
+        assertEquals(HttpStatusCode.Forbidden, response.status)
+        assertEquals(NetworkError.FORBIDDEN.name, response.bodyAsText())
+        assertEquals(created, CustomerDaoImpl().read(created.id))
+    }
+
+    @Test
+    fun put_profile_for_unknown_customer_returns_404() = testServerApplication {
+        val token = bearerTokenFor("customer-profile-missing")
+
+        val response = client.put("/customer/customer-profile-missing/profile") {
+            contentType(ContentType.Application.Json)
+            header(HttpHeaders.Authorization, "Bearer $token")
+            setBody(profileDto.toJson())
+        }
+
+        assertEquals(HttpStatusCode.NotFound, response.status)
+        assertEquals(NetworkError.CUSTOMER_NOT_FOUND.name, response.bodyAsText())
+    }
+
+    private val profileDto = CustomerProfileDto(
+        firstName = "Updated",
+        lastName = "Profile",
+        city = "Lviv",
+        postalCode = 79000,
+        address = "Rynok 1",
+        phoneNumber = PhoneNumberDto(1, "999888777"),
+    )
 }

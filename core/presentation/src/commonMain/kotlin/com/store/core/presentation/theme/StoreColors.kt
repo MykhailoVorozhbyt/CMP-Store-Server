@@ -13,7 +13,8 @@ interface StoreThemeProvider {
 }
 
 interface StoreColorsPalette {
-    val window: Color
+    val backgroundMain: Color
+    val backgroundSoft: Color
 
     // Input text
     val inputBg: Color
@@ -29,7 +30,7 @@ interface StoreColorsPalette {
     val inputErrorTxt: Color
 
     // Brand
-    val brand1: Color
+    val brandMain: Color
     val brand2: Color
     val brand3: Color
 
@@ -40,21 +41,24 @@ interface StoreColorsPalette {
 
     //Button
     val buttonPrimary: Color
-    val buttonPrimaryBorder: Color get() = Color(0xFF000000)
+    val buttonPrimaryBorder: Color
 
     // Icon
     val iconPrimary: Color
     val iconSecondary: Color
 
-    // border
-    val borderIdle: Color get() = Color(0xFFEBEBEB)
+    // Border
+    val borderIdle: Color
     val borderError: Color
     val borderSecondary: Color
 
+    // Shimmer
+    val shimmer: Color
+    val shimmerLine: Color
+
     // Surface
-    val surface: Color get() = Color(0xFFFFFFFF)
-    val surfaceLight: Color
-    val surfaceDark: Color get() = Color(0xFFF1F1F1)
+    @Deprecated("Need to use backgroundMain")
+    val surface: Color
     val surfaceError: Color
     val surfaceBrand: Color
     val surfaceSecondary: Color
@@ -72,14 +76,14 @@ interface StoreColorsPalette {
     val category5: Color
 
     // Notification
-    val notificationSuccessBg: Color get() = surfaceBrand
-    val notificationSuccessTxt: Color get() = Color(0xFFFFFFFF)
-    val notificationInfoBg: Color get() = surfaceBrand
-    val notificationInfoTxt: Color get() = Color(0xFFFFFFFF)
-    val notificationErrorBg: Color get() = surfaceError
-    val notificationErrorTxt: Color get() = Color(0xFFFFFFFF)
-    val notificationWarningBg: Color get() = Color(0xE9FF9523)
-    val notificationWarningTxt: Color get() = Color(0xFFFFFFFF)
+    val notificationSuccessBg: Color
+    val notificationSuccessTxt: Color
+    val notificationInfoBg: Color
+    val notificationInfoTxt: Color
+    val notificationErrorBg: Color
+    val notificationErrorTxt: Color
+    val notificationWarningBg: Color
+    val notificationWarningTxt: Color
 
     fun getColorByAttr(attr: String): Color =
         when (attr) {
@@ -107,8 +111,22 @@ interface StoreColorsPalette {
 
 }
 
-abstract class BaseLightStoreColorsPalette : StoreColorsPalette {
-    override val window: Color get() = Color(0xFFFFFFFF)
+abstract class BaseStoreColorsPalette : StoreColorsPalette {
+    override val notificationSuccessBg: Color get() = surfaceBrand
+    override val notificationSuccessTxt: Color get() = Color(0xFF000000)
+    override val notificationInfoBg: Color get() = Color(0xFF632AFF)
+    override val notificationInfoTxt: Color get() = Color(0xFFFFFFFF)
+    override val notificationErrorBg: Color get() = surfaceError
+    override val notificationErrorTxt: Color get() = Color(0xFFFFFFFF)
+    override val notificationWarningBg: Color get() = Color(0xE9FF9523)
+    override val notificationWarningTxt: Color get() = Color(0xFFFFFFFF)
+}
+
+abstract class BaseLightStoreColorsPalette : BaseStoreColorsPalette() {
+    override val buttonPrimaryBorder: Color get() = Color(0xFF000000)
+    override val borderIdle: Color get() = Color(0xFFEBEBEB)
+    override val backgroundMain: Color get() = Color(0xFFFFFFFF)
+    override val backgroundSoft: Color get() = Color(0xFFF4F4F4)
     override val inputBg: Color get() = Color(0xF6F7F9FF)
     override val inputBgDisable: Color get() = Color(0xF6AAAAAA)
     override val inputBorder: Color get() = Color(0xFFBDBDBD)
@@ -122,11 +140,16 @@ abstract class BaseLightStoreColorsPalette : StoreColorsPalette {
     override val inputErrorTxt: Color get() = Color(0xFFDA1A32)
     override val textPrimary: Color get() = Color(0xFF000000)
     override val iconPrimary: Color get() = Color(0xFF000000)
-    override val surfaceLight: Color get() = Color(0xFFFAFAFA)
+    override val surface: Color get() = Color(0xFFFAFAFA)
+    override val shimmer: Color get() = Color(0xFFDADADA)
+    override val shimmerLine: Color get() = Color(0xFFF2F2F2)
 }
 
-abstract class BaseDarkStoreColorsPalette : StoreColorsPalette {
-    override val window: Color get() = Color(0xFF000000)
+abstract class BaseDarkStoreColorsPalette : BaseStoreColorsPalette() {
+    override val buttonPrimaryBorder: Color get() = Color(0xFFFFFFFF)
+    override val borderIdle: Color get() = Color(0xFF2E2E2E)
+    override val backgroundMain: Color get() = Color(0xFF000000)
+    override val backgroundSoft: Color get() = Color(0xFF202020)
     override val inputBg: Color get() = Color(0xFF121212)
     override val inputBgDisable: Color get() = Color(0xF6242424)
     override val inputBorder: Color get() = Color(0xFF848484)
@@ -140,5 +163,7 @@ abstract class BaseDarkStoreColorsPalette : StoreColorsPalette {
     override val inputErrorTxt: Color get() = Color(0xFFDA1A32)
     override val textPrimary: Color get() = Color(0xFFFFFFFF)
     override val iconPrimary: Color get() = Color(0xFFFFFFFF)
-    override val surfaceLight: Color get() = Color(0xFF121212)
+    override val surface: Color get() = Color(0xFF141414)
+    override val shimmer: Color get() = Color(0xFF252525)
+    override val shimmerLine: Color get() = Color(0xFF404040)
 }

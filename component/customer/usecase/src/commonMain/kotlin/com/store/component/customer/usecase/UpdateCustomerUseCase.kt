@@ -2,6 +2,7 @@ package com.store.component.customer.usecase
 
 import com.store.component.customer.domain_api.CustomerRepository
 import com.store.component.customer.model.CustomerError
+import com.store.component.customer.model.CustomerProfileRequest
 import com.store.core.domain.EmptyResult
 import org.cmp.store.domain.customer.Customer
 
@@ -10,4 +11,7 @@ class UpdateCustomerUseCase(
 ) {
     suspend operator fun invoke(customer: Customer): EmptyResult<CustomerError> =
         repository.updateCustomer(customer)
+
+    suspend operator fun invoke(request: CustomerProfileRequest): EmptyResult<CustomerError> =
+        repository.updateProfile(request)
 }

@@ -4,12 +4,15 @@ import configuration.configureAndroidLibraryBase
 import configuration.configureIOS
 import extensions.alias
 import extensions.androidRuntimeClasspath
+import extensions.composeExtension
 import extensions.kotlinMultiplatformExtension
 import extensions.libs
 import extensions.module
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.invoke
+import org.jetbrains.compose.resources.ResourcesExtension
 import utils.enums.ModuleName
 import utils.enums.ModulePath
 
@@ -55,6 +58,11 @@ class CorePresentationModulePlugin : Plugin<Project> {
                     implementation(libs.ktor.clientMock)
                     implementation(libs.kotlinx.coroutines.test)
                 }
+            }
+        }
+        composeExtension {
+            extensions.configure<ResourcesExtension> {
+                packageOfResClass = "${ModuleName.CORE_PRESENTATION.mName}.resources"
             }
         }
     }

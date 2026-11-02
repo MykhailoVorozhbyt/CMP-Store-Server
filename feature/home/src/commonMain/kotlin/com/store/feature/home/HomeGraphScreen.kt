@@ -1,7 +1,5 @@
 package com.store.feature.home
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -15,13 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBarDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -38,20 +32,13 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.ui.NavDisplay
-import com.store.feature.home.components.BottomBar
-import com.store.feature.home.components.CustomDrawer
-import com.store.feature.home.utils.BottomBarDestination
-import com.store.feature.home.utils.CustomDrawerState
-import com.store.feature.home.utils.TOP_LEVEL_SCREENS
-import com.store.feature.home.utils.isOpened
-import com.store.feature.home.view_data.CustomerViewData
-import com.store.feature.home.view_data.HomeGraphViewAction
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.store.core.navigation.LocalAppNavigator
 import com.store.core.navigation.NavigationState
 import com.store.core.navigation.RootNavigator
 import com.store.core.navigation.rememberNavigationState
 import com.store.core.navigation.toEntries
+import com.store.core.presentation.navigation.Screen
 import com.store.core.presentation.theme.PreviewTheme
 import com.store.core.presentation.theme.StoreTheme
 import com.store.core.presentation.ui.base.MessageEventData
@@ -59,17 +46,18 @@ import com.store.core.presentation.ui.base.UiEvent
 import com.store.core.presentation.ui.base.collectEventsWithDefaultProcessing
 import com.store.core.presentation.ui.components.StoreSnackbar
 import com.store.core.presentation.ui.components.StoreSnackbarHostState
-import com.store.core.presentation.utils.RequestState
-import com.store.core.resources.Res
-import com.store.core.resources.Resources
-import com.store.core.resources.checkout_icon_description
-import com.store.core.resources.close_menu_description
-import com.store.core.resources.open_menu_description
 import com.store.core.presentation.utils.AdaptivePreview
+import com.store.core.presentation.utils.RequestState
 import com.store.core.utils.Alpha
-import com.store.core.presentation.navigation.Screen
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
+import com.store.feature.home.component.BottomBar
+import com.store.feature.home.component.CustomDrawer
+import com.store.feature.home.component.TopBar
+import com.store.feature.home.utils.BottomBarDestination
+import com.store.feature.home.utils.CustomDrawerState
+import com.store.feature.home.utils.TOP_LEVEL_SCREENS
+import com.store.feature.home.utils.isOpened
+import com.store.feature.home.view_data.CustomerViewData
+import com.store.feature.home.view_data.HomeGraphViewAction
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -161,7 +149,7 @@ private fun HomeGraphContent(
     val customDrawerOffsetValue = StoreTheme.dimens.customDrawerOffsetValue
 
     val animatedBackground by animateColorAsState(
-        targetValue = if (drawerState.isOpened()) StoreTheme.color.surfaceLight else StoreTheme.color.surface
+        targetValue = if (drawerState.isOpened()) StoreTheme.color.surface else StoreTheme.color.surface
     )
     val animatedScale by animateFloatAsState(
         targetValue = if (drawerState.isOpened()) 0.9f else 1f
@@ -180,7 +168,6 @@ private fun HomeGraphContent(
         val animatedOffset by animateDpAsState(
             targetValue = if (drawerState.isOpened()) offsetValue else 0.dp
         )
-
         CustomDrawer(
             customer = customer,
             onItemClick = onDrawerItemClick,
@@ -201,9 +188,9 @@ private fun HomeGraphContent(
         ) {
             val scrollBehavior = BottomAppBarDefaults.exitAlwaysScrollBehavior()
             Scaffold(
-                containerColor = StoreTheme.color.surface,
+                containerColor = StoreTheme.color.backgroundMain,
                 topBar = {
-                    HomeTopBar(
+                    TopBar(
                         selectedDestination = selectedDestination,
                         customer = customer,
                         drawerState = drawerState,
@@ -244,59 +231,6 @@ private fun HomeGraphNavDisplay(
         }
         StoreSnackbar(snackBarState)
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun HomeTopBar(
-    selectedDestination: BottomBarDestination,
-    customer: RequestState<CustomerViewData>,
-    drawerState: CustomDrawerState,
-    onDrawerToggle: () -> Unit,
-    onCheckoutClick: () -> Unit,
-) {
-    CenterAlignedTopAppBar(
-        title = {
-            AnimatedContent(targetState = selectedDestination) { destination ->
-                Text(
-                    text = destination.title,
-                    style = StoreTheme.typography.topAppBar
-                )
-            }
-        },
-        actions = {
-            AnimatedVisibility(visible = selectedDestination == BottomBarDestination.Cart) {
-                if (customer.isSuccess() && customer.successData().cart.isNotEmpty()) {
-                    IconButton(onClick = onCheckoutClick) {
-                        Icon(
-                            painter = painterResource(Resources.Icon.RightArrow),
-                            contentDescription = stringResource(Res.string.checkout_icon_description),
-                        )
-                    }
-                }
-            }
-        },
-        navigationIcon = {
-            AnimatedContent(targetState = drawerState) { drawer ->
-                val icon = if (drawer.isOpened()) Resources.Icon.Close else Resources.Icon.Menu
-                IconButton(onClick = onDrawerToggle) {
-                    Icon(
-                        painter = painterResource(icon),
-                        contentDescription = stringResource(
-                            if (drawer.isOpened()) Res.string.close_menu_description
-                            else Res.string.open_menu_description
-                        ),
-                    )
-                }
-            }
-        },
-        colors = TopAppBarDefaults.topAppBarColors().copy(
-            containerColor = StoreTheme.color.surface,
-            actionIconContentColor = StoreTheme.color.iconPrimary,
-            navigationIconContentColor = StoreTheme.color.iconPrimary,
-            titleContentColor = StoreTheme.color.textPrimary,
-        )
-    )
 }
 
 @Composable

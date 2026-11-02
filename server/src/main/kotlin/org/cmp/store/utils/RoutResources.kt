@@ -26,7 +26,11 @@ class Auth {
 class Customers {
 
     @Resource("{id}")
-    class Id(val parent: Customers = Customers(), val id: String)
+    class Id(val parent: Customers = Customers(), val id: String) {
+
+        @Resource("profile")
+        class Profile(val parent: Id)
+    }
 }
 
 @Resource("/product")

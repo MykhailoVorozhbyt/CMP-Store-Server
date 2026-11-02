@@ -5,7 +5,9 @@ import org.cmp.store.domain.customer.Customer
 import org.cmp.store.domain.customer.PhoneNumber
 import org.cmp.store.features.customer.dto.CartItemDto
 import org.cmp.store.features.customer.dto.CustomerDto
+import org.cmp.store.features.customer.dto.CustomerProfileDto
 import org.cmp.store.features.customer.dto.PhoneNumberDto
+import org.cmp.store.features.customer.models.CustomerProfile
 
 fun CustomerDto.toCustomer(): Customer = Customer(
     id = id,
@@ -31,6 +33,15 @@ fun Customer.toDto(): CustomerDto = CustomerDto(
     phoneNumber = phoneNumber?.toDto(),
     cart = cart.map { it.toDto() },
     isAdmin = isAdmin,
+)
+
+fun CustomerProfileDto.toProfile(): CustomerProfile = CustomerProfile(
+    firstName = firstName,
+    lastName = lastName,
+    city = city,
+    postalCode = postalCode,
+    address = address,
+    phoneNumber = phoneNumber?.toPhoneNumber(),
 )
 
 fun CartItemDto.toCartItem(): CartItem = CartItem(

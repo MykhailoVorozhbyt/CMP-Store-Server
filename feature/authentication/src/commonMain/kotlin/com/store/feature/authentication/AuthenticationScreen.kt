@@ -74,7 +74,7 @@ internal fun AuthenticationContent(
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
-            .background(StoreTheme.color.window)
+            .background(StoreTheme.color.backgroundMain)
             .padding(StoreTheme.dimens.defaultPadding),
         verticalArrangement = Arrangement.spacedBy(StoreTheme.dimens.spaceBetweenItems)
     ) {

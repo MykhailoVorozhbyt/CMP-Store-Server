@@ -12,14 +12,14 @@ private const val API = 34
 annotation class CompactPreview
 
 // Medium (600–839dp) — phone landscape / small tablet portrait
-@Preview(device = Devices.FOLDABLE, name = "Medium · Light", apiLevel = API)
+@Preview(device = Devices.FOLDABLE, name = "Foldable · Light", apiLevel = API)
 @Preview(
     device = Devices.FOLDABLE,
-    name = "Medium · Dark",
+    name = "Foldable · Dark",
     apiLevel = API,
     uiMode = UI_MODE_NIGHT_YES
 )
-annotation class MediumPhoneLandscapePreview
+annotation class MediumPhoneFoldablePreview
 
 // Expanded (840–1199dp) — tablet landscape / large foldable (no reference device)
 @Preview(widthDp = 1000, heightDp = 800, name = "Expanded · Light", apiLevel = API)
@@ -48,7 +48,7 @@ annotation class LargePreview
 annotation class ExtraLargePreview
 
 @CompactPreview
-@MediumPhoneLandscapePreview
+@MediumPhoneFoldablePreview
 annotation class PhonePreview
 
 @ExpandedPreview

@@ -2,7 +2,12 @@ package com.store.feature.profile.validator
 
 import com.store.core.presentation.ui.base.InputFieldChanged
 import com.store.core.presentation.ui.base.Revalidate
+import com.store.core.presentation.ui.base.view_data.FieldError
+import com.store.core.presentation.ui.base.view_data.InputFieldViewData
+import com.store.core.presentation.utils.UiText
 import com.store.core.presentation.validation.base.SuspendFieldValidator
+import com.store.core.resources.Res
+import com.store.core.resources.common_required_field
 import com.store.feature.profile.view_data.ProfileFields
 import com.store.feature.profile.view_data.ProfileFormViewData
 import com.store.feature.profile.view_data.ProfileViewData
@@ -21,6 +26,25 @@ class ProfileValidator : SuspendFieldValidator.Abstract<ProfileViewData>() {
 
     fun validateAll(form: ProfileFormViewData): ProfileFormViewData =
         VALIDATED_FIELDS.fold(form) { acc, field -> validateForm(Revalidate(field), acc) }
+
+    fun validateForSubmit(form: ProfileFormViewData): ProfileFormViewData {
+        val validated = validateAll(form)
+        return validated.copy(
+            firstName = validated.firstName.requireFilled(),
+            lastName = validated.lastName.requireFilled(),
+            city = validated.city.requireFilled(),
+            postalCode = validated.postalCode.requireFilled(),
+            address = validated.address.requireFilled(),
+            phone = validated.phone.copy(number = validated.phone.number.requireFilled()),
+        )
+    }
+
+    private fun InputFieldViewData.requireFilled(): InputFieldViewData =
+        if (input.isEmpty()) {
+            copyWith(localError = FieldError(UiText.Resource(Res.string.common_required_field)), isLocalValid = false)
+        } else {
+            this
+        }
 
     private fun validateForm(changed: InputFieldChanged, form: ProfileFormViewData) = form.copy(
         firstName = firstName.validate(changed, form.firstName),

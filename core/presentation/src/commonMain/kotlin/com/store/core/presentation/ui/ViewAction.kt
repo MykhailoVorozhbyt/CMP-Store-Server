@@ -4,3 +4,5 @@ import androidx.compose.runtime.Stable
 
 @Stable
 interface ViewAction
+
+data object OnRetryClick : ViewAction
