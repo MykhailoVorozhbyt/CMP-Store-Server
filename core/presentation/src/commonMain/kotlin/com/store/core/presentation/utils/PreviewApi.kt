@@ -13,7 +13,7 @@ class StoreThemeProviderPreviewApi : StoreThemeProvider {
 
 private val lightColorsPalette = object : BaseLightStoreColorsPalette() {
     // Brand
-    override val brand1: Color = Color(0xFF1296FF)
+    override val brandMain: Color = Color(0xFF1296FF)
     override val brand2: Color = Color(0xFF35FFB8)
     override val brand3: Color = Color(0xFFBD5858)
 
@@ -52,7 +52,7 @@ private val lightColorsPalette = object : BaseLightStoreColorsPalette() {
 
 private val darkColorsPalette = object : BaseDarkStoreColorsPalette() {
     // Brand
-    override val brand1: Color = Color(0xFF1296FF)
+    override val brandMain: Color = Color(0xFF1296FF)
     override val brand2: Color = Color(0xFF35FFB8)
     override val brand3: Color = Color(0xFFBD5858)
 

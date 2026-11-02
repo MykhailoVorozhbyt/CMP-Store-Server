@@ -1,4 +1,4 @@
-package com.store.feature.profile.components
+package com.store.feature.profile.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -54,7 +54,7 @@ internal fun ProfileErrorCard(
 private fun ProfileErrorCardPreview() {
     PreviewTheme {
         ProfileErrorCard(
-            modifier = Modifier.background(StoreTheme.color.window),
+            modifier = Modifier.background(StoreTheme.color.backgroundMain),
             message = "Something went wrong while loading your profile.",
         )
     }

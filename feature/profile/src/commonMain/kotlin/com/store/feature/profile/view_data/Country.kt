@@ -16,7 +16,7 @@ enum class Country(
     Ukraine(dialCode = 380, title = Res.string.country_ukraine, flag = Resources.Flag.Ukraine);
 
     companion object {
-        val Default = Usa
+        val Default = Ukraine
 
         fun fromDialCode(dialCode: Int?): Country = entries.firstOrNull { it.dialCode == dialCode } ?: Default
 

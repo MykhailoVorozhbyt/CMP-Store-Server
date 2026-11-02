@@ -9,6 +9,7 @@
     <string name="profile_label_phone_number">Phone Number</string>
     <string name="profile_update">Update</string>
     <string name="profile_update_success">Successfully updated!</string>
+    <string name="profile_update_nothing_changed">No changes to save.</string>
     <string name="profile_error_title">Oops!</string>
     <string name="profile_error_description">Something went wrong.</string>
     <string name="profile_error_customer_not_found">Customer not found.</string>

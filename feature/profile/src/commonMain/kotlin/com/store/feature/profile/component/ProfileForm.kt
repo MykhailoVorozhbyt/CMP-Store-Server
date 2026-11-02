@@ -1,4 +1,4 @@
-package com.store.feature.profile.components
+package com.store.feature.profile.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,7 +15,6 @@ import com.store.core.presentation.ui.ViewAction
 import com.store.core.presentation.ui.components.input.StoreTextField
 import com.store.core.presentation.utils.NamedPreviewParameter
 import com.store.core.presentation.utils.PhonePreview
-import com.store.feature.profile.ProfileContent
 import com.store.feature.profile.ProfilePreviewProvider
 import com.store.feature.profile.resources.Res
 import com.store.feature.profile.resources.profile_label_address

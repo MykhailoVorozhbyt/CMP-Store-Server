@@ -1,4 +1,4 @@
-package com.store.feature.profile.components
+package com.store.feature.profile.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

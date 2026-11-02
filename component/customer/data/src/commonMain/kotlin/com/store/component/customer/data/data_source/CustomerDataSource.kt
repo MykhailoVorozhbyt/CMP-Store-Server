@@ -1,6 +1,7 @@
 package com.store.component.customer.data.data_source
 
 import com.store.component.customer.data.dto.CustomerDto
+import com.store.component.customer.data.dto.CustomerProfileDto
 import com.store.core.domain.ApiResult
 import com.store.core.domain.EmptyResult
 import com.store.core.network.utils.safeApiCall
@@ -13,6 +14,7 @@ import org.cmp.store.network.NetworkError
 internal interface CustomerDataSource {
     suspend fun getCustomer(id: String): ApiResult<CustomerDto, NetworkError>
     suspend fun updateCustomer(customer: CustomerDto): EmptyResult<NetworkError>
+    suspend fun updateProfile(id: String, profile: CustomerProfileDto): EmptyResult<NetworkError>
 }
 
 internal class KtorCustomerDataSource(private val client: HttpClient) : CustomerDataSource {
@@ -23,7 +25,11 @@ internal class KtorCustomerDataSource(private val client: HttpClient) : Customer
     override suspend fun updateCustomer(customer: CustomerDto): EmptyResult<NetworkError> =
         safeApiCall { client.put(CUSTOMER) { setBody(customer) } }
 
+    override suspend fun updateProfile(id: String, profile: CustomerProfileDto): EmptyResult<NetworkError> =
+        safeApiCall { client.put("$CUSTOMER/$id/$PROFILE") { setBody(profile) } }
+
     private companion object {
         const val CUSTOMER = "customer"
+        const val PROFILE = "profile"
     }
 }

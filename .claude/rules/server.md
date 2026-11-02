@@ -40,7 +40,11 @@ utils/                  # ApiException, DbExtensions, RoutResources, RateLimitEx
 | POST | `/auth/logout` | bearer | AUTH, key (IP) |
 | GET | `/customer/{id}` | bearer + own-customer | global |
 | PUT | `/customer` | bearer + own-customer | global |
+| PUT | `/customer/{id}/profile` | bearer + own-customer | global |
 | GET | `/product/discounted`, `/new`, `/by-ids`, `/by-category/{id}`, `/{id}` | — | global |
+
+`PUT /customer` replaces the whole record (incl. email and cart); `PUT /customer/{id}/profile` writes only first/last
+name, city, postal code, address and phone number — the profile screen uses this one.
 
 `/auth/authorize` is sign-in-**or**-register in one call; the response's `isNewAccount` tells the client which happened.
 

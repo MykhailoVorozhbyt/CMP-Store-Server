@@ -14,7 +14,7 @@ data class ProfileViewData(
     val isUpdating: Boolean = false,
     val countryPicker: CountryPickerViewData? = null,
 ) {
-    val updateEnabled: Boolean get() = screenState.isSuccess() && form.isValid
+    val updateEnabled: Boolean get() = screenState.isSuccess() && !isUpdating
 }
 
 @Immutable

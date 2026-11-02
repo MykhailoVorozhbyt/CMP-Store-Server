@@ -6,12 +6,14 @@ import com.store.core.resources.common_error_no_internet
 import com.store.core.resources.common_error_unknown
 import com.store.feature.profile.resources.Res
 import com.store.feature.profile.resources.profile_error_customer_not_found
+import com.store.feature.profile.resources.profile_update_nothing_changed
 import com.store.feature.profile.resources.profile_update_success
 import org.jetbrains.compose.resources.getString
 
 interface ProfileMessageHandler {
     suspend fun handle(error: CustomerError): String
     suspend fun updateSuccess(): String
+    suspend fun nothingChanged(): String
     suspend fun noInternet(): String
 }
 
@@ -23,6 +25,8 @@ class ProfileMessageHandlerImpl : ProfileMessageHandler {
     }
 
     override suspend fun updateSuccess(): String = getString(Res.string.profile_update_success)
+
+    override suspend fun nothingChanged(): String = getString(Res.string.profile_update_nothing_changed)
 
     override suspend fun noInternet(): String = getString(CoreRes.string.common_error_no_internet)
 }

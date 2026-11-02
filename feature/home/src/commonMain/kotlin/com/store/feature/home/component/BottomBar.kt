@@ -1,4 +1,4 @@
-package com.store.feature.home.components
+package com.store.feature.home.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -40,7 +40,7 @@ fun BottomBar(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(size = StoreTheme.dimens.bottomBarShape))
-            .background(StoreTheme.color.surfaceLight),
+            .background(StoreTheme.color.backgroundSoft),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceAround
     ) {

@@ -6,6 +6,7 @@ import org.cmp.store.database.tables.PhoneNumberTable
 import org.cmp.store.domain.customer.CartItem
 import org.cmp.store.domain.customer.Customer
 import org.cmp.store.domain.customer.PhoneNumber
+import org.cmp.store.features.customer.models.CustomerProfile
 import org.cmp.store.utils.dbQuery
 import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.core.eq
@@ -26,6 +27,7 @@ interface CustomerDao {
     suspend fun read(id: String): Customer?
     suspend fun findByEmail(email: String): Customer?
     suspend fun update(customer: Customer): Boolean
+    suspend fun updateProfile(ownerId: String, profile: CustomerProfile): Boolean
 }
 
 class CustomerDaoImpl : CustomerDao {
@@ -76,19 +78,28 @@ class CustomerDaoImpl : CustomerDao {
         } else false
     }
 
+    override suspend fun updateProfile(ownerId: String, profile: CustomerProfile): Boolean = dbQuery {
+        val updated = CustomerTable.update({ CustomerTable.id eq ownerId }) {
+            it[firstName] = profile.firstName
+            it[lastName] = profile.lastName
+            it[city] = profile.city
+            it[postalCode] = profile.postalCode
+            it[address] = profile.address
+        }
+        if (updated > 0) {
+            PhoneNumberTable.deleteWhere { customerId eq ownerId }
+            profile.phoneNumber?.let { phone -> insertPhoneNumber(ownerId, phone) }
+            true
+        } else false
+    }
+
     // --- Private Helpers to Eliminate Duplication ---
     private fun insertCustomer(customer: Customer) {
         CustomerTable.insert { it.mapFrom(customer) }
     }
 
     private fun insertRelations(customer: Customer) {
-        customer.phoneNumber?.let { phone ->
-            PhoneNumberTable.insert {
-                it[customerId] = customer.id
-                it[dialCode] = phone.dialCode
-                it[number] = phone.number
-            }
-        }
+        customer.phoneNumber?.let { phone -> insertPhoneNumber(customer.id, phone) }
         customer.cart.forEach { item ->
             CartItemTable.insert {
                 it[id] = item.id
@@ -97,6 +108,14 @@ class CustomerDaoImpl : CustomerDao {
                 it[flavor] = item.flavor
                 it[quantity] = item.quantity
             }
+        }
+    }
+
+    private fun insertPhoneNumber(ownerId: String, phone: PhoneNumber) {
+        PhoneNumberTable.insert {
+            it[customerId] = ownerId
+            it[dialCode] = phone.dialCode
+            it[number] = phone.number
         }
     }
 

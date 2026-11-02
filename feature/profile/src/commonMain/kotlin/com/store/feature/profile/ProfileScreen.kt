@@ -31,16 +31,16 @@ import com.store.core.presentation.ui.ViewAction
 import com.store.core.presentation.ui.base.collectEventsWithDefaultProcessing
 import com.store.core.presentation.ui.components.StoreSnackbar
 import com.store.core.presentation.ui.components.StoreSnackbarHostState
-import com.store.core.presentation.ui.components.button.StoreOutlinedButton
+import com.store.core.presentation.ui.components.button.StoreFilledButton
 import com.store.core.presentation.utils.NamedPreviewParameter
 import com.store.core.presentation.utils.PhonePreview
 import com.store.core.presentation.utils.ScreenState
 import com.store.core.resources.Resources
 import com.store.core.resources.back_description
 import com.store.core.resources.common_error_no_internet
-import com.store.feature.profile.components.CountryPickerDialog
-import com.store.feature.profile.components.ProfileErrorCard
-import com.store.feature.profile.components.ProfileForm
+import com.store.feature.profile.component.CountryPickerDialog
+import com.store.feature.profile.component.ProfileErrorCard
+import com.store.feature.profile.component.ProfileForm
 import com.store.feature.profile.resources.Res
 import com.store.feature.profile.resources.profile_error_description
 import com.store.feature.profile.resources.profile_title
@@ -76,7 +76,7 @@ internal fun ProfileContent(
     onViewAction: (ViewAction) -> Unit,
 ) {
     Scaffold(
-        containerColor = StoreTheme.color.window,
+        containerColor = StoreTheme.color.backgroundMain,
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
@@ -94,8 +94,8 @@ internal fun ProfileContent(
                         )
                     }
                 },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = StoreTheme.color.window,
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = StoreTheme.color.backgroundMain,
                     titleContentColor = StoreTheme.color.textPrimary,
                 ),
             )
@@ -142,10 +142,11 @@ private fun ProfileLoadedContent(
             enabled = !viewData.isUpdating,
             onViewAction = onViewAction,
         )
-        StoreOutlinedButton(
+        StoreFilledButton(
             modifier = Modifier.fillMaxWidth(),
             textResource = Res.string.profile_update,
             iconResource = Resources.Icon.Checkmark,
+            buttonColor = StoreTheme.color.brandMain,
             loading = viewData.isUpdating,
             enabled = viewData.updateEnabled,
             onClick = { onViewAction(ProfileViewAction.UpdateClicked) },
@@ -168,7 +169,7 @@ private fun ProfileContentPreview(
 private fun ProfileLoadedContentPreview() {
     PreviewTheme {
         Box(
-            modifier = Modifier.background(StoreTheme.color.window)
+            modifier = Modifier.background(StoreTheme.color.backgroundMain)
                 .padding(StoreTheme.dimens.defaultPadding)
         ) {
             ProfileLoadedContent(

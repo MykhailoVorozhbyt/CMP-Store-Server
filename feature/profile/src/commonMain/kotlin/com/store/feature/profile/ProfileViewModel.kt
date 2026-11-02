@@ -1,5 +1,6 @@
 package com.store.feature.profile
 
+import com.store.component.customer.model.CustomerProfileRequest
 import com.store.component.customer.usecase.UpdateCustomerUseCase
 import com.store.core.domain.ApiResult
 import com.store.core.presentation.core.di.coroutines.AppDispatchers
@@ -14,6 +15,7 @@ import com.store.feature.profile.view_data.ProfileFields
 import com.store.feature.profile.view_data.ProfileInitializer
 import com.store.feature.profile.view_data.ProfileViewAction
 import com.store.feature.profile.view_data.ProfileViewData
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class ProfileViewModel(
@@ -25,8 +27,11 @@ class ProfileViewModel(
 ) : BaseActionHandleViewModel<ProfileViewData>(dispatchers) {
     override val _viewData = MutableStateFlow(ProfileViewData())
 
+    private var updateJob: Job? = null
+    private var savedProfile: CustomerProfileRequest? = null
+
     init {
-        initializer.initialize(this)
+        initializer.initialize(this) { savedProfile = it }
     }
 
     override suspend fun handleViewAction(action: ViewAction) {
@@ -48,16 +53,30 @@ class ProfileViewModel(
         }
     }
 
-    private fun handleUpdateClicked() {
-        if (!viewData.updateEnabled || viewData.isUpdating) return
-        launchIo {
-            updateViewData { copy(isUpdating = true) }
-            when (val result = updateCustomerUseCase(viewData.form.toProfileRequest())) {
-                is ApiResult.Success -> showSuccess(messageHandler.updateSuccess())
-                is ApiResult.Error -> showError(messageHandler.handle(result.error))
-                ApiResult.NoInternet -> showError(messageHandler.noInternet())
+    private suspend fun handleUpdateClicked() {
+        if (!viewData.updateEnabled || updateJob?.isActive == true) return
+        val form = validator.validateForSubmit(viewData.form)
+        updateViewData { copy(form = form) }
+        if (!form.isValid) return
+        val request = form.toProfileRequest()
+        if (request == savedProfile) {
+            showInfo(messageHandler.nothingChanged())
+            return
+        }
+        updateViewData { copy(isUpdating = true) }
+        updateJob = launchIo {
+            try {
+                when (val result = updateCustomerUseCase(request)) {
+                    is ApiResult.Success -> {
+                        savedProfile = request
+                        showSuccess(messageHandler.updateSuccess())
+                    }
+                    is ApiResult.Error -> showError(messageHandler.handle(result.error))
+                    ApiResult.NoInternet -> showError(messageHandler.noInternet())
+                }
+            } finally {
+                updateViewData { copy(isUpdating = false) }
             }
-            updateViewData { copy(isUpdating = false) }
         }
     }
 

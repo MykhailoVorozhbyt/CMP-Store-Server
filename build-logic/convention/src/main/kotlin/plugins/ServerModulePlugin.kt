@@ -11,6 +11,8 @@ import org.gradle.api.plugins.ExtraPropertiesExtension
 import org.gradle.api.plugins.JavaApplication
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
+import utils.JVM_TOOLCHAIN_VERSION
 import utils.enums.ModuleName
 import utils.enums.ModulePath
 
@@ -21,6 +23,10 @@ class ServerModulePlugin : Plugin<Project> {
         // @Resource classes are @MetaSerializable — without this plugin the server
         // compiles but fails at startup with "Serializer for class ... not found".
         pluginManager.alias(libs.plugins.serialization)
+
+        extensions.configure<KotlinJvmProjectExtension> {
+            jvmToolchain(JVM_TOOLCHAIN_VERSION)
+        }
 
         group = ModuleName.APP.mName
         version = "1.0.0"

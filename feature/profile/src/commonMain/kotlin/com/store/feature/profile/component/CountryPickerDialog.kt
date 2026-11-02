@@ -1,4 +1,4 @@
-package com.store.feature.profile.components
+package com.store.feature.profile.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -20,13 +20,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.store.core.presentation.theme.PreviewTheme
 import com.store.core.presentation.theme.StoreTheme
 import com.store.core.presentation.ui.ViewAction
 import com.store.core.presentation.ui.components.input.StoreTextField
-import com.store.core.resources.Res as CoreRes
+import com.store.core.presentation.utils.MediumPhoneFoldablePreview
 import com.store.core.resources.Resources
 import com.store.core.resources.common_cancel
 import com.store.core.resources.common_confirm
@@ -40,6 +39,7 @@ import com.store.feature.profile.view_data.CountryPickerViewData
 import com.store.feature.profile.view_data.ProfileViewAction
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import com.store.core.resources.Res as CoreRes
 
 @Composable
 internal fun CountryPickerDialog(
@@ -48,7 +48,7 @@ internal fun CountryPickerDialog(
 ) {
     AlertDialog(
         modifier = Modifier.padding(StoreTheme.dimens.dialogPadding),
-        containerColor = StoreTheme.color.surface,
+        containerColor = StoreTheme.color.backgroundSoft,
         onDismissRequest = { onViewAction(ProfileViewAction.CountryPickerDismissed) },
         title = {
             Text(
@@ -89,12 +89,18 @@ internal fun CountryPickerDialog(
                 enabled = viewData.confirmEnabled,
                 onClick = { onViewAction(ProfileViewAction.CountryConfirmed) },
             ) {
-                Text(stringResource(CoreRes.string.common_confirm), color = StoreTheme.color.textSecondary)
+                Text(
+                    stringResource(CoreRes.string.common_confirm),
+                    color = StoreTheme.color.textSecondary
+                )
             }
         },
         dismissButton = {
             TextButton(onClick = { onViewAction(ProfileViewAction.CountryPickerDismissed) }) {
-                Text(stringResource(CoreRes.string.common_cancel), color = StoreTheme.color.textPrimary)
+                Text(
+                    stringResource(CoreRes.string.common_cancel),
+                    color = StoreTheme.color.textPrimary
+                )
             }
         },
     )
@@ -110,7 +116,7 @@ private fun CountryItem(
         modifier = Modifier.fillMaxWidth(),
         onClick = onClick,
         shape = RoundedCornerShape(StoreTheme.dimens.textFieldRoundedCorner),
-        color = StoreTheme.color.surface,
+        color = StoreTheme.color.backgroundMain,
         border = BorderStroke(
             width = StoreTheme.dimens.buttonBorder,
             color = if (isSelected) StoreTheme.color.textSecondary else StoreTheme.color.borderIdle,
@@ -128,7 +134,11 @@ private fun CountryItem(
             )
             Text(
                 modifier = Modifier.weight(1f),
-                text = stringResource(Res.string.profile_country_item, country.dialCode, stringResource(country.title)),
+                text = stringResource(
+                    Res.string.profile_country_item,
+                    country.dialCode,
+                    stringResource(country.title)
+                ),
                 style = StoreTheme.typography.rm,
                 color = StoreTheme.color.textPrimary,
             )
@@ -144,7 +154,7 @@ private fun CountryItem(
     }
 }
 
-@Preview
+@MediumPhoneFoldablePreview
 @Composable
 private fun CountryItemPreview() {
     PreviewTheme {
