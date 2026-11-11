@@ -21,6 +21,8 @@ class ComponentDataPlugin : ComponentLayerPlugin(ComponentLayer.DATA) {
                 module(component(owner, ComponentLayer.DOMAIN_API))
                 module(ModulePath.CORE_NETWORK)
                 module(ModulePath.CORE_SECURITY)
+                module(ModulePath.CORE_DATA)
+                implementation(target.libs.kotlinx.coroutines.core)
                 module(ModulePath.CORE_UTILS)
                 implementation(target.libs.ktor.clientCore)
                 implementation(target.libs.ktor.clientContentNegotiation)

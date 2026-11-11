@@ -2,11 +2,13 @@ package com.store.component.auth.data.data_source
 
 import com.store.core.security.LocalAuthSessionDataSource
 import com.store.core.security.SecureStorage
+import com.store.core.security.SessionScopedStorage
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 open class DefaultLocalAuthSessionDataSource(
     private val secureStorage: SecureStorage,
+    private val sessionScopedStorages: List<SessionScopedStorage> = emptyList(),
 ) : LocalAuthSessionDataSource {
 
     private val mutex = Mutex()
@@ -69,6 +71,7 @@ open class DefaultLocalAuthSessionDataSource(
             secureStorage.removeByKey(KEY_USER_ID)
             secureStorage.removeByKey(KEY_ACCESS_TOKEN)
             secureStorage.removeByKey(KEY_REFRESH_TOKEN)
+            sessionScopedStorages.forEach { it.clear() }
         }
     }
 

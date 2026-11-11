@@ -110,6 +110,27 @@ class DefaultAuthRepositoryTest {
     }
 
     @Test
+    fun authorize_discardsTheProviderSessionWhenOffline() = runTest {
+        fakeApi.authorizeResult = ApiResult.NoInternet
+
+        val result = repository.authorize(googleRequest())
+
+        assertEquals(ApiResult.NoInternet, result)
+        assertNull(fakeSession.userId)
+        assertTrue(fakeSession.signOutCalled)
+    }
+
+    @Test
+    fun authorize_keepsTheServerErrorWhenDiscardingTheProviderSessionFails() = runTest {
+        fakeApi.authorizeResult = ApiResult.Error(NetworkError.INVALID_CREDENTIALS)
+        fakeSession.signOutThrowable = IllegalStateException("boom")
+
+        val result = repository.authorize(googleRequest())
+
+        assertEquals(ApiResult.Error(NetworkError.INVALID_CREDENTIALS.toAuthError()), result)
+    }
+
+    @Test
     fun signOut_revokesOnServerThenClearsSessionAndReturnsSuccess() = runTest {
         fakeSession.userId = "uid"
         fakeSession.accessToken = "token"
@@ -245,6 +266,7 @@ class DefaultAuthRepositoryTest {
         assertNull(fakeSession.userId)
         assertNull(fakeSession.accessToken)
         assertNull(fakeSession.refreshToken)
+        assertTrue(fakeSession.signOutCalled)
     }
 
     // Production code never converts an AuthResponse back into a DTO (the client never

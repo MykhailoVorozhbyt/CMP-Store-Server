@@ -1,0 +1,4 @@
+# Stores that intentionally survive sign-out (device settings, not user data).
+# Every other interface named *LocalDataSource or *SessionStorage in component/ and core/ must implement
+# SessionScopedStorage. Checked by ./gradlew validateSessionScopedStores.
+# Format: InterfaceName — why it is not cleared on sign-out

@@ -14,6 +14,11 @@
             "type": "command",
             "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/block-git-push.js\"",
             "statusMessage": "\uD83D\uDD35 Git push guard"
+          },
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/block-git-commit.js\"",
+            "statusMessage": "\uD83D\uDD35 Git commit guard"
           }
         ]
       },

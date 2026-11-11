@@ -27,6 +27,9 @@ jobs:
       - name: Validate module dependencies
         run: ./gradlew validateArchitectureDependencies
 
+      - name: Validate session-scoped stores
+        run: ./gradlew validateSessionScopedStores
+
       - name: Upload architecture report
         if: always()
         uses: actions/upload-artifact@v5

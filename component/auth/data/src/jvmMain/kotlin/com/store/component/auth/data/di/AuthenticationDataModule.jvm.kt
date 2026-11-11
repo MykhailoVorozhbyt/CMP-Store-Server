@@ -8,6 +8,7 @@ import com.store.component.auth.domain_api.AuthRepository
 import com.store.component.auth.domain_api.GoogleSignInService
 import com.store.core.security.LocalAuthSessionDataSource
 import com.store.core.security.SecureStorage
+import com.store.core.security.SessionScopedStorage
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 
@@ -31,8 +32,11 @@ internal actual class PlatformRepositoryProvider actual constructor(
         )
 }
 
-internal actual fun provideAuthSessionDataSource(secureStorage: SecureStorage): LocalAuthSessionDataSource =
-    DefaultLocalAuthSessionDataSource(secureStorage)
+internal actual fun provideAuthSessionDataSource(
+    secureStorage: SecureStorage,
+    sessionScopedStorages: List<SessionScopedStorage>,
+): LocalAuthSessionDataSource =
+    DefaultLocalAuthSessionDataSource(secureStorage, sessionScopedStorages)
 
 private fun createJvmGoogleOAuthHttpClient(): HttpClient = HttpClient {
     install(HttpTimeout) {

@@ -2,6 +2,7 @@ package plugins
 
 import architecture.ModuleDependency
 import architecture.ValidateArchitectureDependenciesTask
+import architecture.ValidateSessionScopedStoresTask
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -12,6 +13,10 @@ import org.gradle.kotlin.dsl.register
 private const val TASK_NAME = "validateArchitectureDependencies"
 private const val RULES_PATH = "config/architecture/rules.json"
 private const val REPORT_PATH = "reports/architecture/violations.txt"
+private const val SESSION_STORES_TASK_NAME = "validateSessionScopedStores"
+private const val DEVICE_SCOPED_STORES_PATH = "config/architecture/device-scoped-stores.txt"
+private const val SESSION_STORES_REPORT_PATH = "reports/architecture/session-scoped-stores.txt"
+private val STORE_SOURCE_PATTERNS = listOf("component/**/src/*Main/kotlin/**/*.kt", "core/**/src/*Main/kotlin/**/*.kt")
 
 class ArchitectureConventionPlugin : Plugin<Project> {
 
@@ -26,6 +31,18 @@ class ArchitectureConventionPlugin : Plugin<Project> {
             rulesFile.set(layout.projectDirectory.file(RULES_PATH))
             reportFile.set(layout.buildDirectory.file(REPORT_PATH))
             moduleDependencies.set(provider { collectModuleDependencies().map(ModuleDependency::encode) })
+        }
+        tasks.register<ValidateSessionScopedStoresTask>(SESSION_STORES_TASK_NAME) {
+            group = "verification"
+            description = "Checks that every *LocalDataSource / *SessionStorage is cleared on sign-out or listed in $DEVICE_SCOPED_STORES_PATH."
+            sources.from(
+                fileTree(layout.projectDirectory) {
+                    include(STORE_SOURCE_PATTERNS)
+                    exclude("**/build/**")
+                }
+            )
+            deviceScopedStoresFile.set(layout.projectDirectory.file(DEVICE_SCOPED_STORES_PATH))
+            reportFile.set(layout.buildDirectory.file(SESSION_STORES_REPORT_PATH))
         }
     }
 

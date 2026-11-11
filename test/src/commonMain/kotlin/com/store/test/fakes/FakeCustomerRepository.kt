@@ -7,6 +7,8 @@ import com.store.core.domain.ApiResult
 import com.store.core.domain.DataError
 import com.store.core.domain.EmptyResult
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.cmp.store.domain.customer.Customer
 
 class FakeCustomerRepository : CustomerRepository {
@@ -16,9 +18,18 @@ class FakeCustomerRepository : CustomerRepository {
     var lastUpdatedCustomer: Customer? = null
     var lastProfileRequest: CustomerProfileRequest? = null
     var profileRequestCount = 0
+    var readCount = 0
     var updateGate: CompletableDeferred<Unit>? = null
+    val cachedCustomer = MutableStateFlow<Customer?>(null)
 
-    override suspend fun readCustomer(): ApiResult<Customer, CustomerError> = customerResult
+    override suspend fun getCachedCustomer(): Customer? = cachedCustomer.value
+
+    override fun observeCustomer(): Flow<Customer?> = cachedCustomer
+
+    override suspend fun readCustomer(): ApiResult<Customer, CustomerError> {
+        readCount++
+        return customerResult
+    }
 
     override suspend fun updateCustomer(customer: Customer): EmptyResult<CustomerError> {
         lastUpdatedCustomer = customer

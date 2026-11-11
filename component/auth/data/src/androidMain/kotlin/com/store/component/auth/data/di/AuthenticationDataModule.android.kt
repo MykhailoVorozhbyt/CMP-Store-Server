@@ -10,6 +10,7 @@ import com.store.component.auth.domain_api.GoogleSignInService
 import com.store.core.domain.ApiResult
 import com.store.core.security.LocalAuthSessionDataSource
 import com.store.core.security.SecureStorage
+import com.store.core.security.SessionScopedStorage
 
 internal actual class PlatformRepositoryProvider actual constructor(
     private val localAuthSessionDataSource: LocalAuthSessionDataSource,
@@ -29,5 +30,8 @@ internal actual class PlatformRepositoryProvider actual constructor(
         }
 }
 
-internal actual fun provideAuthSessionDataSource(secureStorage: SecureStorage): LocalAuthSessionDataSource =
-    FirebaseLocalAuthSessionDataSource(secureStorage)
+internal actual fun provideAuthSessionDataSource(
+    secureStorage: SecureStorage,
+    sessionScopedStorages: List<SessionScopedStorage>,
+): LocalAuthSessionDataSource =
+    FirebaseLocalAuthSessionDataSource(secureStorage, sessionScopedStorages)

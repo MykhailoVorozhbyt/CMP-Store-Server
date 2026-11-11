@@ -37,6 +37,7 @@ class DiModulePlugin : Plugin<Project> {
                     module(ModulePath.CORE_NAVIGATION)
                     module(ModulePath.CORE_DOMAIN)
                     module(ModulePath.CORE_SECURITY)
+                    module(ModulePath.CORE_DATA)
                     module(ModulePath.FEATURE_AUTHENTICATION)
                     module(component(ComponentName.AUTH, ComponentLayer.DATA))
                     module(component(ComponentName.AUTH, ComponentLayer.USECASE))

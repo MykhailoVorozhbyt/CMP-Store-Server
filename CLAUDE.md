@@ -7,8 +7,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 A Kotlin Multiplatform (KMP) e-commerce application with a Ktor backend, targeting Android, iOS, Desktop (JVM), and Server. 
 Two store variants (AthleticaPlus, NutriSport) share all logic but have their own branding.
 
-The Ktor server owns identity and persistence (SQLite + opaque session tokens). 
-Firebase is **not** the source of truth anymore — it survives only as the mobile Google Sign-In provider (via KMP-Auth) and as a `currentUserId` fallback in `FirebaseLocalAuthSessionDataSource`.
+The Ktor server owns identity and persistence (SQLite + opaque session tokens). The client keeps a Room cache of the
+signed-in customer in `:core:data`; the server stays the source of truth and every screen refreshes from it. 
+Firebase is **not** the source of truth anymore — it survives only as the mobile Google Sign-In provider (via KMP-Auth). A session exists only after a successful
+`/auth/authorize`; a Firebase user alone never counts as signed in, and a failed authorize signs Firebase out again.
 
 Client code is split into `component/<entity>/` (business logic) and `feature/<name>` (UI only) — see
 "App Architecture". The split is enforced by `./gradlew validateArchitectureDependencies`.
@@ -34,6 +36,7 @@ All commands use the Gradle wrapper. On Windows use `.\gradlew.bat` instead of `
 ./gradlew :server:test
 ./gradlew allTests -x :server:test  # every KMP module (jvm + androidHost); iOS only on macOS
 ./gradlew validateArchitectureDependencies  # module-dependency rules; run by NAME (configure-on-demand)
+./gradlew validateSessionScopedStores       # every *LocalDataSource is wiped on sign-out or listed as device-scoped
 ./gradlew :feature:authentication:jvmTest      # incl. headless Compose UI tests
 ./gradlew :feature:authentication:androidDeviceTest  # same UI tests on emulator
 ```
@@ -64,7 +67,9 @@ Procedures are skills in `.claude/skills/`: `add-feature` (incl. porting NutriSp
 
 ## Known Gaps (as of 2026-09-29)
 
-- `:core:data` is registered but contains no sources.
+- The Room database (`:core:data`) is not encrypted: the cached customer (address, phone) sits in plain SQLite,
+  protected only by the app sandbox (and `~/.store_app` on desktop) and wiped on sign-out.
+- The Room schema is at version 1 with destructive migration; there are no migrations yet.
 - `feature:home:presentation` has no tests; `HomeGraphInitializer` (customer → cart products → total) is only checked by running the app.
 - No shared `DataError.toUiText()` yet; the home screen shows one generic text per failing call.
 - Without a connectivity service, `ConnectException` (e.g. the dev server is down) is reported as `NO_INTERNET`.

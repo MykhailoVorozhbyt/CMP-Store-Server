@@ -3,6 +3,7 @@ package com.store.component.customer.usecase
 import com.store.component.customer.model.CustomerProfileRequest
 import com.store.core.domain.ApiResult
 import com.store.test.fakes.FakeCustomerRepository
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.cmp.store.domain.customer.Customer
 import org.cmp.store.domain.customer.PhoneNumber
@@ -19,6 +20,20 @@ class CustomerUseCasesTest {
         repository.customerResult = ApiResult.Success(customer())
 
         assertEquals(ApiResult.Success(customer()), ReadCustomerUseCase(repository)())
+    }
+
+    @Test
+    fun getCachedCustomerUseCase_returns_the_cached_customer() = runTest {
+        repository.cachedCustomer.value = customer()
+
+        assertEquals(customer(), GetCachedCustomerUseCase(repository)())
+    }
+
+    @Test
+    fun observeCustomerUseCase_emits_the_cached_customer() = runTest {
+        repository.cachedCustomer.value = customer()
+
+        assertEquals(customer(), ObserveCustomerUseCase(repository)().first())
     }
 
     @Test

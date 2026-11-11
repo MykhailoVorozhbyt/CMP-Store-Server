@@ -6,6 +6,7 @@ import com.store.component.auth.domain_api.AuthRepository
 import com.store.component.auth.domain_api.GoogleSignInService
 import com.store.core.security.LocalAuthSessionDataSource
 import com.store.core.security.SecureStorage
+import com.store.core.security.SessionScopedStorage
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -19,10 +20,13 @@ internal expect class PlatformRepositoryProvider(
     fun createGoogleSignInService(): GoogleSignInService
 }
 
-internal expect fun provideAuthSessionDataSource(secureStorage: SecureStorage): LocalAuthSessionDataSource
+internal expect fun provideAuthSessionDataSource(
+    secureStorage: SecureStorage,
+    sessionScopedStorages: List<SessionScopedStorage>,
+): LocalAuthSessionDataSource
 
 val authenticationDataModule = module {
-    singleOf(::provideAuthSessionDataSource)
+    single<LocalAuthSessionDataSource> { provideAuthSessionDataSource(get(), getAll()) }
     singleOf(::KtorAuthDataSource).bind(AuthDataSource::class)
     singleOf(::PlatformRepositoryProvider)
 

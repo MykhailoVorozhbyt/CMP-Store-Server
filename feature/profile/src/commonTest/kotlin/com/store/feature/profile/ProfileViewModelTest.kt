@@ -3,6 +3,7 @@ package com.store.feature.profile
 import app.cash.turbine.test
 import com.store.component.customer.model.CustomerError
 import com.store.component.customer.model.CustomerProfileRequest
+import com.store.component.customer.usecase.GetCachedCustomerUseCase
 import com.store.component.customer.usecase.ReadCustomerUseCase
 import com.store.component.customer.usecase.UpdateCustomerUseCase
 import com.store.core.domain.ApiResult
@@ -92,6 +93,29 @@ class ProfileViewModelTest : BaseViewModelTest() {
         advanceUntilIdle()
 
         assertEquals(ScreenState.NoInternetConnection, viewModel.viewDataState.value.screenState)
+    }
+
+    @Test
+    fun cached_customer_stays_visible_when_refresh_fails() = runVmTest {
+        repository.cachedCustomer.value = customer
+        repository.customerResult = ApiResult.NoInternet
+        val viewModel = buildViewModel()
+        advanceUntilIdle()
+
+        val state = viewModel.viewDataState.value
+        assertEquals(ScreenState.Success, state.screenState)
+        assertEquals("Stefan", state.form.firstName.input)
+        assertEquals(1, repository.readCount)
+    }
+
+    @Test
+    fun fresh_customer_replaces_cached_one() = runVmTest {
+        repository.cachedCustomer.value = customer.copy(firstName = "Cached")
+        repository.customerResult = ApiResult.Success(customer)
+        val viewModel = buildViewModel()
+        advanceUntilIdle()
+
+        assertEquals("Stefan", viewModel.viewDataState.value.form.firstName.input)
     }
 
     @Test
@@ -351,7 +375,7 @@ class ProfileViewModelTest : BaseViewModelTest() {
         val validator = ProfileValidator()
         val messageHandler = FakeProfileMessageHandler()
         return ProfileViewModel(
-            initializer = ProfileInitializer(ReadCustomerUseCase(repository), validator),
+            initializer = ProfileInitializer(ReadCustomerUseCase(repository), GetCachedCustomerUseCase(repository), validator),
             updateCustomerUseCase = UpdateCustomerUseCase(repository),
             validator = validator,
             messageHandler = messageHandler,

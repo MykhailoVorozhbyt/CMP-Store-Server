@@ -13,7 +13,8 @@ paths:
 - **Token storage:** custom `SecureStorage` per platform (AndroidKeyStore AES/GCM + SharedPreferences; iOS Keychain; JVM AES/GCM file vault under `~/.store_app`). Not DataStore, not multiplatform-settings. The session contract is `LocalAuthSessionDataSource` (`core:security`,
 used by `core:network` for bearer tokens and by `component/customer/data` for the user id); its implementations live in
 `component/auth/data`: `DefaultLocalAuthSessionDataSource` (JVM; mutex-guarded, lazily hydrated cache) and
-`FirebaseLocalAuthSessionDataSource` (Android/iOS; adds the Firebase uid fallback), picked by expect/actual
+`FirebaseLocalAuthSessionDataSource` (Android/iOS; `signOut` also signs out of Firebase — there is no Firebase uid
+fallback, the server-issued session is the only proof of sign-in), picked by expect/actual
 `provideAuthSessionDataSource`.
 - **Transparent refresh:** Ktor `Auth` plugin `bearer { loadTokens / refreshTokens }` in `core/network/HttpClientFactory.kt`. The refresh call sets `AuthCircuitBreaker` to avoid recursion; on failure it signs out locally and returns null.
 - **Errors:** wrap client calls in `safeApiCall { }` → `ApiResult<D, NetworkError>` (`Success` / `Error` / `NoInternet`) with `onSuccess` / `onError` / `onNoInternet` / `mapSuccess` / `mapError` from `:core:domain`.

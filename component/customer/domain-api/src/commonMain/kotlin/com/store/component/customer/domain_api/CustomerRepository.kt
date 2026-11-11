@@ -4,9 +4,12 @@ import com.store.component.customer.model.CustomerError
 import com.store.component.customer.model.CustomerProfileRequest
 import com.store.core.domain.ApiResult
 import com.store.core.domain.EmptyResult
+import kotlinx.coroutines.flow.Flow
 import org.cmp.store.domain.customer.Customer
 
 interface CustomerRepository {
+    suspend fun getCachedCustomer(): Customer?
+    fun observeCustomer(): Flow<Customer?>
     suspend fun readCustomer(): ApiResult<Customer, CustomerError>
     suspend fun updateCustomer(customer: Customer): EmptyResult<CustomerError>
     suspend fun updateProfile(request: CustomerProfileRequest): EmptyResult<CustomerError>

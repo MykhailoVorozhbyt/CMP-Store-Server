@@ -24,7 +24,8 @@ shared/              # Client↔server wire contract: Customer, CartItem, Produc
                      #   NetworkError, Platform, Constants (SERVER_PORT = 8080)
 core/
   domain/            # ApiResult<D,E>, FieldKey, validation contracts
-  data/              # EMPTY placeholder module
+  data/              # Room KMP database (BundledSQLiteDriver): StoreDatabase, every @Entity + @Dao (customer, cart_item),
+                     #   expect/actual databaseBuilderModule, databaseModule (wiping is owned by each LocalDataSource)
   presentation/      # BaseActionHandleViewModel, StoreTheme, UiEvent, ViewAction, Screen (nav keys),
                      #   Store* composables, validators, UiText, AppDispatchers
   navigation/        # AppNavigator, RootNavigator, NavigationState, SetupNavGraph, navEntry Koin DSL
@@ -37,9 +38,10 @@ core/
 component/
   customer/
     model/           # CustomerError (NotFound | Common(DataError)); Customer comes from :shared
-    domain-api/      # CustomerRepository (readCustomer, updateCustomer)
-    usecase/         # ReadCustomerUseCase, UpdateCustomerUseCase + customerUseCaseModule
-    data/            # internal KtorCustomerDataSource, DefaultCustomerRepository, DTOs, mappers + customerDataModule
+    domain-api/      # CustomerRepository (getCachedCustomer, observeCustomer, readCustomer, updateCustomer, updateProfile)
+    usecase/         # GetCachedCustomer, ObserveCustomer, ReadCustomer (network refresh), UpdateCustomer + customerUseCaseModule
+    data/            # internal KtorCustomerDataSource, RoomCustomerLocalDataSource, CustomerRepositoryImpl, DTOs,
+                     #   wire + cache mappers + customerDataModule. The cache is shown only when its id == currentUserId()
   product/
     model/           # ProductError (NotFound | InvalidCategory | Common(DataError)); Product comes from :shared
     domain-api/      # ProductRepository (discounted, new, byId, byIds, byCategory)
@@ -82,7 +84,8 @@ never apply its rules here; this section wins.
   only strings shared by several features go to `core:resources`). **Presentation only** — business logic lives in `component/`.
 - `component/<entity>/` — business logic per domain entity: `auth`, `customer`, `product`.
   Planned (not built yet): `basket`, `order`, `payment`; admin is a role, not an entity.
-- `core/` — shared infrastructure: `presentation`, `navigation`, `network`, `security`, `domain`, `utils`, `resources`.
+- `core/` — shared infrastructure: `presentation`, `navigation`, `network`, `security`, `domain`, `utils`, `resources`,
+  `data` (the one Room database).
 - `shared/` — **client ↔ server wire contract** (domain models, `AuthRequest`/`AuthResponse`, `NetworkError`).
   The **server depends on it**, so it must never depend on core/component/feature and never carry UI.
 - `build-logic/` — Gradle convention plugins.
@@ -97,6 +100,8 @@ never apply its rules here; this section wins.
 - `data/` — repository impls, data sources, DTOs, `internal` mappers, `di/XDataModule.kt`. KMP + Ktor
   (OkHttp on Android/JVM, Darwin on iOS). DTOs and `NetworkError` never leave `data`. A data module keeps its own DTOs
   even when another component has a similar one (e.g. auth's `CustomerDto` for the `/auth/authorize` response).
+  A local cache is an `internal XLocalDataSource` over a DAO from `core:data`. Entities and DAOs live in `core:data`
+  because Room's single `@Database` must see every entity at compile time; entities never leave `data` either.
 
 **One-shot vs streams:** a request/command is a `suspend fun` returning `ApiResult<T, XError>` — in data sources,
 repositories and use cases (`suspend operator fun invoke(...)`, no shared `UseCase` base interface). `Flow` is used
@@ -112,6 +117,9 @@ Features depend on `usecase` + `model` only — **never** `domain-api` or `data`
   `domain-api`, **for reads only**.
 - `data` → another component's `data`: **never**. `usecase` → another `usecase`: never. No cycles.
 - Session (userId / tokens) always comes from `core:security` (`LocalAuthSessionDataSource`) — never duplicated per repository.
+- Per-user local data is wiped on sign-out through `SessionScopedStorage` (`core:security`): a store binds itself with
+  `.bind<SessionScopedStorage>()`, and `LocalAuthSessionDataSource.signOut()` clears all of them — auth never knows
+  which caches exist.
 - Writes that span several entities (e.g. order + clear basket) and money totals are done **by the server** in one
   transaction, not orchestrated on the client.
 
@@ -144,6 +152,11 @@ Component errors: `AuthError`, `CustomerError`, `ProductError` — each `sealed 
   leave subprojects unconfigured (the task fails with that hint).
 - `exceptions` need a `reason`; an exception that no longer matches a violation fails the task, so tech debt entries
   get deleted once fixed. The list is currently empty.
+- `./gradlew validateSessionScopedStores` (same plugin, also in CI): every `interface *LocalDataSource` /
+  `*SessionStorage` in the main sources of `component/` and `core/` either extends `SessionScopedStorage` or is listed
+  with a reason in `config/architecture/device-scoped-stores.txt`; a listed store that no longer exists fails too.
+  It reads source text, so a stateful in-memory class (e.g. a `single` repository holding a `MutableStateFlow`) is not
+  caught — such a class implements `SessionScopedStorage` by review.
 
 **Not adopted:** Router interfaces + app-level implementations — `AppNavigator` + `navEntry` already decouple features.
 

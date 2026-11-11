@@ -32,6 +32,8 @@ google = "4.4.4"
 ksp = "2.3.9"
 exposed = "1.3.0"
 sqlite-jdbc = "3.53.2.0"
+room = "2.8.5"
+androidx-sqlite = "2.7.1"
 turbine = "1.2.1"
 ui-test-junit4 = "1.11.1"
 manifest-ui-test = "1.11.4"
@@ -117,6 +119,10 @@ exposed-dao = { module = "org.jetbrains.exposed:exposed-dao", version.ref = "exp
 exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }
 sqlite-jdbc = { module = "org.xerial:sqlite-jdbc", version.ref = "sqlite-jdbc" }
 
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "androidx-sqlite" }
+
 # Build logic dependencies
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -124,6 +130,7 @@ kotlin-multiplatform-gradlePlugin = { module = "org.jetbrains.kotlin.multiplatfo
 compose-compiler-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 compose-gradlePlugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "composeMultiplatform" }
 ksp-gradlePlugin = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp" }
+room-gradlePlugin = { module = "androidx.room:room-gradle-plugin", version.ref = "room" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -143,6 +150,7 @@ ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 koin-compiler = { id = "io.insert-koin.compiler.plugin", version.ref = "koin-plugin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+room = { id = "androidx.room", version.ref = "room" }
 
 stability-analyzer = { id = "com.github.skydoves.compose.stability.analyzer", version = "0.8.0" }
 

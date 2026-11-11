@@ -14,7 +14,9 @@ It provides `BaseViewModelTest` / `runVmTest` (a `StandardTestDispatcher` wired 
 Compose UI tests live in `feature/<name>/src/uiTest/kotlin/` of any feature that applies the `store.feature.uiTest` capability plugin. 
 The plugin wires that directory by `kotlin.srcDir` into **both** `jvmTest` (headless) and `androidDeviceTest` (emulator) — not via `dependsOn`, which is forbidden across source-set trees.
 
-Covered today: `BaseActionHandleViewModel`, string utils, `HttpClientFactory` + `SessionRefreshCall`, `safeApiCall` + error mappers, every component (repositories, data sources, use cases), `AuthenticationViewModel`, `ProfileViewModel`, the desktop OAuth stack, the Koin graph (`di/src/jvmTest/KoinGraphTest` — `sharedAppModule.verify()`, JVM-only because verify uses reflection), and the whole server (113 tests). 
+Covered today: `BaseActionHandleViewModel`, string utils, `HttpClientFactory` + `SessionRefreshCall`, `safeApiCall` + error mappers, every component (repositories, data sources, use cases), `AuthenticationViewModel`, `ProfileViewModel`, the desktop OAuth stack, the Room DAOs (`core/data/src/jvmTest`,
+in-memory `StoreDatabase` + `BundledSQLiteDriver` — JVM-only because an in-memory builder needs no platform context),
+`DefaultLocalAuthSessionDataSource.signOut` clearing every `SessionScopedStorage`, the Koin graph (`di/src/jvmTest/KoinGraphTest` — `sharedAppModule.verify()`, JVM-only because verify uses reflection), and the whole server (113 tests). 
 
 Untested: `core:security`, `core:navigation`, `core:utils`, `feature:home:presentation`.
 

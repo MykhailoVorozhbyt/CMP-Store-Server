@@ -22,14 +22,24 @@ class DefaultAuthRepository(
 
     override suspend fun authorize(request: AuthRequest): ApiResult<AuthResponse, AuthError> {
         return when (val result = api.authorize(request.toDto())) {
-            is ApiResult.Error -> ApiResult.Error(result.error.toAuthError())
-            ApiResult.NoInternet -> ApiResult.NoInternet
+            is ApiResult.Error -> {
+                discardProviderSession()
+                ApiResult.Error(result.error.toAuthError())
+            }
+            ApiResult.NoInternet -> {
+                discardProviderSession()
+                ApiResult.NoInternet
+            }
             is ApiResult.Success -> {
                 val response = result.data.toAuthResponse()
                 storeSession(response)
                 ApiResult.Success(response)
             }
         }
+    }
+
+    private suspend fun discardProviderSession() {
+        runCatchingCancellable { localAuthSessionDataSource.signOut() }
     }
 
     override suspend fun signOut(): EmptyResult<AuthError> {

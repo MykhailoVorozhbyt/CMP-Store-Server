@@ -11,6 +11,7 @@ dependencies {
     compileOnly(libs.compose.compiler.gradlePlugin)
     compileOnly(libs.compose.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
+    compileOnly(libs.room.gradlePlugin)
 
     // Workaround for version catalog working inside precompiled scripts https://github.com/gradle/gradle/issues/15383
     compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))

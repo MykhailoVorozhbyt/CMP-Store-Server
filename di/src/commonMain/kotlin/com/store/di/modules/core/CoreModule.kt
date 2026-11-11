@@ -1,5 +1,6 @@
 package com.store.di.modules.core
 
+import com.store.core.data.di.databaseModule
 import com.store.core.security.di.secureStorageModule
 import com.store.di.platformModule
 import org.koin.dsl.module
@@ -9,6 +10,7 @@ val coreModule = module {
         platformModule,
         dispatchersModule,
         networkModule,
-        secureStorageModule
+        secureStorageModule,
+        databaseModule,
     )
 }

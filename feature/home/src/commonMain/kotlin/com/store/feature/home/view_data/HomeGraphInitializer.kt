@@ -1,6 +1,7 @@
 package com.store.feature.home.view_data
 
 import com.store.feature.home.mappers.toViewData
+import com.store.component.customer.usecase.GetCachedCustomerUseCase
 import com.store.component.customer.usecase.ReadCustomerUseCase
 import com.store.component.product.usecase.ReadProductsByIdsUseCase
 import com.store.core.domain.ApiResult
@@ -18,24 +19,37 @@ import org.jetbrains.compose.resources.getString
 class HomeGraphInitializer(
     private val readProductsByIdsUseCase: ReadProductsByIdsUseCase,
     private val readCustomerUseCase: ReadCustomerUseCase,
+    private val getCachedCustomerUseCase: GetCachedCustomerUseCase,
 ) : ViewDataInitializer.Scoped<HomeGraphViewData> {
 
     override fun initialize(ctx: ActionHandlerScope<HomeGraphViewData>) {
         ctx.launch {
-            ctx.updateViewData { copy(isLoading = true) }
-            val customer = readCustomer()
-            val totalAmount = when (customer) {
-                is RequestState.Success -> calculateTotalAmount(customer.data.cart)
-                is RequestState.Error -> RequestState.Error(customer.message)
-                else -> RequestState.Loading
+            val cached = getCachedCustomerUseCase()
+            if (cached != null) {
+                render(ctx, RequestState.Success(cached))
+            } else {
+                ctx.updateViewData { copy(isLoading = true) }
             }
-            ctx.updateViewData {
-                copy(
-                    isLoading = false,
-                    customer = customer.toViewData(),
-                    totalAmountFlow = totalAmount,
-                )
-            }
+            val fresh = readCustomer()
+            if (cached == null || fresh.replacesCached(cached)) render(ctx, fresh)
+        }
+    }
+
+    private fun RequestState<Customer>.replacesCached(cached: Customer): Boolean =
+        isSuccess() && successDataOrNull() != cached
+
+    private suspend fun render(ctx: ActionHandlerScope<HomeGraphViewData>, customer: RequestState<Customer>) {
+        val totalAmount = when (customer) {
+            is RequestState.Success -> calculateTotalAmount(customer.data.cart)
+            is RequestState.Error -> RequestState.Error(customer.message)
+            else -> RequestState.Loading
+        }
+        ctx.updateViewData {
+            copy(
+                isLoading = false,
+                customer = customer.toViewData(),
+                totalAmountFlow = totalAmount,
+            )
         }
     }
 
